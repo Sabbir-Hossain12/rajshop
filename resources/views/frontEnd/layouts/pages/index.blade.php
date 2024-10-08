@@ -154,11 +154,13 @@
                                             alt="{{ $value->name }}" />
                                     </a>
                                 </div>
+                                    
                                 <div class="pro_des">
                                     <div class="pro_name">
                                         <a
                                             href="{{ route('product', $value->slug) }}">{{ Str::limit($value->name, 80) }}</a>
                                     </div>
+                                    
                                     <div class="pro_price">
                                         <p>
                                             @if ($value->old_price)
@@ -169,6 +171,7 @@
 
                                         </p>
                                     </div>
+                                    
                                 </div>
                             </div>
 

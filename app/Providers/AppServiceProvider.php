@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Banner;
+use App\Models\Product;
 use Illuminate\Support\ServiceProvider;
 use App\Models\GeneralSetting;
 use App\Models\Category;
@@ -87,5 +89,53 @@ class AppServiceProvider extends ServiceProvider
         
         $gtm_code = GoogleTagManager::where('status',1)->get();
         view()->share('gtm_code',$gtm_code);
+
+
+
+        View()->composer('webview.content.maincontent', function ($view) {
+            $categories = Category::where(['front_view' => 1, 'status' => 1])
+                ->orderBy('id', 'ASC')
+                ->with(['products', 'products.image', 'products.prosize', 'products.procolor'])
+                ->get()
+                ->map(function ($query) {
+                    $query->setRelation('products', $query->products->take(6));
+                    return $query;
+                });
+            $sliders =Banner::where('status',1)->where('category_id',1)->select('image','link')->get();
+            $topproducts = Product::where(['status' => 1, 'topsale' => 1])
+                ->orderBy('id', 'DESC')
+                ->select('id', 'name', 'slug', 'new_price', 'old_price')
+                ->with('prosizes', 'procolors')
+                ->limit(6)
+                ->get();
+
+            $homeproducts = Category::where(['front_view' => 1, 'status' => 1])
+                ->orderBy('id', 'ASC')
+                ->with(['products', 'products.image', 'products.prosize', 'products.procolor'])
+                ->get()
+                ->map(function ($query) {
+                    $query->setRelation('products', $query->products->take(6));
+                    return $query;
+                });
+//            dd($sliders);
+            
+//            $featuredproducts =Product::where('status','Active')->where('frature','0')->select('id','ProductName','ViewProductImage','ProductSlug','ProductSku','ProductImage')->get()->reverse();
+//            $adds =Addbanner::where('status','Active')->select('id','add_link','add_image','status')->get()->take(2);
+//            $addbottoms =Addbanner::where('status','Active')->select('id','add_link','add_image','status')->get()->reverse()->take(2);
+//            $topproducts =Product::where('status','Active')->where('top_rated','1')->select('id','ProductName','ViewProductImage','ProductSlug','ProductSku','ProductImage')->get();
+//            $categoryproducts =Category::with(['products'=>function ($query) { $query->select('id','category_id','ViewProductImage','ProductName','ProductSlug','ProductSku','ProductImage')->where('status','Active');},])->where('status','Active')->where('front_status',0)->select('id','category_name','slug')->get();
+
+            $view->with([
+//                'addbottoms'=>$addbottoms,
+                  'categories'=>$categories,
+                  'sliders'=>$sliders,
+//                'adds'=>$adds,
+//                'featuredproducts'=>$featuredproducts,
+                  'topproducts'=>$topproducts,
+                  'homeproducts'=>$homeproducts,
+//                'categoryproducts'=>$categoryproducts,
+            ]);
+
+        });
     }
 }

@@ -45,7 +45,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'lock', 'check_re
     Route::get('remove-varient/{id}', [ProductController::class, 'removevarient']);
     Route::get('remove-size/{id}', [ProductController::class, 'removesize']);
 
-    Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('home');
     Route::get('change-password', [DashboardController::class, 'changepassword'])->name('change_password');
     Route::post('new-password', [DashboardController::class, 'newpassword'])->name('new_password');
 
