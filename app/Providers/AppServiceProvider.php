@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Banner;
 use App\Models\Product;
+use App\Models\ShippingCharge;
 use Illuminate\Support\ServiceProvider;
 use App\Models\GeneralSetting;
 use App\Models\Category;
@@ -89,6 +90,18 @@ class AppServiceProvider extends ServiceProvider
         
         $gtm_code = GoogleTagManager::where('status',1)->get();
         view()->share('gtm_code',$gtm_code);
+
+
+        View()->composer('*', function ($view) {
+            $basicinfo =GeneralSetting::first();
+            $shipping_charge=ShippingCharge::get();
+            
+            $view->with([
+                'basicinfo' => $basicinfo,
+                'shipping_charge'=>$shipping_charge
+                
+            ]);
+        });
 
 
 

@@ -327,16 +327,20 @@ class WebviewController extends Controller
             ->with('image')
             ->select('id', 'name', 'slug', 'new_price', 'old_price')
             ->get();
+        $relatedproducts=Product::where('category_id',$productdetails->category_id)->where('status',1)->inRandomOrder()->limit(15)->get();
+//        dd($relatedproducts);
+        
         $shipping = ShippingCharge::where('status', 1)->get();
         $reviews = Review::where('product_id', $productdetails->id)->get();
         $varients = Productcolor::where('product_id', $productdetails->id)->get();
+//        dd($varients);
         // return $productcolors;
-        $sizes = Productsize::where('product_id', $productdetails->id)
+         $sizes = Productsize::where('product_id', $productdetails->id)
             ->get();
 
 
         return view('webview.content.product.details',
-            ['varients' => $varients, 'sizes' => $sizes, 'shipping' => $shipping, 'productdetails' => $productdetails]);
+            ['varients' => $varients, 'sizes' => $sizes, 'shipping' => $shipping, 'productdetails' => $productdetails, 'relatedproducts' => $relatedproducts, 'products' => $products, 'reviews' => $reviews]);
     }
 
     public function menuindex($slug)

@@ -138,7 +138,7 @@
 {{--                                                    $review = App\Models\Review::where('product_id', $promotional->id)->avg(--}}
 {{--                                                        'rating',--}}
 {{--                                                    );--}}
-{{--                                                @endphp--}}
+{{--                                                @endphp-- }}
 {{--                                                <div class="d-flex" style="justify-content:space-between">--}}
 {{--                                                    <div class="star" style="padding-top: 5px;">--}}
 {{--                                                        <span style="font-weight: bold;color:black;font-size:10px">({{ App\Models\Review::where('product_id', $promotional->id)->get()->count() }})</span>--}}

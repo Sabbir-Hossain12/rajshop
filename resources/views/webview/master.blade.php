@@ -150,8 +150,8 @@
             myFunction()
         };
 
-        // var header = document.getElementById("myHeader");
-        // var sticky = header.offsetTop;
+        var header = document.getElementById("myHeader");
+        var sticky = header.offsetTop;
 
         function myFunction() 
         {

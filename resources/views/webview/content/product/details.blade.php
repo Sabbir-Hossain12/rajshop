@@ -78,6 +78,86 @@
     .star{
         font-size: 8px !important;
     }
+
+    #orderBtn {
+        position: relative;
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #007BFF;
+        border: none;
+        cursor: pointer;
+        overflow: hidden;
+        transition: color 0.4s ease-in-out;
+    }
+
+    #orderBtn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background-color: #04ce04;
+        transition: width 0.4s ease-in-out;
+        z-index: 0;
+    }
+
+    #orderBtn:hover::before {
+        width: 100%; /* Animates the width to cover the entire button from left to right */
+    }
+
+    #orderBtn:hover {
+        color: #fff; /* Changes text color on hover */
+    }
+
+    #orderBtn span {
+        position: relative;
+        z-index: 1; /* Ensures the text is above the animated background */
+    }
+
+    #orderBtn {
+        position: relative;
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        color: white;
+        background-color: green;
+        border: none;
+        cursor: pointer;
+        overflow: hidden;
+        transition: color 0.4s ease-in-out;
+        width: 100%;
+    }
+
+    #orderBtn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background:linear-gradient(45deg, #FF5733, #4DBC60);
+        transition: width 0.4s ease-in-out;
+        z-index: 0;
+    }
+
+    #orderBtn:hover::before {
+        width: 100%; /* Animates the width to cover the entire button from left to right */
+    }
+
+    #orderBtn:hover {
+        color: white; /* Keeps text color white on hover */
+    }
+
+    #orderBtn span {
+        position: relative;
+        z-index: 2; /* Ensures the text is above the animated background */
+    }
+    
+    
 </style>
 <!-- Body -->
 
@@ -113,7 +193,7 @@
                                     </div>
                                 @else
                                     <div class="items">
-                                        <img class="w-100 h-100" src="{{ asset($productdetails->ProductImage) }}"
+                                        <img class="w-100 h-100" src="{{ asset($productdetails->image->image) }}"
                                             alt="" style="border-radius: 4px;">
                                     </div>
                                 @endif
@@ -126,56 +206,63 @@
                             <div class="product-info" id="productinfo">
                                 <h1 class="name"
                                     style="margin-top:16px !important;padding-bottom: 6px;border-bottom: 1px solid #dfd6d6;font-size: 20px !important; line-height: 22px;">
-                                    {{ $productdetails->ProductName }} </h1>
+                                    {{ $productdetails->name }} </h1>
 
-{{--                                    @php--}}
-{{--                                    $review = App\Models\Review::where('product_id', $productdetails->id)->avg(--}}
-{{--                                        'rating',--}}
-{{--                                    );--}}
-{{--                                @endphp--}}
-{{--                                <div class="d-flex" style="justify-content:space-between">--}}
-{{--                                    <div class="star" style="padding-top: 5px;">--}}
-{{--                                        <span style="font-size:16px;" >--}}
-{{--                                        ({{ App\Models\Review::where('product_id', $productdetails->id)->get()->count() }}<span style="font-size: 12px"> reviews</span>)--}}
-{{--                                        </span>--}}
-{{--                                        @if (intval($review) == 1)--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;"></span>--}}
-{{--                                        @elseif(intval($review) == 2)--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;"></span>--}}
-{{--                                        @elseif(intval($review) == 3)--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;"></span>--}}
-{{--                                        @elseif(intval($review) == 4)--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;"></span>--}}
-{{--                                        @elseif(intval($review) == 5)--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                        @else--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>--}}
-{{--                                        @endif--}}
-{{--                                    </div>--}}
+                                    @php
+                                    $review = App\Models\Review::where('product_id', $productdetails->id)->avg(
+                                        'ratting',
+                                    );
+                                @endphp
+                                <div class="d-flex" style="justify-content:space-between">
+                                    <div class="star" style="padding-top: 5px;">
+                                        <span style="font-size:16px;" >
+                                        ({{ App\Models\Review::where('product_id', $productdetails->id)->get()->count() }}<span style="font-size: 12px"> reviews</span>)
+                                        </span>
+
+                                        @if (intval($review) == 0)
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                        @elseif (intval($review) == 1)
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                        @elseif(intval($review) == 2)
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                        @elseif(intval($review) == 3)
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                        @elseif(intval($review) == 4)
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                        @elseif(intval($review) == 5)
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                        @else
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                        @endif
+                                    </div>
 {{--                                    <div class="like">--}}
 {{--                                        <div class="d-flex" style="justify-content: space-around;font-size: 20px;">--}}
 {{--                                            <span style="padding-right: 14px;font-size: 30px;"><span class="sts" style="padding-right: 6px;font-size: 20px;"--}}
@@ -188,14 +275,16 @@
 {{--                                                    onclick="givereactlove({{ $productdetails->id }})"></i></span>--}}
 {{--                                        </div>--}}
 {{--                                    </div>--}}
-{{--                                </div>--}}
+                                </div>
 {{--                                <!-- /.rating-reviews -->--}}
 
                                 <div class="stock-container info-container m-t-10"
                                     style="margin-top:10px;border-bottom: 1px solid #dfd6d6;">
                                     <div class="row" style="margin-bottom:10px;">
                                         <div class="col-12 col-sm-12">
-                                            @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())
+                                            
+{{--                                            @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())--}}
+                                            @if ($productdetails->type==1)    
                                                 <div class="product-price strong-700"
                                                     style="color:black;font-weight:bold" id="productPriceAmount">
                                                     ৳ <span id="salePrice">{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}</span>
@@ -203,7 +292,7 @@
                                             @else
                                                 <div class="product-price strong-700"
                                                     style="color:black;font-weight:bold" id="productPriceAmount">
-                                                    ৳ <span id="salePrice" style="color:black;font-weight:bold;">{{ App\Models\Weight::where('product_id', $productdetails->id)->first()->SalePrice }}</span>
+                                                    ৳ <span id="salePrice" style="color:black;font-weight:bold;">{{ $productdetails->new_price }}</span>
                                                 </div>
                                             @endif
 
@@ -211,69 +300,72 @@
                                     </div>
                                     <!-- /.row -->
                                 </div>
-                                <!-- /.stock-container -->
-                                <span class="text-center">
-                                    <p for=""
-                                        style=" margin: 0; padding-top: 1px; font-weight: bold;text-align:left">
-                                        Quantity
-                                    </p>
-                                    <div class="d-flex" style="justify-content: left;">
-                                        <button class="btn btn-sm" id="buttonminus" onclick="minus()">-</button>
-                                        <div class="cart-quantity">
-                                            <div class="quant-input">
-                                                <input type="text" class="form-control"
-                                                    style="font-size: 20px;height: fit-content;height: 34px;padding:0px;width: 80px;text-align: center;"
-                                                    value="1" id="qtyval">
-                                            </div>
+                                
+                                {{-- Short Descriptiption --}}
+                                <div class="stock-container info-container m-t-10"
+                                     style="margin-top:10px;border-bottom: 1px solid #dfd6d6;">
+                                    <div class="row" style="margin-bottom:10px;">
+                                        <div class="col-12 col-sm-12">
+                                            <p id="shortdes">{{ $productdetails->short_des }}</p></p>
                                         </div>
-                                        <button class="btn btn-sm" id="buttonplus" onclick="plus()">+</button>
                                     </div>
-                                </span>
+                                </div>
+                       
 
                                 <div class="row mb-2 mt-2">
+                                {{-- Color Varients--}}
                                     @if (empty($varients))
                                     @else
-                                        <div class="col-12 col-md-12 colorpart mb-2 d-none">
+{{--                                      <h2>  asdasdasdasdasdasdasd </h2>--}}
+                                        <div class="col-12 col-md-12 colorpart mb-2">
                                             <div class="d-flex">
                                                 <h4 id="resellerprice" class="m-0"><b
                                                         style="font-size:20px">কালার:&nbsp;&nbsp;&nbsp;</b></h4>
                                                 <div class="colorinfo">
                                                     @forelse ($varients as $key=>$color)
+                                                           
                                                         <input type="radio" class="m-0"
-                                                            id="color{{ $color->color }}" hidden name="color"
-                                                            onclick="getcolor('{{ $color->color }}','{{ $key }}')">
+                                                            id="color{{ $color->id }}" hidden name="color"
+                                                            onclick="getcolor('{{ $color->color }}','{{ $key }}',{{$color->id}})">
+                                                        
                                                         <label class="colortext ms-0"
-                                                            id="colortext{{ $color->color }}"
+                                                            id="colortext{{ $color->id }}"
                                                             for="color{{ $color->color }}"
                                                             style="border: 1px solid #613EEA;font-size:20px;font-weight:bold;padding: 0px 8px;border-radius: 4px;margin-right:4px;margin-bottom:4px;"
-                                                            onclick="getcolor('{{ $color->color }}','{{ $key }}')">{{ $color->color }}</label>
+                                                            onclick="getcolor('{{ $color->color }}','{{ $key }}',{{$color->id}})">
+                                                            
+                                                            {{ $color->color }}
+                                                            
+                                                        </label>
                                                     @empty
                                                     @endforelse
                                                 </div>
                                             </div>
                                         </div>
                                     @endif
+
+                                    {{-- Size/Weight Varients--}}
                                     @if (count($sizes) < 1)
                                     @else
                                         <div class="col-12 col-md-12 colorpart">
                                             <div class="d-flex">
-                                                <h4 id="resellerprice" class="m-0"><b style="font-size:20px">সাইজ:
+                                                <h4 id="resellerprice" class="m-0"><b style="font-size:20px">ভ্যারিয়েন্ট:
                                                         &nbsp;&nbsp;&nbsp;</b></h4>
                                                 <div class="sizeinfo">
                                                     @forelse ($sizes as $size)
                                                         <input type="hidden" name="regularpriceofsize"
-                                                            id="regularpriceofsize{{ $size->size }}"
+                                                            id="regularpriceofsize{{ $size->id }}"
                                                             value="{{ $size->RegularPrice }}">
                                                         <input type="hidden" name="salepriceofsize"
-                                                            id="salepriceofsize{{ $size->size }}"
+                                                            id="salepriceofsize{{ $size->id }}"
                                                             value="{{ $size->SalePrice }}">
                                                         <input type="radio" class="m-0" hidden
                                                             id="size{{ $size->size }}" name="size"
-                                                            onclick="getsize('{{ $size->size }}')">
-                                                        <label class="sizetext ms-0" id="sizetext{{ $size->size }}"
+                                                            onclick="getsize('{{ $size->size }}','{{ $size->id }}')">
+                                                        <label class="sizetext ms-0" id="sizetext{{ $size->id }}"
                                                             for="size{{ $size->size }}"
                                                             style="border: 1px solid #613EEA;font-size:20px;font-weight:bold;padding: 0px 8px;border-radius: 4px;margin-right:4px;margin-bottom:4px;"
-                                                            onclick="getsize('{{ $size->size }}')">{{ $size->size }}</label>
+                                                            onclick="getsize('{{ $size->size }}','{{ $size->id }}')">{{ $size->size }}</label>
                                                     @empty
                                                     @endforelse
                                                 </div>
@@ -310,59 +402,148 @@
 {{--                                    @endif--}}
                                 </div>
                                 <!-- /.stock-container -->
-                                <div class="quantity-container info-container text-center"
-                                    style="width: 100%;border-bottom: 1px solid #dfd6d6; float: left;">
-
-                                    <a href="https://wa.me/+8801709358600" class="mb-0 btn btn-styled"
-                                        style="background:#29A71A !important;float:left;color: white;font-weight: bold;font-size: 16px;">
-                                        <img src="{{ asset('public/whatsappo.png') }}" alt=""
-                                            style="width:30px"> &nbsp; Whatsapp
-                                    </a>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                    <p for=""
+                                       style=" margin: 0; padding-top: 1px; font-weight: bold;text-align:left">
+                                        Quantity
+                                    </p>
+                                    <div class="d-flex" style="justify-content: left;">
+                                        <button class="btn btn-sm" id="buttonminus" onclick="minus()">-</button>
+                                        <div class="cart-quantity">
+                                            <div class="quant-input">
+                                                <input type="text" class="form-control"
+                                                       style="font-size: 20px;height: fit-content;height: 34px;padding:0px;width: 80px;text-align: center;"
+                                                       value="1" id="qtyval">
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-sm" id="buttonplus" onclick="plus()">+</button>
+                                    </div>
+                                    </div>
+                                    
                                     <form name="form" action="{{ url('add-to-cart') }}" method="POST"
-                                        enctype="multipart/form-data"
-                                        style="width: 50%;float: right;text-align: center;">
+                                          enctype="multipart/form-data"
+                                          style="width: 50%;float: right;text-align: center;">
                                         @method('POST')
                                         @csrf
                                         <input type="hidden" name="color" id="product_colororder"
-                                            value="{{ App\Models\Productcolor::where('product_id', $productdetails->id)->first()->color }}">
+                                               value="{{ App\Models\Productcolor::where('product_id', $productdetails->id)->first()->color }}">
                                         @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())
                                             <input type="hidden" name="size" id="product_sizeorder"
-                                                value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->size }}">
+                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->size }}">
                                             <input type="hidden" name="price" id="product_priceorder"
-                                                value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
+                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
                                         @else
                                             <input type="hidden" name="size" id="product_sizeorder"
-                                                value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">
+                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">
                                             <input type="hidden" name="price" id="product_priceorder"
-                                                value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
+                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
                                         @endif
 
                                         <input type="hidden" name="product_id" value=" {{ $productdetails->id }}"
-                                            hidden>
+                                               hidden>
                                         <input type="hidden" name="qty" value="1" id="qtyoror">
                                         <button type="submit"
-                                            class=" mb-0  ml-2 btn btn-styled btn-base-1 btn-icon-left strong-700 hov-bounce hov-shaddow buy-now"
-                                            style="background:#f58511;color:white;width: 95%;font-size: 17px;">
-                                            Order Now
+                                                class="py-2 mb-0  ml-2 btn btn-styled btn-base-1 btn-icon-left strong-700 hov-bounce hov-shaddow buy-now"
+                                                style="background:#29A71A;color:white;width: 70%;font-size: 14px;">
+                                            Add To Cart
                                         </button>
                                     </form>
-
-                                    <!-- /.row -->
+                                    
                                 </div>
+{{--                                <!-- /.stock-container -->--}}
+{{--                                <div class="quantity-container info-container text-center"--}}
+{{--                                    style="width: 100%;border-bottom: 1px solid #dfd6d6; float: left;">--}}
+
+{{--                                    <a href="https://wa.me/+8801709358600" class="mb-0 btn btn-styled"--}}
+{{--                                        style="background:#29A71A !important;float:left;color: white;font-weight: bold;font-size: 16px;">--}}
+{{--                                        <img src="{{ asset('public/whatsappo.png') }}" alt=""--}}
+{{--                                            style="width:30px"> &nbsp; Whatsapp--}}
+{{--                                    </a>--}}
+{{--                                    <form name="form" action="{{ url('add-to-cart') }}" method="POST"--}}
+{{--                                        enctype="multipart/form-data"--}}
+{{--                                        style="width: 50%;float: right;text-align: center;">--}}
+{{--                                        @method('POST')--}}
+{{--                                        @csrf--}}
+{{--                                        <input type="hidden" name="color" id="product_colororder"--}}
+{{--                                            value="{{ App\Models\Productcolor::where('product_id', $productdetails->id)->first()->color }}">--}}
+{{--                                        @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())--}}
+{{--                                            <input type="hidden" name="size" id="product_sizeorder"--}}
+{{--                                                value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->size }}">--}}
+{{--                                            <input type="hidden" name="price" id="product_priceorder"--}}
+{{--                                                value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">--}}
+{{--                                        @else--}}
+{{--                                            <input type="hidden" name="size" id="product_sizeorder"--}}
+{{--                                                value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">--}}
+{{--                                            <input type="hidden" name="price" id="product_priceorder"--}}
+{{--                                                value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">--}}
+{{--                                        @endif--}}
+
+{{--                                        <input type="hidden" name="product_id" value=" {{ $productdetails->id }}"--}}
+{{--                                            hidden>--}}
+{{--                                        <input type="hidden" name="qty" value="1" id="qtyoror">--}}
+{{--                                        <button type="submit"--}}
+{{--                                            class=" mb-0  ml-2 btn btn-styled btn-base-1 btn-icon-left strong-700 hov-bounce hov-shaddow buy-now"--}}
+{{--                                            style="background:#f58511;color:white;width: 50%;font-size: 14px;">--}}
+{{--                                            Order Now--}}
+{{--                                        </button>--}}
+{{--                                    </form>--}}
+
+{{--                                    <!-- /.row -->--}}
+{{--                                </div>--}}
 
                                 <div class="quantity-container info-container text-center"
                                     style="border-bottom: 1px solid #dfd6d6;">
                                     <div class="row no-gutters pt-2">
                                         <div class="col-12 col-md-12 mb-2">
-                                            <a class="btn btn-success" id="formText"
-                                                href="tel:{{ $contact->phone }}"
-                                                style="width: 85%;font-size: 22px; "> কল করুন
-                                                {{ $contact->phone }}</a>
+{{--                                            <a class="btn btn-success" id="formText"--}}
+{{--                                                href="tel:{{ $contact->phone }}"--}}
+{{--                                                style="width: 85%;font-size: 22px; "> কল করুন--}}
+{{--                                                {{ $contact->phone }}--}}
+{{--                                            </a>--}}
+
+                                            <form name="form" action="{{ url('add-to-cart') }}" method="POST"
+                                                  enctype="multipart/form-data"
+                                                  style="width: 100%;float: right;text-align: center;">
+                                                @method('POST')
+                                                @csrf
+                                                <input type="hidden" name="color" id="product_colororder"
+                                                       value="{{ App\Models\Productcolor::where('product_id', $productdetails->id)->first()->color }}">
+                                                @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())
+                                                    <input type="hidden" name="size" id="product_sizeorder"
+                                                           value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->size }}">
+                                                    <input type="hidden" name="price" id="product_priceorder"
+                                                           value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
+                                                @else
+                                                    <input type="hidden" name="size" id="product_sizeorder"
+                                                           value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">
+                                                    <input type="hidden" name="price" id="product_priceorder"
+                                                           value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
+                                                @endif
+
+                                                <input type="hidden" name="product_id" value=" {{ $productdetails->id }}"
+                                                       hidden>
+                                                <input type="hidden" name="qty" value="1" id="qtyoror">
+                                                <button type="submit"
+                                                        class=" mb-0  ml-2 btn btn-styled btn-base-1 btn-icon-left strong-700 hov-bounce hov-shaddow buy-now"
+                                                        style="background:linear-gradient(45deg,#4DBC60, #FF5733 );color:white;width: 100%;font-size: 16px;" id="orderBtn">
+                                                  <span>অর্ডার করতে ক্লিক করুন</span>
+                                                </button>
+                                            </form>
                                         </div>
 
                                     </div>
                                 </div>
 
+                                {{-- Product Overview--}}
+                                <div class="stock-container info-container m-t-10 bg-light p-3"
+                                     style="margin-top:10px;border-bottom: 1px solid #dfd6d6;">
+                                    <div class="row" style="margin-bottom:10px;">
+                                        <div class="col-12 col-sm-12">
+                                            <p id="shortdes">{{ $productdetails->short_des }}</p></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /.product-info -->
                         </div>
@@ -389,15 +570,15 @@
 
                             <div class="tab-content">
 
-                                <div id="description" class="tab-pane active">
+                                <div id="description" class="mx-2 tab-pane active">
                                     <div class="product-tab">
-                                        <p class="text">{!! $productdetails->ProductDetails !!}</p>
-                                        @if (isset($productdetails->youtube_embade))
+                                        <p class="text mx-1">{!! $productdetails->description !!}</p>
+                                        @if (isset($productdetails->pro_video))
                                             <br>
                                             <div class="card">
                                                 <div class="card-body">
                                                     <iframe width="100%" height="315"
-                                                        src="https://www.youtube.com/embed/{{ $productdetails->youtube_embade }}">
+                                                        src="https://www.youtube.com/embed/{{ $productdetails->pro_video }}">
                                                     </iframe>
                                                 </div>
                                             </div>
@@ -424,7 +605,7 @@
                                                     </div>
                                                     <div class="col-5 col-sm-5" id="textsize">
                                                         <a href="tel:" target="_blank" id="textsize">
-                                                            {{ $shipping->contact }}
+                                                            {{ $basicinfo->phone }}
                                                         </a>
                                                     </div>
                                                 </div>
@@ -439,7 +620,7 @@
                                                             Inside Dhaka:</div>
                                                     </div>
                                                     <div class="col-5 col-sm-5" id="textsize">
-                                                        {{ $shipping->insie_dhaka }}
+                                                        {{ $shipping_charge[0]->amount }}
                                                     </div>
                                                 </div>
                                                 <div class="row no-gutters mt-2">
@@ -453,7 +634,7 @@
                                                             Outside Dhaka:</div>
                                                     </div>
                                                     <div class="col-5 col-sm-5" id="textsize">
-                                                        {{ $shipping->outside_dhaka }}
+                                                        {{ $shipping_charge[0]->amount }}
 
                                                     </div>
                                                 </div>
@@ -467,13 +648,13 @@
                                                         <div class="product-description-label" id="textsize"> Cash on
                                                             Delivery :</div>
                                                     </div>
-                                                    <div class="col-5 col-sm-5" id="textsize">
-                                                        @if ($shipping->cash_on_delivery == 'ON')
-                                                            Available
-                                                        @else
-                                                            Unavailable
-                                                        @endif
-                                                    </div>
+{{--                                                    <div class="col-5 col-sm-5" id="textsize">--}}
+{{--                                                        @if ($shipping->cash_on_delivery == 'ON')--}}
+{{--                                                            Available--}}
+{{--                                                        @else--}}
+{{--                                                            Unavailable--}}
+{{--                                                        @endif--}}
+{{--                                                    </div>--}}
 
                                                 </div>
                                                 <div class="row no-gutters mt-2">
@@ -485,10 +666,10 @@
                                                         <div class="product-description-label" id="textsize">Refund
                                                             Rules:</div>
                                                     </div>
-                                                    <div class="col-5 col-sm-5" id="textsize">
-                                                        {{ $shipping->refund_rule }}<a href="#" class="ml-2"
-                                                            target="_blank">View Policy</a>
-                                                    </div>
+{{--                                                    <div class="col-5 col-sm-5" id="textsize">--}}
+{{--                                                        {{ $shipping->refund_rule }}<a href="#" class="ml-2"--}}
+{{--                                                            target="_blank">View Policy</a>--}}
+{{--                                                    </div>--}}
                                                 </div>
                                                 <div class="row no-gutters mt-2">
                                                     <div class="col-2 col-sm-2" id="textsize">
@@ -509,6 +690,8 @@
 
                                     </div>
                                     <!-- /.product-tab -->
+                                    
+                                    
                                 </div>
                                 <!-- /.tab-pane -->
 
@@ -642,9 +825,9 @@
                                                 <div class="product-image">
                                                     <div class="image text-center">
                                                         <a
-                                                            href="{{ url('product/' . $relatedproduct->ProductSlug) }}">
-                                                            <img src="{{ asset($relatedproduct->ViewProductImage) }}"
-                                                                alt="{{ $relatedproduct->ProductName }}"
+                                                            href="{{ url('product/' . $relatedproduct->slug) }}">
+                                                            <img src="{{ asset($relatedproduct->image->image) }}"
+                                                                alt="{{ $relatedproduct->name }}"
                                                                 id="featureimage">
                                                         </a>
                                                     </div>
@@ -658,20 +841,26 @@
                                                     style="padding-bottom: 4px !important;">
                                                     <div class="product-info">
                                                         <h2 class="name text-truncate" id="f_name"><a
-                                                                href="{{ url('product/' . $relatedproduct->ProductSlug) }}"
-                                                                id="f_pro_name">{{ $relatedproduct->ProductName }}</a>
+                                                                href="{{ url('product/' . $relatedproduct->slug) }}"
+                                                                id="f_pro_name">{{ $relatedproduct->name }}</a>
                                                         </h2>
                                                     </div>
 
                                                     @php
                                                         $review = App\Models\Review::where('product_id', $relatedproduct->id)->avg(
-                                                            'rating',
+                                                            'ratting',
                                                         );
                                                     @endphp
                                                     <div class="d-flex" style="justify-content:space-between">
                                                         <div class="star" style="padding-top: 5px;">
                                                             <span style="font-weight: bold;color:black;font-size:10px">({{ App\Models\Review::where('product_id', $relatedproduct->id)->get()->count() }})</span>
-                                                            @if (intval($review) == 1)
+                                                            @if (intval($review) == 0)
+                                                                <span class="fas fa-star"></span>
+                                                                <span class="fas fa-star"></span>
+                                                                <span class="fas fa-star"></span>
+                                                                <span class="fas fa-star"></span>
+                                                                <span class="fas fa-star"></span>
+                                                            @elseif (intval($review) == 1)
                                                                 <span class="fas fa-star" id="checked"></span>
                                                                 <span class="fas fa-star"></span>
                                                                 <span class="fas fa-star"></span>
@@ -709,33 +898,37 @@
                                                                 <span class="fas fa-star" id="checked"></span>
                                                             @endif
                                                         </div>
-                                                        <div class="like">
-                                                            <div class="d-flex" style="justify-content: space-around;font-size: 14px;">
-                                                                <span style="padding-right:14px;"><span class="sts" style="padding-right: 2px;font-size:12px;"
-                                                                        id="likereactof{{ $relatedproduct->id }}">{{ App\Models\React::where('product_id', $relatedproduct->id)->where('sigment','like')->get()->count() }}</span><i
-                                                                        @if(App\Models\React::where('product_id', $relatedproduct->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','like')->first()) style="color:green !important" @endif class="fas fa-thumbs-up" id="likereactdone{{ $relatedproduct->id }}"
-                                                                        onclick="givereactlike({{ $relatedproduct->id }})"></i></span>
-                                                                <span><span class="sts" style="padding-right: 2px;font-size:12px;"
-                                                                        id="lovereactof{{ $relatedproduct->id }}">{{ App\Models\React::where('product_id', $relatedproduct->id)->where('sigment','love')->get()->count() }}</span><i
-                                                                        @if(App\Models\React::where('product_id', $relatedproduct->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','love')->first()) style="color:red !important" @endif class="fas fa-heart" id="lovereactdone{{ $relatedproduct->id }}"
-                                                                        onclick="givereactlove({{ $relatedproduct->id }})"></i></span>
-                                                            </div>
-                                                        </div>
+{{--                                                        <div class="like">--}}
+{{--                                                            <div class="d-flex" style="justify-content: space-around;font-size: 14px;">--}}
+{{--                                                                <span style="padding-right:14px;"><span class="sts" style="padding-right: 2px;font-size:12px;"--}}
+{{--                                                                        id="likereactof{{ $relatedproduct->id }}">{{ App\Models\React::where('product_id', $relatedproduct->id)->where('sigment','like')->get()->count() }}</span><i--}}
+{{--                                                                        @if(App\Models\React::where('product_id', $relatedproduct->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','like')->first()) style="color:green !important" @endif class="fas fa-thumbs-up" id="likereactdone{{ $relatedproduct->id }}"--}}
+{{--                                                                        onclick="givereactlike({{ $relatedproduct->id }})"></i></span>--}}
+{{--                                                                <span><span class="sts" style="padding-right: 2px;font-size:12px;"--}}
+{{--                                                                        id="lovereactof{{ $relatedproduct->id }}">{{ App\Models\React::where('product_id', $relatedproduct->id)->where('sigment','love')->get()->count() }}</span><i--}}
+{{--                                                                        @if(App\Models\React::where('product_id', $relatedproduct->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','love')->first()) style="color:red !important" @endif class="fas fa-heart" id="lovereactdone{{ $relatedproduct->id }}"--}}
+{{--                                                                        onclick="givereactlove({{ $relatedproduct->id }})"></i></span>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
                                                     </div>
 
-                                                    @if (App\Models\Productsize::where('product_id', $relatedproduct->id)->first())
+{{--                                                    @if (App\Models\Productsize::where('product_id', $relatedproduct->id)->first())--}}
+                                                    @if ($relatedproduct->type==1)
                                                         <div class="price-box">
                                                             <del class="old-product-price strong-400">৳
                                                                 {{ round(App\Models\Productsize::where('product_id', $relatedproduct->id)->first()->RegularPrice) }}</del>
                                                             <span class="product-price strong-600">৳
-                                                                {{ round(App\Models\Productsize::where('product_id', $relatedproduct->id)->first()->SalePrice) }}</span>
+                                                                {{ round(App\Models\Productsize::where('product_id', $relatedproduct->id)->first()->SalePrice) }}
+                                                            </span>
                                                         </div>
                                                     @else
                                                         <div class="price-box">
                                                             <del class="old-product-price strong-400">৳
-                                                                {{ round(App\Models\Weight::where('product_id', $relatedproduct->id)->first()->RegularPrice) }}</del>
+                                                               {{round($relatedproduct->old_price)}}
+                                                            </del>
                                                             <span class="product-price strong-600">৳
-                                                                {{ round(App\Models\Weight::where('product_id', $relatedproduct->id)->first()->SalePrice) }}</span>
+                                                                {{round($relatedproduct->new_price)}}
+                                                            </span>
                                                         </div>
                                                     @endif
 
@@ -745,10 +938,12 @@
                                                     style="width: 100%;float: left;text-align: center;">
                                                     @method('POST')
                                                     @csrf
+                                                    
                                                     <input type="text" name="color" id="product_colorold"
-                                                        value="{{ App\Models\Varient::where('product_id', $relatedproduct->id)->first()->color }}"
+                                                        value=""
                                                         hidden>
-                                                    @if (App\Models\Productsize::where('product_id', $relatedproduct->id)->first())
+{{--                                                    @if (App\Models\Productsize::where('product_id', $relatedproduct->id)->first())--}}
+                                                        @if ($relatedproduct->type==1)
                                                         <input type="text" name="price" id="product_priceold"
                                                             value="{{ round(App\Models\Productsize::where('product_id', $relatedproduct->id)->first()->SalePrice) }}"
                                                             hidden>
@@ -757,12 +952,13 @@
                                                             hidden>
                                                     @else
                                                         <input type="text" name="price" id="product_priceold"
-                                                            value="{{ round(App\Models\Weight::where('product_id', $relatedproduct->id)->first()->SalePrice) }}"
+                                                            value="{{ round($relatedproduct->new_price) }}"
                                                             hidden>
                                                         <input type="text" name="size" id="product_sizeold"
-                                                            value="{{ App\Models\Weight::where('product_id', $relatedproduct->id)->first()->weight }}"
+                                                            value=""
                                                             hidden>
                                                     @endif
+                                                    
                                                     <input type="text" name="product_id"
                                                         value=" {{ $relatedproduct->id }}" hidden>
                                                     <input type="text" name="qty" value="1"
@@ -1268,21 +1464,28 @@
     }
 
 
-    function getcolor(color, key) {
+    function getcolor(color, key,id) {
+        console.log(color);
+        console.log(key);
+        console.log(id);
+        
         $("#sync1").data('owl.carousel').to(key, 300, true);
         $('#product_color').val(color);
         $('#product_colororder').val(color);
         $('.colortext').css('color', '#000');
         $('.colortext').css('background', '#fff');
-        $('#colortext' + color).css('color', '#fff');
-        $('#colortext' + color).css('background', '#613EEA');
+        $('#colortext'+id).css('color', '#fff');
+        $('#colortext'+id).css('background', '#613EEA');
+        
     }
 
-    function getsize(size) {
+    function getsize(size,id) {
+        console.log(size);
+        console.log(id);
         $('#product_size').val(size);
         $('#product_sizeorder').val(size);
-        var reg = $('#regularpriceofsize' + size).val();
-        var sale = $('#salepriceofsize' + size).val();
+        var reg = $('#regularpriceofsize' + id).val();
+        var sale = $('#salepriceofsize' + id).val();
         $('#product_price').val(sale);
         $('#product_priceorder').val(sale);
 
@@ -1291,8 +1494,8 @@
 
         $('.sizetext').css('color', '#000');
         $('.sizetext').css('background', '#fff');
-        $('#sizetext' + size).css('color', '#fff');
-        $('#sizetext' + size).css('background', '#613EEA');
+        $('#sizetext' + id).css('color', '#fff');
+        $('#sizetext' + id).css('background', '#613EEA');
     }
 </script>
 
