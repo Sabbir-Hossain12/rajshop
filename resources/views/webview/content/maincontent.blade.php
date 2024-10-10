@@ -2,7 +2,7 @@
 
 @section('maincontent')
 @section('title')
-    {{ env('APP_NAME') }}-Best online shop in Bangladesh
+    {{ $basicinfo->name }}-Best online shop in Bangladesh
 @endsection
 
 @section('meta')

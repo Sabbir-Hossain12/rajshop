@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use Illuminate\Support\Facades\Auth;
 use shurjopayv2\ShurjopayLaravelPackage8\Http\Controllers\ShurjopayController;
 
 use App\Http\Controllers\Controller;
@@ -21,7 +22,7 @@ use App\Models\SmsGateway;
 use App\Models\GeneralSetting;
 use Session;
 use Hash;
-use Auth;
+
 use Cart;
 use Mail;
 use Str;
@@ -64,7 +65,8 @@ class CustomerController extends Controller
     public function signin(Request $request)
     {
         $auth_check = Customer::where('phone', $request->phone)->first();
-        if ($auth_check) {
+        if ($auth_check) 
+        {
             if (Auth::guard('customer')->attempt(['phone' => $request->phone, 'password' => $request->password])) {
                 Toastr::success('You are login successfully', 'success!');
                 if (Cart::instance('shopping')->count() > 0) {
@@ -74,10 +76,16 @@ class CustomerController extends Controller
             }
             Toastr::error('message', 'Opps! your phone or password wrong');
             return redirect()->back();
-        } else {
+        } 
+        
+        else 
+        
+        {
             Toastr::error('message', 'Sorry! You have no account');
             return redirect()->back();
         }
+        
+        
     }
 
     public function register()
@@ -234,6 +242,7 @@ class CustomerController extends Controller
         };
         return view('frontEnd.layouts.customer.forgot_reset');
     }
+    
     public function forgot_store(Request $request)
     {
 

@@ -105,7 +105,7 @@
                     </div>
                     <div class="d-none d-xl-inline-block" id="d-sm-none">
 
-                        @if (Auth::id())
+                        @if (Auth::guard('customer')->check())
                             <a href="#" type="button" onclick="openProfileNav()"  style="color: #147700;font-size:20px" ><i class="fa-solid fa-user"></i></a>
 
                         @else
@@ -176,14 +176,14 @@
                 <i class="fas fa-close"></i>
             </div>
             <div class="side-login px-3 pb-3" style="padding-top: 12px;padding-bottom: 15px; padding-left: 10px;">
-                @if(Auth::id())
-                @if(Auth::guard('web')->user()->profile)
-                <img src="{{ asset(Auth::guard('web')->user()->profile) }}" alt="" id="profileImage">
+                @if(Auth::guard('customer')->check())
+                @if(Auth::guard('customer')->user()->image)
+                <img src="{{ asset(Auth::guard('customer')->user()->image) }}" alt="" id="profileImage">
                 @else
                 <img src="{{ asset('public/backend/img/user.jpg') }}" alt="" id="profileImage">
                 @endif
-                <h4 class="text-left m-0" style="color: white;font-size: 16px;text-transform: uppercase;">{{ Auth::guard('web')->user()->name }}</h4>
-                <h4 class="text-left m-0" style="color: white;font-size: 16px;">{{ Auth::guard('web')->user()->email }}</h4>
+                <h4 class="text-left m-0" style="color: white;font-size: 16px;text-transform: uppercase;">{{ Auth::guard('customer')->user()->name }}</h4>
+                <h4 class="text-left m-0" style="color: white;font-size: 16px;">{{ Auth::guard('customer')->user()->email }}</h4>
                 @else
                 @endif
 
@@ -234,7 +234,7 @@
                     </a>
                 </li>
                 <li class="p-0">
-                    <a href="{{ url('logout') }}" class="">
+                    <a href="{{ route('customer.logout') }}" class="">
                         <i class="fas fa-comment category-icon"></i>
                         <span class="category-name">
                             Logout

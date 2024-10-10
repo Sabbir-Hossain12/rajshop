@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\GoogleController;
+use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\StockController;
 
 use App\Http\Controllers\Frontend\WebviewController;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/cc', function () {
     Artisan::call('config:clear');
@@ -182,7 +183,7 @@ Route::get('track-order', [WebviewController::class, 'orderTraking']);
 Route::get('order-details/{slug}', [WebviewController::class, 'vieworder']);
 Route::post('track-now', [WebviewController::class, 'orderTrakingNow']);
 
-Route::group(['middleware' => ['auth:web']], function () {
+Route::group(['middleware' => ['auth:customer']], function () {
     Route::get('user/profile', [WebviewController::class, 'profile']);
     Route::post('update/profile', [WebviewController::class, 'updateprofile']);
     Route::get('user/purchase_history', [WebviewController::class, 'orderhistory']);
@@ -190,18 +191,18 @@ Route::group(['middleware' => ['auth:web']], function () {
 
 });
 
-Route::post('sslcommerz/success','PaymentController@success')->name('payment.success');
-Route::post('sslcommerz/failure','PaymentController@failure')->name('failure');
-Route::post('sslcommerz/cancel','PaymentController@cancel')->name('cancel');
-Route::post('sslcommerz/ipn','PaymentController@ipn')->name('payment.ipn');
+//Route::post('sslcommerz/success','PaymentController@success')->name('payment.success');
+//Route::post('sslcommerz/failure','PaymentController@failure')->name('failure');
+//Route::post('sslcommerz/cancel','PaymentController@cancel')->name('cancel');
+//Route::post('sslcommerz/ipn','PaymentController@ipn')->name('payment.ipn');
 
 
 Route::get('auth/google', [GoogleController::class, 'signInwithGoogle']);
 Route::get('callback/google', [GoogleController::class, 'callbackToGoogle']);
 
 Route::get('user/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth:web'])->name('dashboard');
+    return view('webview.dashboard');
+})->middleware(['auth:customer'])->name('dashboard');
 
-
+require __DIR__.'/auth.php';
 include __DIR__.'/admin.php';

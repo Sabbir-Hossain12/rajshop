@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title')</title>
+    <title>{{$basicinfo->name}}</title>
 
     @yield('meta')
 
@@ -36,7 +36,8 @@
             box-shadow: 1px 1px 10px 1px #05050522;
 
         }
-        #discountparttwo{
+        #discountparttwo
+        {
             background: #ff0a01;
             border-radius: 50%;
             height: 32px;
@@ -44,7 +45,8 @@
             float: left;
 
         }
-        #pdis{
+        #pdis
+        {
             font-size: 10px;
             margin: 0;
             padding-top: 2px;
@@ -53,7 +55,8 @@
             font-weight: bold;
             padding-right: 4px;
         }
-        .product-image{
+        .product-image
+        {
             overflow:hidden;
         }
         .product-image img:hover{

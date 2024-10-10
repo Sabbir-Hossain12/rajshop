@@ -536,14 +536,16 @@
                                 </div>
 
                                 {{-- Product Overview--}}
+                                @if(isset($basicinfo->product_overview)) 
                                 <div class="stock-container info-container m-t-10 bg-light p-3"
                                      style="margin-top:10px;border-bottom: 1px solid #dfd6d6;">
                                     <div class="row" style="margin-bottom:10px;">
                                         <div class="col-12 col-sm-12">
-                                            <p id="shortdes">{{ $productdetails->short_des }}</p></p>
+                                            <p id="shortdes">{{ $basicinfo->product_overview }}</p>
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                             </div>
                             <!-- /.product-info -->
                         </div>

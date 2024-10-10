@@ -1,6 +1,7 @@
 <?php
 
 // auth route
+use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ApiIntegrationController;
 use App\Http\Controllers\Admin\GeneralSettingController;
@@ -28,6 +29,10 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\DashboardController;
+
+
+
+
 
 
 // unathenticate admin route

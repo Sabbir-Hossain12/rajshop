@@ -93,6 +93,19 @@
 
                     <div class="col-sm-6 mb-3">
                         <div class="form-group">
+                            <label for="product_overview" class="form-label">Product Overview</label>
+                            <textarea name="product_overview" class="form-control @error('product_overview') is-invalid @enderror" id="product_overview" rows="3">{{$edit_data->product_overview}}</textarea>
+                            @error('product_overview')
+                            <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <!-- col end -->
+
+                    <div class="col-sm-6 mb-3">
+                        <div class="form-group">
                             <label for="status" class="d-block">Status</label>
                             <label class="switch">
                               <input type="checkbox" value="1" name="status" @if($edit_data->status==1)checked @endif>

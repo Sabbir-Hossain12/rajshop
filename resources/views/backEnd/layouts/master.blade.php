@@ -125,7 +125,7 @@
 
                 <!-- item-->
                 <a
-                  href="{{ route('logout') }}"
+                  href="{{ route('admin.logout') }}"
                   onclick="event.preventDefault();
                   document.getElementById('logout-form').submit();"
                   class="dropdown-item notify-item"
@@ -133,7 +133,7 @@
                   <i class="fe-log-out me-1"></i>
                   <span>Logout</span>
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('admin.logout') }}" method="get" style="display: none;">
                   @csrf
                 </form>
               </div>
@@ -226,7 +226,7 @@
 
                 <!-- item-->
                 <a
-                  href="{{ route('logout') }}"
+                  href="{{ route('admin.logout') }}"
                   onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"
                   class="dropdown-item notify-item"
@@ -234,7 +234,7 @@
                   <i class="fe-log-out me-1"></i>
                   <span>Logout</span>
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('admin.logout') }}" method="GET" style="display: none;">
                   @csrf
                 </form>
               </div>

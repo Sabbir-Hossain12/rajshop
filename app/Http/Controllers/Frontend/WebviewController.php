@@ -253,11 +253,11 @@ class WebviewController extends Controller
                 'comments' => function ($query) {
                     $query->select('id', 'order_id', 'comment', 'admin_id', 'status', 'created_at')->where('status', 0);
                 },
-            ])->where('user_id', Auth::guard('web')->user()->id)
-            ->join('customers', 'customers.order_id', '=', 'orders.id')
+            ])->where('customer_id', Auth::guard('customer')->user()->id)
+            ->join('customers', 'customers.id', '=', 'orders.customer_id')
             ->select('orders.*', 'customers.customerPhone', 'customers.customerName', 'customers.customerAddress')
             ->get();
-        return view('auth.orderhistory', ['date' => $date, 'orders' => $orders]);
+        return view('webview.auth.orderhistory', ['date' => $date, 'orders' => $orders]);
     }
 
     public function index($slug)
