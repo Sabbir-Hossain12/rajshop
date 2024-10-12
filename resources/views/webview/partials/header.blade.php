@@ -116,18 +116,26 @@
                     <div class="dropdown-cart">
                         <a href="#" class="dropdown" onclick="checkcart(this)" data-bs-toggle="dropdown"
                             id="smcarticon">
+                            
                             <div class="items-cart-inner">
                                 <div class="basket" style="padding: 0;display:flex;">
                                     <span style="color: #147700;font-weight:bold">৳
-                                        {{ intval(Cart::subtotal()) }}</span><i class="fa-solid fa-cart-shopping"
-                                        style="    padding-top: 26px;font-size: 20px;color: #147700;"></i>
+                                        {{(int)str_replace(',', '', Cart::subtotal()) }}
+{{--                                        {{ Cart::count()}}--}}
+                                    </span>
+                                    
+                                    <i class="fa-solid fa-cart-shopping"
+                                        style="padding-top: 26px; font-size: 20px; color: #147700;">
+                                    </i>
                                 </div>
                             </div>
                         </a>
+                        
                         <ul class="dropdown-menu">
                             <li id="checkcartview">
                             </li>
                         </ul>
+                        
                         <!-- /.dropdown-menu-->
                     </div>
                     <!-- /.dropdown-cart -->

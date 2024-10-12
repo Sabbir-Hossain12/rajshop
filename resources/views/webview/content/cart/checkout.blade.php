@@ -24,8 +24,12 @@
 </style>
 
 @php
-    $availablecoup=App\Models\Coupon::where('status','Active')->where('validity','>=',date('Y-m-d'))->first();
+    $shippingCharges = App\Models\ShippingCharge::limit(2)->get();
 @endphp
+
+{{--@php--}}
+{{--    $availablecoup=App\Models\Coupon::where('status','Active')->where('validity','>=',date('Y-m-d'))->first();--}}
+{{--@endphp--}}
 
 {{-- //no cart --}}
 @if (!Session::has('cart'))
@@ -65,10 +69,10 @@
                                 </marquee>
 
                             </header>
-                            @php
-                                $coupon = Session::get('availablecoupon');
-                                $couponcode = Session::get('couponcode');
-                            @endphp
+{{--                            @php--}}
+{{--                                $coupon = Session::get('availablecoupon');--}}
+{{--                                $couponcode = Session::get('couponcode');--}}
+{{--                            @endphp--}}
                             <form action="{{ url('press/order') }}" method="POST"
                                 class="from-prevent-multiple-submits">
                                 @csrf
@@ -76,13 +80,13 @@
                                     <div class="form-group col-12">
                                         <label>আপনার নাম </label>
                                         <input type="text" id="customerName" name="customerName"
-                                            @if (Auth::id()) value="{{ Auth::guard('web')->user()->name }}" @else @endif
+                                            @if (Auth::guard('customer')->check()) value="{{ Auth::guard('customer')->user()->name }}" @else @endif
                                             placeholder="আপনার নাম লিখুন" required class="form-control"
                                             style=" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
                                     </div>
                                     @if (Auth::id())
                                         <input type="text" id="user_id" name="user_id"
-                                            @if (Auth::id()) value="{{ Auth::guard('web')->user()->id }}" @else @endif
+                                            @if (Auth::guard('customer')->check()) value="{{ Auth::guard('customer')->user()->id }}" @else @endif
                                             hidden>
                                     @else
                                     @endif
@@ -98,14 +102,14 @@
                                         <label>আপনার মোবাইল </label>
                                         <input type="text" minlength="11" maxlength="11"
                                             pattern="[0-1]{2}[0-9]{6}[0-9]{3}" id="customerPhone"
-                                            @if (Auth::id()) value="{{ Auth::guard('web')->user()->phone }}" @else @endif
+                                            @if (Auth::guard('customer')->check()) value="{{ Auth::guard('customer')->user()->phone }}" @else @endif
                                             name="customerPhone" required class="form-control"
                                             placeholder="আপনার মোবাইল লিখুন">
                                     </div>
-                                    <input type="hidden" name="coupon_code"
-                                        @if (isset($couponcode)) value="{{ $couponcode }}" @else @endif
-                                        id="coupon_code">
-                                    <textarea id="ordersubtotalprice" name="subTotal" cols="10" rows="5" hidden>{{ Cart::subtotalFloat() }}</textarea>
+{{--                                    <input type="hidden" name="coupon_code"--}}
+{{--                                        @if (isset($couponcode)) value="{{ $couponcode }}" @else @endif--}}
+{{--                                        id="coupon_code">--}}
+                                    <textarea id="ordersubtotalprice" name="subTotal" cols="10" rows="5" hidden>{{ Cart::subtotal() }}</textarea>
                                     <div class="form-group col-12">
                                         <label>Select Area </label>
                                         <select id="deliveryCharge" name="deliveryCharge" class="form-control"
@@ -116,15 +120,16 @@
                                                 <option value="{{ $product->outside_dhaka }}">ঢাকার বাহির
                                                     ({{ $product->outside_dhaka }})</option>
                                             @else
+                                             
                                                 <option
-                                                    value="{{ App\Models\Basicinfo::first()->inside_dhaka_charge }}">
+                                                    value="{{ $shippingCharges[0]->amount }}">
                                                     ঢাকার ভিতর
-                                                    ({{ App\Models\Basicinfo::first()->inside_dhaka_charge }})
+                                                    ({{ $shippingCharges[0]->amount  }})
                                                 </option>
                                                 <option
-                                                    value="{{ App\Models\Basicinfo::first()->outside_dhaka_charge }}">
+                                                    value="{{ $shippingCharges[1]->amount }}">
                                                     ঢাকার বাহির
-                                                    ({{ App\Models\Basicinfo::first()->outside_dhaka_charge }})
+                                                    ({{ $shippingCharges[1]->amount }})
                                                 </option>
                                             @endif
 
@@ -136,16 +141,16 @@
                                     </div>
 
                                     <div class="section-tab check-mark-tab text-center pb-4" id="paysection">
-                                        <ul class="nav nav-tabs justify-content-between m-0" id="myTab" role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link" id="coin-tab" data-bs-toggle="tab"
-                                                    href="#coin" onclick="showbtn('orderConfirmCoin')" role="tab" aria-controls="coin"
-                                                    style="    padding: 8px;" aria-selected="true">
-                                                    <img src="{{ asset('public/coin.png') }}"
-                                                        style="width: 65px;" alt="">
-                                                    <span class="d-block pt-2">Useing Coin</span>
-                                                </a>
-                                            </li>
+                                        <ul class="nav nav-tabs justify-content-evenly m-0" id="myTab" role="tablist">
+{{--                                            <li class="nav-item">--}}
+{{--                                                <a class="nav-link" id="coin-tab" data-bs-toggle="tab"--}}
+{{--                                                    href="#coin" onclick="showbtn('orderConfirmCoin')" role="tab" aria-controls="coin"--}}
+{{--                                                    style="    padding: 8px;" aria-selected="true">--}}
+{{--                                                    <img src="{{ asset('public/coin.png') }}"--}}
+{{--                                                        style="width: 65px;" alt="">--}}
+{{--                                                    <span class="d-block pt-2">Useing Coin</span>--}}
+{{--                                                </a>--}}
+{{--                                            </li>--}}
                                             <li class="nav-item">
                                                 <a class="nav-link active" onclick="showbtn('orderConfirm')" id="credit-card-tab" style="padding: 8px;"
                                                     data-bs-toggle="tab" href="#credit-card" role="tab"
@@ -341,7 +346,7 @@
                             <dl class="row">
                                 <dt class="col-8">Subtotal: </dt>
                                 <dd class="col-4 text-right"><strong>৳ <span
-                                            id="subtotalprice">{{ Cart::subtotalFloat() }}</span> </strong></dd>
+                                            id="subtotalprice">{{ Cart::subtotal() }}</span> </strong></dd>
 
                                 <dt class="col-8">Delivery charge: </dt>
 
@@ -350,29 +355,30 @@
                                             <span id="dinamicdalivery">{{ $product->inside_dhaka }}</span>
                                         @else
                                             <span
-                                                id="dinamicdalivery">{{ App\Models\Basicinfo::first()->inside_dhaka_charge }}</span>
+                                                id="dinamicdalivery">{{ $shippingCharges[0]->amount }}</span>
+                                            
                                         @endif
                                     </strong></dd>
-                                @if (isset($coupon))
-                                    <dt class="col-8" style="color: green">Coupon Discount: </dt>
-                                    @if ($coupon->type == 'Amount')
-                                        <dd class="col-4 text-right" style="color: green"><strong>৳
-                                                <span id="coupondiscount"
-                                                    style="color: green">{{ $coupon->amount }}</span>
-                                            </strong></dd>
-                                    @else
-                                        <dd class="col-4 text-right" style="color: green"><strong>
-                                                <span id="coupondiscount" style="color: green">৳
-                                                </span>
-                                            </strong>{{ intval(Cart::subtotalFloat() * ($coupon->amount / 100)) }}</dd>
-                                    @endif
-                                @else
-                                    <dt class="col-8" style="color: green" id="coupontext1">Coupon Discount: </dt>
-                                    <dd class="col-4 text-right" id="coupontext" style="color: green"><strong>৳
-                                            <span id="coupondiscount" style="color: green">0
-                                            </span>
-                                        </strong></dd>
-                                @endif
+{{--                                @if (isset($coupon))--}}
+{{--                                    <dt class="col-8" style="color: green">Coupon Discount: </dt>--}}
+{{--                                    @if ($coupon->type == 'Amount')--}}
+{{--                                        <dd class="col-4 text-right" style="color: green"><strong>৳--}}
+{{--                                                <span id="coupondiscount"--}}
+{{--                                                    style="color: green">{{ $coupon->amount }}</span>--}}
+{{--                                            </strong></dd>--}}
+{{--                                    @else--}}
+{{--                                        <dd class="col-4 text-right" style="color: green"><strong>--}}
+{{--                                                <span id="coupondiscount" style="color: green">৳--}}
+{{--                                                </span>--}}
+{{--                                            </strong>{{ intval(Cart::subtotal() * ($coupon->amount / 100)) }}</dd>--}}
+{{--                                    @endif--}}
+{{--                                @else--}}
+{{--                                    <dt class="col-8" style="color: green" id="coupontext1">Coupon Discount: </dt>--}}
+{{--                                    <dd class="col-4 text-right" id="coupontext" style="color: green"><strong>৳--}}
+{{--                                            <span id="coupondiscount" style="color: green">0--}}
+{{--                                            </span>--}}
+{{--                                        </strong></dd>--}}
+{{--                                @endif--}}
                                  
                                 <dt class="col-8" id="cointext">Coin Use: </dt>
                                 <dd class="col-4 text-right" id="cointext2"><strong>৳ <span

@@ -117,10 +117,12 @@ class AppServiceProvider extends ServiceProvider
             $sliders =Banner::where('status',1)->where('category_id',1)->select('image','link')->get();
             $topproducts = Product::where(['status' => 1, 'topsale' => 1])
                 ->orderBy('id', 'DESC')
-                ->select('id', 'name', 'slug', 'new_price', 'old_price')
+                ->select('id', 'name', 'slug', 'new_price', 'old_price','type')
                 ->with('prosizes', 'procolors')
                 ->limit(6)
                 ->get();
+            
+//            dd($topproducts);
 
             $homeproducts = Category::where(['front_view' => 1, 'status' => 1])
                 ->orderBy('id', 'ASC')
