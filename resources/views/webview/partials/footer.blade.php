@@ -199,7 +199,7 @@
                             <div style="font-size: 14px;">Category</div>
                         </a>
                     </li>
-                    @if (Auth::id())
+                    @if (Auth::guard('customer')->check())
                         <li class="text-center">
                             <a class="nav-cart-box" href="#" type="button" onclick="openProfileNav()">
                                 <i class="nav-box-icon fas fa-user"></i>

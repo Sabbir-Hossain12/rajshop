@@ -53,25 +53,20 @@
                                         <tbody>
                                             <tr>
                                                 <td class="w-50 strong-600">Order ID:</td>
-                                                <td>{{ $orders->invoiceID }}</td>
+                                                <td>{{ $orders->invoice_id }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="w-50 strong-600">Customer:</td>
-                                                <td>{{ $orders->customers->customerName }}</td>
+                                                <td>{{ $orders->shipping->name }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="w-50 strong-600">Phone:</td>
-                                                <td>{{ $orders->customers->customerPhone }}</td>
+                                                <td>{{ $orders->shipping->phone }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="w-50 strong-600">Shipping address:</td>
-                                                <td>{{ $orders->customers->customerAddress }},@if (isset($orders->zones))
-                                                        {{ $orders->zones->zoneName }},
-                                                    @else
-                                                        @endif @if (isset($orders->cities))
-                                                            {{ $orders->cities->cityName }},
-                                                        @else
-                                                        @endif
+                                                <td>
+                                                    {{ $orders->shipping->address }}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -87,26 +82,26 @@
                                             </tr>
                                             <tr>
                                                 <td class="w-50 strong-600">Total order amount:</td>
-                                                <td>৳ {{ $orders->subTotal }} + <span style="color: red">(Delivery
+                                                <td>৳ {{ $orders->amount }} + <span style="color: red">(Delivery
                                                         Charge)</span> </td>
                                             </tr>
-                                            <tr>
-                                                <td class="w-50 strong-600">Shipping company:</td>
-                                                <td>
-                                                    @if (isset($orders->couriers))
-                                                        {{ $orders->couriers->courierName }}
-                                                    @else
-                                                    @endif
-                                                </td>
-                                            </tr>
+{{--                                            <tr>--}}
+{{--                                                <td class="w-50 strong-600">Shipping company:</td>--}}
+{{--                                                <td>--}}
+{{--                                                    @if (isset($orders->couriers))--}}
+{{--                                                        {{ $orders->couriers->courierName }}--}}
+{{--                                                    @else--}}
+{{--                                                    @endif--}}
+{{--                                                </td>--}}
+{{--                                            </tr>--}}
                                             <tr>
                                                 <td class="w-50 strong-600">Payment method:</td>
                                                 <td>
-                                                    @if ($orders->Payment == 'C-O-D')
+{{--                                                    @if ($orders->Payment == 'C-O-D')--}}
                                                         Cash On Delivery
-                                                    @else
-                                                        Online Payment
-                                                    @endif
+{{--                                                    @else--}}
+{{--                                                    Online Payment--}}
+{{--                                                    @endif--}}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -118,79 +113,125 @@
                     <div class="card mt-4">
                         <div class="card-header py-2 px-3 heading-6 strong-600 clearfix">
                             <ul class="process-steps clearfix">
-                                @if ($orders->status == 'Pending' || $orders->status == 'Payment Pending' || $orders->status == 'On Hold')
+                                @if ($orders->status->id == 1)
+                                    <li>
+                                        <div class="icon" style="background:#e62e04;color:white!important;">1</div>
+                                        <div class="title" style="color:red">{{$orders->status->name}}</div>
+                                    </li>
+
+                                @else
+                                    <li>
+                                        <div class="icon">1</div>
+                                        <div class="title">Pending</div>
+                                    </li>
+                                @endif
+
+                                @if($orders->status->id == 2)
+
                                     <li>
                                         <div class="icon" style="background:#e62e04;color:white">1</div>
-                                        <div class="title" style="color:red">On Processing</div>
+                                        <div class="title" style="color:red">{{$orders->status->name}}</div>
                                     </li>
                                 @else
-                                    @if ($orders->status == 'Canceled')
-                                        <li>
-                                            <div class="icon" style="background:#e62e04;color:white">1</div>
-                                            <div class="title" style="color:red">Canceled</div>
-                                        </li>
-                                    @else
-                                        <li>
-                                            <div class="icon">1</div>
-                                            <div class="title">On Processing</div>
-                                        </li>
-                                    @endif
-                                @endif
-                                @if ($orders->status == 'Invoiced' || $orders->status == 'On Progress')
-                                    <li>
-                                        <div class="icon" style="background:#e62e04;color:white">2</div>
-                                        <div class="title" style="color:red">Confirmed</div>
-                                    </li>
-                                @else
+
                                     <li>
                                         <div class="icon">2</div>
-                                        <div class="title">Confirmed</div>
+                                        <div class="title">Processing</div>
                                     </li>
+
                                 @endif
 
-                                @if ($orders->status == 'Delivered' || $orders->status == 'On Delivery')
+                                @if($orders->status->id == 3)
+
                                     <li>
-                                        <div class="icon" style="background:#e62e04;color:white">3</div>
-                                        <div class="title" style="color:red">On Going</div>
+                                        <div class="icon" style="background:#e62e04;color:white">1</div>
+                                        <div class="title" style="color:red">{{$orders->status->name}}</div>
                                     </li>
                                 @else
+
                                     <li>
                                         <div class="icon">3</div>
-                                        <div class="title">On Going</div>
+                                        <div class="title">On The Way</div>
                                     </li>
-                                @endif
 
-                                @if ($orders->status == 'Paid')
+                                @endif
+                                {{--                                        @if($orders->status->id == 4)--}}
+
+                                {{--                                            <li>--}}
+                                {{--                                                <div class="icon" style="background:#e62e04;color:white">1</div>--}}
+                                {{--                                                <div class="title" style="color:red">{{$orders->status->name}}</div>--}}
+                                {{--                                            </li>--}}
+                                {{--                                        @else--}}
+
+                                {{--                                            <li>--}}
+                                {{--                                                <div class="icon">4</div>--}}
+                                {{--                                                <div class="title">On Hold</div>--}}
+                                {{--                                            </li>--}}
+
+                                {{--                                        @endif--}}
+                                {{--                                        @if($orders->status->id == 5)--}}
+
+                                {{--                                            <li>--}}
+                                {{--                                                <div class="icon" style="background:#e62e04;color:white">1</div>--}}
+                                {{--                                                <div class="title" style="color:red">{{$orders->status->name}}</div>--}}
+                                {{--                                            </li>--}}
+                                {{--                                        @else--}}
+
+                                {{--                                            <li>--}}
+                                {{--                                                <div class="icon">5</div>--}}
+                                {{--                                                <div class="title">In Courier</div>--}}
+                                {{--                                            </li>--}}
+
+                                {{--                                        @endif--}}
+                                @if($orders->status->id == 6)
+
                                     <li>
-                                        <div class="icon" style="background:#e62e04;color:white">4</div>
-                                        <div class="title" style="color:red">Delivered</div>
+                                        <div class="icon" style="background:#e62e04;color:white">1</div>
+                                        <div class="title" style="color:red">{{$orders->status->name}}</div>
                                     </li>
                                 @else
+
                                     <li>
-                                        <div class="icon">4</div>
-                                        <div class="title">Delivered</div>
+                                        <div class="icon">6</div>
+                                        <div class="title">Completed</div>
                                     </li>
+
                                 @endif
+
+                                {{--                                        @if($orders->status->id == 7)--}}
+
+                                {{--                                            <li>--}}
+                                {{--                                                <div class="icon" style="background:#e62e04;color:white">1</div>--}}
+                                {{--                                                <div class="title" style="color:red">{{$orders->status->name}}</div>--}}
+                                {{--                                            </li>--}}
+                                {{--                                        @else--}}
+
+                                {{--                                            <li>--}}
+                                {{--                                                <div class="icon">7</div>--}}
+                                {{--                                                <div class="title">Cancelled</div>--}}
+                                {{--                                            </li>--}}
+
+                                {{--                                        @endif--}}
+
+                                {{--                                        @endforeach--}}
                             </ul>
                         </div>
                         <div class="card-body p-4">
                             <div class="col-12">
                                 <table class="details-table table">
                                     <tbody>
-                                        @forelse ($orders->orderproducts as $products)
+                                        @forelse ($orders->orderdetails as $products)
                                             <tr>
                                                 <td class="w-50 strong-600">Product Name:</td>
-                                                <td>{{ $products->productName }} &nbsp; <span style="color: red">(
-                                                        {{ $products->quantity }}
-                                                        pics )</span>
+                                                <td>{{ $products->product_name }} &nbsp; <span style="color: red">({{ $products->qty }})</span>
                                                 </td>
                                             </tr>
                                         @empty
                                         @endforelse
-                                        <tr>
-                                            <td class="w-50 strong-600">Completed By:</td>
-                                            <td>{{ $orders->admins->name }}</td>
-                                        </tr>
+{{--                                        <tr>--}}
+{{--                                            <td class="w-50 strong-600">Completed By:</td>--}}
+{{--                                            <td>{{ $orders->admins->name }}</td>--}}
+{{--                                        </tr>--}}
                                     </tbody>
                                 </table>
                             </div>

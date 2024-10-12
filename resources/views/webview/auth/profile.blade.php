@@ -98,7 +98,7 @@
                                 <div class="card text-center bg-info pt-4" style="font-size: 26px;">
                                     <i class="fa-solid fa-building text-white"></i>
                                     <p class="text-white mb-0 pt-4">
-                                        <span>{{ App\Models\Order::where('user_id', Auth::user()->id)->get()->count() }}</span>
+                                        <span>{{ App\Models\Order::where('customer_id', Auth::user()->id)->get()->count() }}</span>
                                         Product
                                     </p>
                                     <p class="text-white">Ordered</p>
@@ -115,8 +115,8 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         <div class="profileinfo" style="display: flex;justify-content: space-around;">
-                                            @if (isset(Auth::guard('web')->user()->profile))
-                                                <img src="{{ asset(Auth::guard('web')->user()->profile) }}"
+                                            @if (isset(Auth::guard('customer')->user()->image))
+                                                <img src="{{ asset(Auth::guard('customer')->user()->image) }}"
                                                     alt="" id="profileImage" style="    width: 40%;">
                                             @else
                                                 <img src="{{ asset('public/backend/img/user.jpg') }}" alt=""
@@ -124,7 +124,7 @@
                                             @endif
                                             <div class="form">
                                                 <div class="form-group pt-4 mt-4">
-                                                    <input type="file" name="profile" class="form-control">
+                                                    <input type="file" name="image" class="form-control">
                                                 </div>
                                                 <button type="submit" class="btn btn-dark text-white">Update</button>
                                             </div>

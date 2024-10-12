@@ -201,13 +201,13 @@
                     </a>
                 </li>
 
-                <li class="p-0">
-                    <a href="{{ url('user/wallets') }}" class="">
-                        <i class="fas fa-wallet category-icon"></i>
-                        <span class="category-name">
-                            Wallet </span>
-                    </a>
-                </li>
+{{--                <li class="p-0">--}}
+{{--                    <a href="{{ url('user/wallets') }}" class="">--}}
+{{--                        <i class="fas fa-wallet category-icon"></i>--}}
+{{--                        <span class="category-name">--}}
+{{--                            Wallet </span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
 
                 <li class="p-0">
                     <a href="{{ url('user/purchase_history') }}" class="">

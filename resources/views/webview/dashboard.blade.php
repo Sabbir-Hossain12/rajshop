@@ -90,7 +90,7 @@
                         <div class="card text-center bg-light pt-4" style="font-size: 26px;">
                             <i class="fa-solid fa-building text-dark"></i>
                             <p class="text-dark mb-0 pt-4 pb-3">
-                                <span>{{ App\Models\Order::where('user_id', Auth::user()->id)->get()->count() }}</span>
+                                <span>{{ App\Models\Order::where('customer_id', Auth::guard('customer')->user()->id)->get()->count() }}</span>
                                 Order
                             </p>
                         </div>

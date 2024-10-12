@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\OrderStatus;
 use App\Models\Productcolor;
 use App\Models\Productsize;
 use App\Models\ShippingCharge;
@@ -220,23 +222,23 @@ class WebviewController extends Controller
 
     public function profile()
     {
-        $id = Auth::user()->id;
-        $userprofile = User::findOrfail($id);
-        return view('auth.profile', ['userprofile' => $userprofile]);
+        $id = Auth::guard('customer')->user()->id;
+        $userprofile = Customer::findOrfail($id);
+        return view('webview.auth.profile', ['userprofile' => $userprofile]);
     }
 
     public function updateprofile(Request $request)
     {
         $time = microtime('.') * 10000;
-        $id = Auth::user()->id;
-        $userprofile = User::findOrfail($id);
-        $productImg = $request->file('profile');
+        $id = Auth::guard('customer')->user()->id;
+        $userprofile = Customer::findOrfail($id);
+        $productImg = $request->file('image');
         if ($productImg) {
             $imgname = $time.$productImg->getClientOriginalName();
             $imguploadPath = ('public/images/user/profile/');
             $productImg->move($imguploadPath, $imgname);
             $productImgUrl = $imguploadPath.$imgname;
-            $userprofile->profile = $productImgUrl;
+            $userprofile->image = $productImgUrl;
         }
         $userprofile->save();
         return redirect()->back()->with('message', 'Profile update successfully');
@@ -245,18 +247,13 @@ class WebviewController extends Controller
     public function orderhistory()
     {
         $date = \Carbon\Carbon::now();
-        $orders = Order::with(
-            [
-                'orderproducts' => function ($query) {
-                    $query->select('id', 'order_id', 'productName', 'quantity', 'color', 'size');
-                },
-                'comments' => function ($query) {
-                    $query->select('id', 'order_id', 'comment', 'admin_id', 'status', 'created_at')->where('status', 0);
-                },
-            ])->where('customer_id', Auth::guard('customer')->user()->id)
-            ->join('customers', 'customers.id', '=', 'orders.customer_id')
-            ->select('orders.*', 'customers.customerPhone', 'customers.customerName', 'customers.customerAddress')
-            ->get();
+        $orders = Order::with(['orderdetails','customer','status'])
+                    ->where('customer_id', Auth::guard('customer')->user()->id)
+//                    ->join('customers', 'customers.id', '=', 'orders.customer_id')
+//                    ->select('orders.*', 'customers.*')
+                    ->get();
+        
+//        dd($orders);
         return view('webview.auth.orderhistory', ['date' => $date, 'orders' => $orders]);
     }
 
@@ -495,17 +492,19 @@ class WebviewController extends Controller
 
     public function vieworder($slug)
     {
+        $order_status=OrderStatus::where('status','Active')->get();
         $orders = Order::with([
-            'customers', 'orderproducts', 'couriers', 'cities', 'zones', 'admins'
-        ])->where('invoiceID', $slug)->first();
-        return view('webview.content.cart.vieworder', ['orders' => $orders]);
+            'customer', 'orderdetails','status' ,'shipping'
+        ])->where('invoice_id', $slug)->first();
+//        dd($orders);
+        return view('webview.content.cart.vieworder', ['orders' => $orders,'order_status'=>$order_status]);
     }
 
     public function orderTrakingNow(Request $request)
     {
         $orders = Order::with([
-            'customers', 'orderproducts', 'couriers', 'cities', 'zones', 'admins'
-        ])->where('invoiceID', $request->invoiceID)->first();
+            'customer', 'orderdetails','status' ,'shipping'
+        ])->where('invoice_id', $request->invoiceID)->first();
         return view('webview.content.cart.trackorder', ['orders' => $orders]);
     }
 

@@ -89,13 +89,13 @@
                         <div class="row">
                             @forelse ($orders as $order)
                                 <div class="col-lg-12 col-12 mb-2" id="mainitem">
-                                    <a href="{{ url('order-details') }}/{{ $order->invoiceID }}">
+                                    <a href="{{ url('order-details') }}/{{ $order->invoice_id }}">
                                         <div class="card">
                                             <div style="display: flex;justify-content:space-between">
 
                                                 <div class="info ps-2">
                                                     <p class="m-0 pt-2" style="color:black ;">
-                                                        <b>ID: <span>{{ $order->invoiceID }}</span></b>
+                                                        <b>ID: <span>{{ $order->invoice_id }}</span></b>
                                                     </p>
                                                     <p class="m-0" style="color:rgb(26, 142, 214) ;">
                                                         <b style="color: gray">Ordered:
@@ -111,10 +111,10 @@
                                                 <div class="delivery"
                                                     style="padding-top: 10px;text-align: right;padding-right: 10px;">
                                                     <p class="m-0 pt-2" style="color:black ;">
-                                                        <b>৳ <span>{{ $order->subTotal }}</span></b>
+                                                        <b>৳ <span>{{ $order->amount }}</span></b>
                                                     </p>
                                                     <h6 class="m-0" style="color: rgb(22, 128, 6);">
-                                                        <b>{{ $order->status }}</b>
+                                                        <b>{{ $order->status->name }}</b>
                                                     </h6>
                                                 </div>
                                             </div>

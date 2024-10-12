@@ -113,13 +113,14 @@
                                                 <div class="image text-center">
                                                     <a href="{{ url('product/' . $promotional->slug) }}">
                                                         <img src="{{ asset($promotional->image->image) }}"
-                                                            alt="{{ $promotional->ProductName }}" id="featureimagess">
+                                                            alt="{{ $promotional->name }}" id="featureimagess">
                                                     </a>
                                                 </div>
-                                                @if (App\Models\Productsize::where('product_id',$promotional->id)->first())
+{{--                                                @if (App\Models\Productsize::where('product_id',$promotional->id)->first())--}}
+                                                @if($promotional->type==1)
                                                     <span id="discountpart"> <p id="pdis">SAVE ৳{{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->Discount) }}</p></span>
                                                 @else
-                                                    <span id="discountpart"> <p id="pdis">SAVE ৳{{ round(App\Models\Weight::where('product_id',$promotional->id)->first()->Discount) }}</p></span>
+                                                    <span id="discountpart"> <p id="pdis">SAVE ৳{{ round($promotional->old_price - $promotional->new_price) }}</p></span>
                                                 @endif
 
                                             </div>
