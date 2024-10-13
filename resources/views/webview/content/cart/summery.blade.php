@@ -19,12 +19,13 @@
                                 </tr>
                             </thead>
                             <tbody>
+                           
                                 @forelse ($cartProducts as $cartProduct)
                                     <tr class="cart-item">
                                         <td class="product-image d-lg-block p-0">
                                             <a href="#" class="" style="text-align: center;">
                                                 <img style="width: 50px;" loading="lazy"
-                                                    src="{{ asset($cartProduct->image) }}">
+                                                    src="{{ asset($cartProduct->options->image) }}">
                                             </a>
                                         </td>
 

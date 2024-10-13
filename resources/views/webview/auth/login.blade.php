@@ -54,12 +54,13 @@
                         Need an account? <a href="{{ url('register') }}" style="color: #000">Register Now</a>
                     </h4>
 
-                    <a href="{{ url('auth/google') }}"
-                        style="margin-top: 0px !important;background: #e3e3e3;color: #0a0a0a;padding: 8px;border-radius: 6px;font-size: 24px;text-align: center;"
-                        class="ml-2 mb-4">
-                        <strong> <img src="{{ asset('public/search.png') }}" style="width: 30px;"> Login with
-                            Google</strong>
-                    </a>
+{{--                    <a href="{{ url('auth/google') }}"--}}
+{{--                        style="margin-top: 0px !important;background: #e3e3e3;color: #0a0a0a;padding: 8px;border-radius: 6px;font-size: 24px;text-align: center;"--}}
+{{--                        class="ml-2 mb-4">--}}
+{{--                        <strong> <img src="{{ asset('public/search.png') }}" style="width: 30px;"> Login with--}}
+{{--                            Google--}}
+{{--                        </strong>--}}
+{{--                    </a>--}}
 
                 </div>
                 <!-- Sign-in -->

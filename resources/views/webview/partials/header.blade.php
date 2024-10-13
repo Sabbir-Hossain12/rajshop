@@ -5,7 +5,7 @@
         <div class="header-top-inner">
             <div class="cnt-account">
                 <ul class="list-unstyled">
-                    <li><a href=""><i class="fa-brands fa-facebook-f"></i></a></li>
+                    <li><a href="{{\App\Models\SocialMedia::where('title', 'Facebook')->first()->link}}"><i class="fa-brands fa-facebook-f"></i></a></li>
                     <li><a href=""><i class="fa-brands fa-instagram"></i></a></li>
                     <li><a href=""><i class="fa-brands fa-twitter"></i></a></li>
                     <li><a href="{{ $contact->email }}"><i class="fa-solid fa-envelope"></i></a></li>
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                             <a href="{{ url('venture/contact_us') }}" id="navLia">CONTACT</a>
-                            <a href="#news" id="navLia">BLOG</a>
+{{--                            <a href="#news" id="navLia">BLOG</a>--}}
                             <form action="{{ url('search') }}" method="GET">
                                 <div class="control-group" style="    display: flex;">
                                     <input class="search-field m-0" name="search" placeholder="Search here...">
@@ -119,14 +119,19 @@
                             
                             <div class="items-cart-inner">
                                 <div class="basket" style="padding: 0;display:flex;">
-                                    <span style="color: #147700;font-weight:bold">৳
-                                        {{(int)str_replace(',', '', Cart::subtotal()) }}
-{{--                                        {{ Cart::count()}}--}}
+                                    <span style="color: #147700;font-weight:bold">
+                                      
+{{--                                        ৳  {{(int)str_replace(',', '', Cart::subtotal()) }}--}}
+{{--                                        {{ Cart::count()}} x--}}
                                     </span>
                                     
                                     <i class="fa-solid fa-cart-shopping"
                                         style="padding-top: 26px; font-size: 20px; color: #147700;">
                                     </i>
+                                    <span class="mx-1 fw-bold">
+                                       x {{ Cart::count()}} 
+                                    </span>
+                                    
                                 </div>
                             </div>
                         </a>
@@ -170,7 +175,7 @@
         <ul class="level1-styles collapse show" id="id0">
             @forelse ($menucategories as $category)
                 <li>
-                    <a href="{{ url('products/category/' . $category->slug) }}">{{ $category->category_name }} </a>
+                    <a href="{{ url('products/category/' . $category->slug) }}">{{ $category->name }} </a>
                 </li>
             @empty
             @endforelse

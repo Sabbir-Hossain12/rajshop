@@ -48,11 +48,11 @@
 
                     <div class="module-body">
                         <ul class='list-unstyled' style="font-size: 13px;">
-                            <li class="first"><a title="Your Account" href="{{ url('venture/about_us') }}" style="color: white;">About us</a>
+                            <li class="first"><a title="Your Account" href="{{ url('venture/about-us') }}" style="color: white;">About us</a>
                             </li>
                             <li><a href="{{ url('venture/contact_us') }}" title="Suppliers" style="color: white;">Contact
                                     Us</a></li>
-                            <li><a href="{{ url('venture/terms_codition') }}" title="Terms & Conditions" style="color: white;">Terms &
+                            <li><a href="{{ url('venture/terms-&-conditions') }}" title="Terms & Conditions" style="color: white;">Terms &
                                     Conditions</a></li>
                             <li><a href="{{ url('venture/faq') }}" title="faq" style="color: white;">FAQ</a></li>
                         </ul>
@@ -69,13 +69,15 @@
 
                     <div class="module-body">
                         <ul class='list-unstyled' style="font-size: 13px;">
-                            @if (Auth::id())
-                                <li class="first"><a href="#" title="Dashboard" style="color: white;">Dashboard</a></li>
+                            @if (Auth::guard()->id())
+                                <li class="first"><a href="{{ url('user/dashboard') }}" title="Dashboard" style="color: white;">Dashboard</a></li>
                             @else
-                                <li class="first"><a href="#" title="Login" style="color: white;">Login</a></li>
+                                <li class="first"><a href="{{ url('login') }}" title="Login" style="color: white;">Login</a></li>
                             @endif
-                            <li><a href="{{ url('track-order') }}" title="Order History" style="color: white;">Order History</a></li>
-                            <li class="last"><a href="{{ url('venture/company') }}" title="Company" style="color: white;">Company</a></li>
+                            <li><a href="{{ url('user/purchase_history') }}" title="Order History" style="color: white;">Order History</a></li>
+{{--                            <li class="last"><a href="{{ url('venture/privacy-policy') }}" title="Company" style="color: white;">Privacy Policy</a></li>--}}
+                            <li class="last"><a href="{{ url('venture/return-policy') }}" title="Company" style="color: white;">Return Policy</a></li>
+                            <li class="last"><a href="{{ url('venture/delivery-rules') }}" title="Company" style="color: white;">Delivery Policy</a></li>
                         </ul>
                     </div>
                     <!-- /.module-body -->
@@ -90,18 +92,17 @@
 
                     <div class="module-body">
                         <ul class='list-unstyled' style="font-size: 13px;">
-                            <li class="first"><a href="{{ url('venture/help_center') }}" title="Help Center" style="color: white;">Help
-                                    Center</a>
-                            </li>
-                            <li><a title="Customer
-                                    Service"
-                                    href="{{ url('venture/customer_service') }}" style="color: white;">Customer
-                                    Service</a>
-                            </li>
-                            <li><a href="{{ url('venture/shipping_guide') }}" style="color: white;"
-                                    title="Shopping
-                                    Guide">Shopping
-                                    Guide</a></li>
+                            <li class="last"><a href="{{ url('venture/order-procedure') }}" title="Company" style="color: white;">Order Procedure</a></li>
+                            <li class="last"><a href="{{ url('venture/privacy-policy') }}" title="Company" style="color: white;">Privacy Policy</a></li>
+{{--                            <li><a title="Customer--}}
+{{--                                    Service"--}}
+{{--                                    href="{{ url('venture/customer_service') }}" style="color: white;">Customer--}}
+{{--                                    Service</a>--}}
+{{--                            </li>--}}
+{{--                            <li><a href="{{ url('venture/shipping_guide') }}" style="color: white;"--}}
+{{--                                    title="Shopping--}}
+{{--                                    Guide">Shopping--}}
+{{--                                    Guide</a></li>--}}
 
                         </ul>
                     </div>
@@ -111,7 +112,7 @@
             </div>
             <div class="col-12 d-block d-sm-none">
                 <div class="module-heading">
-                    <p class="module-title text-center">Copyright © 2024 - {{ env('APP_NAME') }}.com</p>
+                    <p class="module-title text-center">Copyright © 2024 - {{ $generalsetting->name }}</p>
                 </div>
             </div>
             </div>
@@ -119,16 +120,17 @@
 
                 <div class="col-xs-12 col-sm-12 col-md-3">
                     <div class="module-heading">
-                        <p class="module-title text-center">Copyright © 2024 - {{env('APP_NAME')}}.com</p>
+                        <p class="module-title text-center">Copyright © 2024 - {{$generalsetting->name}}</p>
                     </div>
                     <!-- /.module-heading -->
                     <ul id="footerul" style="font-size: 13px;">
-                        <li id="footerli"><a id="footera" href="#home">Sell Products</a></li>
-                        <li id="footerli"><a id="footera" href="#home">Earn Money</a></li>
-                        <li id="footerli"><a id="footera" href="{{ url('venture/terms_codition') }}">Terms &
+                        
+                        <li id="footerli"><a id="footera" href="{{ url('venture/terms-&-conditions') }}">Terms &
                                 Conditions</a></li>
-                        <li id="footerli"><a id="footera" href="{{ url('venture/about_us') }}">About Us</a></li>
+                        <li id="footerli"><a id="footera" href="{{ url('venture/about-us') }}">About Us</a></li>
                         <li id="footerli"><a id="footera" href="{{ url('venture/contact_us') }}">Contact Us</a>
+                        <li id="footerli"><a id="footera" href="{{ url('user/purchase_history') }}">Order History</a>
+                        <li id="footerli"><a id="footera" href="{{ url('venture/return-policy') }}">Return Policy</a>
                         </li>
                     </ul>
                     <!-- /.module-body -->
@@ -142,7 +144,7 @@
                 <div class="col-12 col-md-6 no-padding social d-sm-none" style="text-align: center;">
                     <ul class="link">
                         <li class="fb pull-left">
-                            <a target="_blank" rel="nofollow" href=""
+                            <a target="_blank" rel="nofollow" href="{{\App\Models\SocialMedia::where('title', 'Facebook')->first()->link}}"
                                 title="Facebook"></a>
                         </li>
                         <li class="tw pull-left">

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use Cart;
 use Illuminate\Http\Request;
 //use Cart;
 use App\Models\Order;
@@ -14,11 +14,12 @@ class CartController extends Controller
 {
     public function addtocart(Request $request)
     {
-//        dd(Cart::content());
+//        dd($request->all());
+
         $pid = $request->product_id;
         $cartProduct = Product::with('image')->where('id', $pid)->first();
 
-        dd($cartProduct);
+
         Cart::add([
             'id' => $request->product_id,
             'name' => $cartProduct->name,
@@ -26,11 +27,12 @@ class CartController extends Controller
             'price' => $request->price,
             'qty' => $request->qty,
             'weight' => 1,
-            'image' => $cartProduct->image->image,
             'options' => 
              [
                 'size' => $request->size,
-                'color' => $request->color,
+                'color' => $request->color, 
+                 'image' => $cartProduct->image->image,
+                 'code' => $cartProduct->product_code,
             ],
 
         ]);
@@ -90,12 +92,16 @@ class CartController extends Controller
 
     public function cart()
     {
+        
+//        dd(Cart::content());
         return view('webview.content.cart.cart');
     }
 
     public function loadcart()
     {
         $cartProducts = Cart::content();
+        
+//        dd($cartProducts);
         return view('webview.content.cart.summery')->with('cartProducts', $cartProducts);
     }
 

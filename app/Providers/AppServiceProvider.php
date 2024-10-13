@@ -114,6 +114,7 @@ class AppServiceProvider extends ServiceProvider
                     $query->setRelation('products', $query->products->take(6));
                     return $query;
                 });
+            $allcategories = Category::where('status',1)->get();
             $sliders =Banner::where('status',1)->where('category_id',1)->select('image','link')->get();
             $topproducts = Product::where(['status' => 1, 'topsale' => 1])
                 ->orderBy('id', 'DESC')
@@ -122,7 +123,7 @@ class AppServiceProvider extends ServiceProvider
                 ->limit(6)
                 ->get();
             
-//            dd($topproducts);
+
 
             $homeproducts = Category::where(['front_view' => 1, 'status' => 1])
                 ->orderBy('id', 'ASC')
@@ -132,8 +133,8 @@ class AppServiceProvider extends ServiceProvider
                     $query->setRelation('products', $query->products->take(6));
                     return $query;
                 });
-//            dd($sliders);
-            
+
+//            dd($homeproducts);
 //            $featuredproducts =Product::where('status','Active')->where('frature','0')->select('id','ProductName','ViewProductImage','ProductSlug','ProductSku','ProductImage')->get()->reverse();
 //            $adds =Addbanner::where('status','Active')->select('id','add_link','add_image','status')->get()->take(2);
 //            $addbottoms =Addbanner::where('status','Active')->select('id','add_link','add_image','status')->get()->reverse()->take(2);
@@ -141,6 +142,7 @@ class AppServiceProvider extends ServiceProvider
 //            $categoryproducts =Category::with(['products'=>function ($query) { $query->select('id','category_id','ViewProductImage','ProductName','ProductSlug','ProductSku','ProductImage')->where('status','Active');},])->where('status','Active')->where('front_status',0)->select('id','category_name','slug')->get();
 
             $view->with([
+                'allcategories'=>$allcategories,
 //                'addbottoms'=>$addbottoms,
                   'categories'=>$categories,
                   'sliders'=>$sliders,

@@ -12,6 +12,6 @@ class Customer
         if (Auth::guard('customer')->user()){
             return $next($request);
         }
-        return redirect()->route('customer.login');
+        return redirect()->route('loginview');
     }
 }

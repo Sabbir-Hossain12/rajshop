@@ -59,7 +59,8 @@ class FrontendController extends Controller
         $data = SocialMedia::where(['status'=>1])->get();
         return response()->json(['status' => 'success','message'=>'Data fatch successfully','data'=>$data]);
    }
-   public function contactinfo(){
+   public function contactinfo()
+   {
         $data = Contact::where(['status'=>1])->first();
         return response()->json(['status' => 'success','message'=>'Data fatch successfully','data'=>$data]);
    }

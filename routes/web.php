@@ -152,6 +152,8 @@ Route::get('products/sub/category/{slug}', [WebviewController::class, 'subcatego
 Route::get('/search', [WebviewController::class, 'search'])->name('search');
 Route::get('/combo-offer', [WebviewController::class, 'combo'])->name('combo');
 
+//promotional product list
+Route::get('promotional/products', [WebviewController::class, 'getPromotional']);
 Route::get('get/slug/products', [WebviewController::class, 'getslugproduct']);
 Route::get('view/categories', [WebviewController::class, 'allcategories']);
 Route::post('review/store', [WebviewController::class, 'review'])->name('review.store');
@@ -183,7 +185,7 @@ Route::get('track-order', [WebviewController::class, 'orderTraking']);
 Route::get('order-details/{slug}', [WebviewController::class, 'vieworder']);
 Route::post('track-now', [WebviewController::class, 'orderTrakingNow']);
 
-Route::group(['middleware' => ['auth:customer']], function () {
+Route::group(['middleware' => ['customer']], function () {
     Route::get('user/profile', [WebviewController::class, 'profile']);
     Route::post('update/profile', [WebviewController::class, 'updateprofile']);
     Route::get('user/purchase_history', [WebviewController::class, 'orderhistory']);
@@ -202,7 +204,7 @@ Route::get('callback/google', [GoogleController::class, 'callbackToGoogle']);
 
 Route::get('user/dashboard', function () {
     return view('webview.dashboard');
-})->middleware(['auth:customer'])->name('dashboard');
+})->middleware(['customer'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 include __DIR__.'/admin.php';

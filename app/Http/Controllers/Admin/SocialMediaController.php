@@ -27,6 +27,7 @@ class SocialMediaController extends Controller
     }
     public function store(Request $request)
     {
+//        dd($request->all());
         $this->validate($request, [
             'title' => 'required',
             'icon' => 'required',

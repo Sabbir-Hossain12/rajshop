@@ -90,7 +90,7 @@
                                             hidden>
                                     @else
                                     @endif
-                                    <input type="hidden" name="paymentType" value="2" id="paymentType">
+                                    <input type="hidden" name="payment_method" value="Cash On Delivery" id="paymentType">
                                     <div class="form-group col-12">
                                         <label>আপনার ঠিকানা </label>
                                         <input type="text" id="customerAddress" name="customerAddress"
@@ -250,7 +250,7 @@
                                             <td class="product-image" id="proImgDiv">
                                                 <a href="#" class="mr-3">
                                                     <img class=" ls-is-cached lazyloaded"
-                                                        src="{{ asset($cartProduct->image) }}" id="proImg">
+                                                        src="{{ asset($cartProduct->options->image) }}" id="proImg">
                                                 </a>
                                             </td>
 
@@ -268,7 +268,7 @@
                                                             {{ $cartProduct->price }} <small
                                                                 style="color: #45c300;font-size: 16px;font-weight: bold;">&nbsp;&nbsp;
                                                                 @if (isset($cartProduct->options['size']))
-                                                                    ওজন: {{ $cartProduct->options['size'] }}
+                                                                    ভ্যারিয়েন্ট: {{ $cartProduct->options['size'] }}
                                                                 @endif
                                                             </small></span>
                                                     </div>
@@ -346,7 +346,7 @@
                             <dl class="row">
                                 <dt class="col-8">Subtotal: </dt>
                                 <dd class="col-4 text-right"><strong>৳ <span
-                                            id="subtotalprice">{{ Cart::subtotal() }}</span> </strong></dd>
+                                            id="subtotalprice">{{ intval(str_replace(',', '',Cart::subtotal())) }}</span> </strong></dd>
 
                                 <dt class="col-8">Delivery charge: </dt>
 
@@ -380,9 +380,9 @@
 {{--                                        </strong></dd>--}}
 {{--                                @endif--}}
                                  
-                                <dt class="col-8" id="cointext">Coin Use: </dt>
-                                <dd class="col-4 text-right" id="cointext2"><strong>৳ <span
-                                            id="coinuse">0</span> </strong></dd>
+{{--                                <dt class="col-8" id="cointext">Coin Use: </dt>--}}
+{{--                                <dd class="col-4 text-right" id="cointext2"><strong>৳ <span--}}
+{{--                                            id="coinuse">0</span> </strong></dd>--}}
                            
                                             
                                 <dt class="col-8">Total:</dt>
@@ -507,7 +507,7 @@
             $('#orderConfirmCoin').css('display','none');
             $('#orderConfirm').css('display','none');
             $('#'+idname).css('display','inline');
-            $('#paymentType').val(3);
+            $('#paymentType').val('sslcommerz');
             $('#cointext').css('display','none');
             $('#cointext2').css('display','none');
             $('#coinuse').html('0');
@@ -516,7 +516,7 @@
             $('#sslczPayBtn').css('display','none');
             $('#orderConfirm').css('display','none');
             $('#'+idname).css('display','inline');
-            $('#paymentType').val(1);
+            $('#paymentType').val('coin');
             var coin = $('#totalcoin').html(); 
             $('#cointext').css('display','inline');
             $('#cointext2').css('display','inline');
@@ -526,7 +526,7 @@
             $('#sslczPayBtn').css('display','none');
             $('#orderConfirmCoin').css('display','none');
             $('#'+idname).css('display','inline');
-            $('#paymentType').val(2);
+            $('#paymentType').val('Cash On Delivery');
             $('#cointext').css('display','none');
             $('#cointext2').css('display','none');
             $('#coinuse').html('0');
@@ -575,80 +575,80 @@
 </script>
 
 <script>
-    function applycoupon() {
-        var code = $('#couponcode').val();
-        if (code == '') {
-            window.alert('Please Input a valid Coupon.');
-        } else {
-            $.ajax({
-                type: 'GET',
-                url: 'check-coupon',
-                data: {
-                    coupon_code: code,
-                },
-
-                success: function(data) {
-                    if (data.status == 'invalid') {
-                        $('#coupontext').css('display','none');
-                        $('#coupontext1').css('display','none');
-                        $('#coupondiscount').text(data.discount);
-                        $('#coupon_code').val('');
-                        calculation();
-                        toastr.error('Please Input a valid Coupon.');
-                    }else if(data.status=='false'){
-                        $('#coupontext').css('display','none');
-                        $('#coupontext1').css('display','none');
-                        $('#coupondiscount').text(data.discount);
-                        $('#coupon_code').val('');
-                        calculation();
-                        toastr.error('You have already use this coupon.');
-                    } else {
-                        $('#coupontext').css('display','inline');
-                        $('#coupontext1').css('display','inline');
-                        $('#coupondiscount').text(data.discount);
-                        $('#coupon_code').val(code);
-                        calculation();
-                        toastr.success('coupon applied successfully !');
-                    }
-                },
-                error: function(error) {
-                    console.log('error');
-                }
-            });
-        }
-    }
-
-    function havecoupon() {
-        var v = $('#havecoupon').val();
-        if (v == 'Yes') {
-            $('#couponoption').css('display', 'inline-block');
-            $('#havecoupon').val('No');
-            $('#couponcode').val('');
-        } else {
-            $.ajax({
-                type: 'GET',
-                url: 'reset-coupon',
-
-                success: function(data) {
-                    if (data == 'valid') {
-                        $('#couponoption').css('display', 'none');
-                        $('#havecoupon').val('Yes');
-                        $('#couponcode').val('');
-                        location.reload();
-                    } else {
-                        $('#couponoption').css('display', 'none');
-                        $('#havecoupon').val('Yes');
-                        $('#couponcode').val('');
-                        window.alert('Please Input a valid Coupon.');
-                    }
-                },
-                error: function(error) {
-                    console.log('error');
-                }
-            });
-
-        }
-    }
+    // function applycoupon() {
+    //     var code = $('#couponcode').val();
+    //     if (code == '') {
+    //         window.alert('Please Input a valid Coupon.');
+    //     } else {
+    //         $.ajax({
+    //             type: 'GET',
+    //             url: 'check-coupon',
+    //             data: {
+    //                 coupon_code: code,
+    //             },
+    //
+    //             success: function(data) {
+    //                 if (data.status == 'invalid') {
+    //                     $('#coupontext').css('display','none');
+    //                     $('#coupontext1').css('display','none');
+    //                     $('#coupondiscount').text(data.discount);
+    //                     $('#coupon_code').val('');
+    //                     calculation();
+    //                     toastr.error('Please Input a valid Coupon.');
+    //                 }else if(data.status=='false'){
+    //                     $('#coupontext').css('display','none');
+    //                     $('#coupontext1').css('display','none');
+    //                     $('#coupondiscount').text(data.discount);
+    //                     $('#coupon_code').val('');
+    //                     calculation();
+    //                     toastr.error('You have already use this coupon.');
+    //                 } else {
+    //                     $('#coupontext').css('display','inline');
+    //                     $('#coupontext1').css('display','inline');
+    //                     $('#coupondiscount').text(data.discount);
+    //                     $('#coupon_code').val(code);
+    //                     calculation();
+    //                     toastr.success('coupon applied successfully !');
+    //                 }
+    //             },
+    //             error: function(error) {
+    //                 console.log('error');
+    //             }
+    //         });
+    //     }
+    // }
+    //
+    // function havecoupon() {
+    //     var v = $('#havecoupon').val();
+    //     if (v == 'Yes') {
+    //         $('#couponoption').css('display', 'inline-block');
+    //         $('#havecoupon').val('No');
+    //         $('#couponcode').val('');
+    //     } else {
+    //         $.ajax({
+    //             type: 'GET',
+    //             url: 'reset-coupon',
+    //
+    //             success: function(data) {
+    //                 if (data == 'valid') {
+    //                     $('#couponoption').css('display', 'none');
+    //                     $('#havecoupon').val('Yes');
+    //                     $('#couponcode').val('');
+    //                     location.reload();
+    //                 } else {
+    //                     $('#couponoption').css('display', 'none');
+    //                     $('#havecoupon').val('Yes');
+    //                     $('#couponcode').val('');
+    //                     window.alert('Please Input a valid Coupon.');
+    //                 }
+    //             },
+    //             error: function(error) {
+    //                 console.log('error');
+    //             }
+    //         });
+    //
+    //     }
+    // }
 
     function updatenum(id) {
         var num = $('#QuantityPeo' + id).val();
@@ -714,8 +714,9 @@
         var deliverycharge = $('#deliveryCharge').val();
         $('#dinamicdalivery').html(deliverycharge);
         var subprice = $('#subtotalprice').html();
-        var coupon = $('#coupondiscount').html();
-        var totalprice = subprice - (-deliverycharge) - coupon;
+        // var coupon = $('#coupondiscount').html();
+        var totalprice = subprice - (-deliverycharge) ;
+        // - coupon;
         $('#totalamount').html(totalprice)
     }
 
@@ -753,8 +754,9 @@
         $('#minsubtotalprice').html(updatesubprice);
         //total price part
         var deliverycharge = $('#deliveryCharge').val();
-        var coupon = $('#coupondiscount').html();
-        var totalprice = updatesubprice - (-deliverycharge) - coupon;
+       // var coupon = $('#coupondiscount').html();
+        var totalprice = updatesubprice - (-deliverycharge) 
+            // - coupon;
         $('#totalamount').html(totalprice);
 
         $('#pricetotal' + rowId).html(producttotal);
@@ -823,18 +825,20 @@
         var subPrice = $('#subtotalprice').html();
         //total price part
         var deliverycharge = $('#deliveryCharge').val();
-        var coupon = $('#coupondiscount').html();
-        var totalprice = subPrice - (-deliverycharge) - coupon;
+        // var coupon = $('#coupondiscount').html();
+        let totalprice = subPrice - (-deliverycharge) 
+            // - coupon;
         $('#totalamount').html(totalprice)
 
     };
 
     function calculation(){
         var subPrice = $('#subtotalprice').html();
-        var coinuse = $('#coinuse').html();
+        // var coinuse = $('#coinuse').html();
         var deliverycharge = $('#deliveryCharge').val();
-        var coupon = $('#coupondiscount').html();
-        var totalprice = subPrice - (-deliverycharge) - coupon-coinuse;
+        // var coupon = $('#coupondiscount').html();
+        var totalprice = subPrice - (-deliverycharge) ;
+            // - coupon-coinuse;
         $('#totalamount').html(totalprice)
     }
 </script>

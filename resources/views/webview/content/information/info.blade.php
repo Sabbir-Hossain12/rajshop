@@ -30,51 +30,51 @@
             <div class="body-content outer-top-xs p-2" style="background: white !important;">
                 @if (request()->segment(count(request()->segments())) == 'contact_us')
                     @php
-                        $basicinfo = App\Models\Basicinfo::first();
+                        $basicinfo = App\Models\Contact::first();
                     @endphp
 
                     <div class="body-content">
                         <div class="container">
                             <div class="contact-page">
                                 <div class="row">
-                                    <div class="col-12 contact-map outer-bottom-vs"><iframe height="450"
-                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.0080692193424!2d80.29172299999996!3d13.098675000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526f446a1c3187%3A0x298011b0b0d14d47!2sTransvelo!5e0!3m2!1sen!2sin!4v1412844527190"
-                                            style="border:0" width="100%"></iframe></div>
+{{--                                    <div class="col-12 contact-map outer-bottom-vs"><iframe height="450"--}}
+{{--                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.0080692193424!2d80.29172299999996!3d13.098675000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a526f446a1c3187%3A0x298011b0b0d14d47!2sTransvelo!5e0!3m2!1sen!2sin!4v1412844527190"--}}
+{{--                                            style="border:0" width="100%"></iframe></div>--}}
 
                                     <div class="col-md-9 contact-form">
                                         <div class="col-md-12 contact-title">
                                             <h4>Contact Form</h4>
                                         </div>
 
-                                        <div class="container">
+                                        <div class="container p-2">
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 p-2">
 
                                                     <div class="form-group">Your Name * <input type="email" /></div>
 
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 p-2">
 
                                                     <div class="form-group">Email Address * <input type="email" />
                                                     </div>
 
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 p-2">
 
                                                     <div class="form-group">Title * <input type="email" /></div>
 
                                                 </div>
 
-                                                <div class="col-md-12">
+                                                <div class="col-md-12 p-2">
 
                                                     <div class="form-group">Your Comments *
                                                         <textarea></textarea>
                                                     </div>
 
                                                 </div>
-                                                <div class="col-12">
+                                                <div class="col-12 p-2">
                                                     <div
                                                         class="col-md-12 m-t-20 outer-bottom-small btn btn-danger btn-block">
                                                         Send Message</div>
@@ -93,8 +93,8 @@
                                         </div>
                                         <br>
 
-                                        <div class="clearfix phone-no">+(88) {{ $basicinfo->phone_one }}<br> +(88)
-                                            {{ $basicinfo->phone_two }}</div>
+                                        <div class="clearfix phone-no">+(88) {{ $basicinfo->phone }}<br> +(88)
+                                            {{ $basicinfo->hotline }}</div>
 
                                         <div class="clearfix email"><a
                                                 href="mailto:{{ $basicinfo->email }}">{{ $basicinfo->email }}</a>
@@ -107,7 +107,9 @@
                         </div>
                     </div>
                 @else
-                    {!! $value->value !!}
+                    <div class="container p-4">
+                    {!! $value->description !!}
+                    </div>
                 @endif
             </div>
         </div>

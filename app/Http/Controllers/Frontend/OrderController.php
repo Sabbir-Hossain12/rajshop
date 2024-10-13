@@ -3,7 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\GeneralSetting;
 use App\Models\Order;
+use App\Models\OrderDetails;
+use App\Models\Payment;
+use App\Models\Shipping;
+use App\Models\ShippingCharge;
+use App\Models\SmsGateway;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Orderproduct;
@@ -19,161 +26,154 @@ use Session;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use shurjopayv2\ShurjopayLaravelPackage8\Http\Controllers\ShurjopayController;
 
 class OrderController extends Controller
 {
 
-    public function pressorder(Request $request){
+    public function pressorder(Request $request)
+    {
         $products = Cart::content();
 
-        if(!Session::has('cart')){
+
+//    dd($request->all());
+    
+        if (!Session::has('cart')) {
             return redirect('/empty-cart');
-        }elseif(Cart::count() == 0){
+        } elseif (Cart::count() == 0) {
             return redirect('/empty-cart');
-        }else{
-            $admin = Admin::whereHas('roles', function($q) { $q->where('name', 'user'); })->where('status','Active')->inRandomOrder()->first();
+        } else {
+            
+            $customer_name= $request->customerName;
+            $customer_phone= $request->customerPhone;
+            $customer_address= $request->customerAddress;
+            $subTotal=    intval(str_replace(',','',$request->subTotal));
+            $deliveryCharge= $request->deliveryCharge;
+            $customerNote= $request->customerNote;
+            $payment_method= $request->payment_method;
+            
+//            $subtotal = Cart::instance('shopping')->subtotal();
+//            $subtotal = str_replace(',', '', $subtotal);
+//            $subtotal = str_replace('.00', '', $subtotal);
+//            $discount = Session::get('discount');
 
-            $order= new Order();
-            if(isset($request->user_id)){
-                $order->user_id = $request->user_id;
-            }else{
-                $exuser=User::where('email',$request->customerPhone)->first();
-                if(isset($exuser)){
-                    Auth::login($exuser);
-                    $order->user_id = $exuser->id;
-                }else{
-                    $user = new User();
-                    $user->name=$request->customerName;
-                    $user->email=$request->customerPhone;
-                    $otp = random_int(100000, 999999);
-                    $user->otp = $otp;
-                    $otppass=$otp;
-                    $user->active_status = 0;
-                    $user-> password=Hash::make($request->customerPhone);
-                    $user->save();
-
-                    Auth::login($user);
-                    $order->user_id = $user->id;
-                }
-            }
-
-            $order->store_id = 1;
-            $order->invoiceID = $this->uniqueID();
-            $order->deliveryCharge = $request->deliveryCharge;
-            $total=$request->subTotal+$request->deliveryCharge;
-
-            $order->orderDate = date('Y-m-d');
-            if(isset($request->coupon_code)){
-                $use=Usecoupon::where('user_id',Auth::id())->where('code',$request->coupon_code)->first();
-                if(isset($use)){
-
-                }else{
-                    $couponuse=new Usecoupon();
-                    $couponuse->user_id = Auth::id();
-                    $couponuse->coupon_id = Coupon::where('code',$request->coupon_code)->first()->id;
-                    $couponuse->code = $request->coupon_code;
-                    $couponuse->date = date('Y-m-d');
-                    $couponuse->save();
-
-                    $order->coupon_code = $request->coupon_code;
-                    $coupon=Session::get('availablecoupon');
-                    if($coupon->type=='Amount'){
-                        $discount=$coupon->amount;
-                    }else{
-                        $discount=$request->subTotal*($coupon->amount/100);
-                    }
-                    $order->discountCharge = $discount;
-                    $order->subTotal = $request->subTotal-$discount;
-                }
-
-            }else{
-                $order->subTotal = $request->subTotal;
-            }
-
-            if($request->paymentType==1){
-                $order->payment_type_id = $request->paymentType;
-                $paymentuser=User::where('id',Auth::id())->first();
-                if($paymentuser->available_coin>$total){
-                    $paymentuser->available_coin=$paymentuser->available_coin-$total;
-                    $paymentuser->used_coin=$paymentuser->used_coin+$total;
-                    $order->paymentAmount =$total;
-                    $paymentuser->update();
-                    $order->subTotal=0;
-                }else{
-                    $paymentuser->used_coin=$paymentuser->used_coin+$paymentuser->available_coin;
-                    $order->paymentAmount =$paymentuser->available_coin;
-                    $order->subTotal= $request->subTotal-$paymentuser->available_coin;
-                    $paymentuser->available_coin=0;
-                    $paymentuser->update();
-                }
-
-
-            }elseif($request->paymentType==3){
-            }else{
-                $order->payment_type_id = $request->paymentType;
-            }
-
-            $order->customerNote = $request->customerNote;
-            if(isset($admin)){
-                $order->admin_id = $admin->id;
-            }else{
-                $admin = Admin::findOrfail(1);
-                $order->admin_id = $admin->id;
-            }
-            $result = $order->save();
-            if ($result) {
-                $customer = new Customer();
-                $customer->order_id = $order->id;
-                $customer->customerName = $request->customerName;
-                $customer->customerPhone = $request->customerPhone;
-                $customer->customerAddress = $request->customerAddress;
-                $customer->save();
-                foreach ($products as $product) {
-                    $orderProducts = new Orderproduct();
-                    $orderProducts->order_id = $order->id;
-                    $orderProducts->product_id = $product->id;
-                    $orderProducts->productCode = $product->code;
-                    if($product->options['color']=='undefined'){
-
-                    }else{
-                        $orderProducts->color = $product->options['color'];
-                    }
-
-                    if($product->options['size']=='undefined'){
-
-                    }else{
-                        $orderProducts->size = $product->options['size'];
-                    }
-
-                    $orderProducts->productName = $product->name;
-                    $orderProducts->quantity = $product->qty;
-                    $orderProducts->productPrice = $product->price;
-                    $orderProducts->save();
-                }
-
-                $notification = new Comment();
-                $notification->order_id = $order->id;
-                $notification->comment =  $order->invoiceID . ' Order Has Been Created for ' . $admin->name;
-                $notification->admin_id = $order->admin_id;
-                $notification->save();
-                Cart::destroy();
-                Session::forget('couponcode');
-                Session::forget('availablecoupon');
-                Session::put('ordersubtotal', $request->subTotal);
-                Session::put('orderdeliverycharge', $request->deliveryCharge);
-                Session::put('order_id', $order->id);
-                toastr()->info('Order Press Successfully', 'Complete', ["positionClass" => "toast-top-center"]);
-                return redirect('order-received');
+//            $shippingfee = Session::get('shipping');
+            $shipping_area = ShippingCharge::where('amount', $request->deliveryCharge)->first();
+            if (Auth::guard('customer')->user()) {
+                $customer_id = Auth::guard('customer')->user()->id;
             } else {
-                Customer::where('order_id', '=', $order->id)->delete();
-                Orderproduct::where('order_id', '=', $order->id)->delete();
-                Comment::where('order_id', '=', $order->id)->delete();
-                Order::where('id', '=', $order->id)->delete();
-                $response['status'] = 'failed';
-                $response['message'] = 'Unsuccessful to press order';
+                $exits_customer = Customer::where('phone', $request->phone)->select('phone', 'id')->first();
+                if ($exits_customer) {
+                    $customer_id = $exits_customer->id;
+                } else {
+                    $password = rand(111111, 999999);
+                    $store = new Customer();
+                    $store->name = $customer_name;
+                    $store->slug = $customer_name;
+                    $store->phone = $customer_phone;
+                    $store->password = bcrypt($password);
+                    $store->verify = 1;
+                    $store->status = 'active';
+                    $store->save();
+                    $customer_id = $store->id;
+                }
+            }
+
+            // order data save
+            $order = new Order();
+            $order->invoice_id = time();
+            $order->amount = ($subTotal + $deliveryCharge);
+            $order->discount = 0;
+            $order->shipping_charge = $deliveryCharge;
+            $order->customer_id = $customer_id;
+            $order->order_status = 1;
+            $order->note = $customerNote;
+            $order->save();
+
+            // shipping data save
+            $shipping = new Shipping();
+            $shipping->order_id = $order->id;
+            $shipping->customer_id = $customer_id;
+            $shipping->name = $customer_name;
+            $shipping->phone = $customer_phone;;
+            $shipping->address =$customer_address;
+            $shipping->area = $shipping_area->name;
+            $shipping->save();
+
+            // payment data save
+            $payment = new Payment();
+            $payment->order_id = $order->id;
+            $payment->customer_id = $customer_id;
+            $payment->payment_method = $request->payment_method;
+            $payment->amount = $order->amount;
+            $payment->payment_status = 'pending';
+            $payment->save();
+
+            // order details data save
+            foreach ($products as $cart) {
+                $order_details = new OrderDetails();
+                $order_details->order_id = $order->id;
+                $order_details->product_id = $cart->id;
+                $order_details->product_name = $cart->name;
+                $order_details->purchase_price = 0;
+                $order_details->product_color = $cart->options->color;
+                $order_details->product_size = $cart->options->size;
+                $order_details->sale_price = $cart->price;
+                $order_details->qty = $cart->qty;
+                $order_details->save();
+            }
+
+            Cart::destroy();
+
+            Toastr::success('Thanks, Your order place successfully', 'Success!');
+            $site_setting = GeneralSetting::where('status', 1)->first();
+            $sms_gateway = SmsGateway::where(['status' => 1, 'order' => '1'])->first();
+            if ($sms_gateway) {
+                $url = "$sms_gateway->url";
+                $data = [
+                    "api_key" => "$sms_gateway->api_key",
+                    "contacts" => $request->phone,
+                    "type" => 'text',
+                    "senderid" => "$sms_gateway->serderid",
+                    "msg" => "Dear $request->name!\r\nYour order has been successfully placed. check your customer panel 
+                    on our website to know more about your order. Thank you for using $site_setting->name"
+                ];
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                $response = curl_exec($ch);
+                curl_close($ch);
+            }
+
+            if ($request->payment_method == 'bkash') {
+                return redirect('/bkash/checkout-url/create?order_id='.$order->id);
+            } elseif ($request->payment_method == 'shurjopay') {
+                $info = array(
+                    'currency' => "BDT",
+                    'amount' => $order->amount,
+                    'order_id' => uniqid(),
+                    'discsount_amount' => 0,
+                    'disc_percent' => 0,
+                    'client_ip' => $request->ip(),
+                    'customer_name' => $request->name,
+                    'customer_phone' => $request->phone,
+                    'email' => "customer@gmail.com",
+                    'customer_address' => $request->address,
+                    'customer_city' => $request->area,
+                    'customer_state' => $request->area,
+                    'customer_postcode' => "1212",
+                    'customer_country' => "BD",
+                    'value1' => $order->id
+                );
+                $shurjopay_service = new ShurjopayController();
+                return $shurjopay_service->checkout($info);
+            } else {
+                return redirect('order-received');
             }
         }
-
     }
 
     public function uniqueID()

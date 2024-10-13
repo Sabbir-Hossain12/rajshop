@@ -1,13 +1,11 @@
 @extends('webview.master')
 
 @section('maincontent')
-@section('title')
-    {{ env('APP_NAME') }}-{{ $productdetails->ProductName }}
-@endsection
+
 
 @section('meta')
     <meta name="description" content="Online shopping in Bangladesh for beauty products, men, women, kids, fashion items, clothes, electronics, home appliances, gadgets, watch, many more.">
-    <meta name="keywords" content="Khati Plus, online store bd, online shop bd, Organic fruits, Thai, UK, Korea, China, cosmetics, Jewellery, bags, dress, mobile, accessories, automation Products,">
+    <meta name="keywords" content="rajshop.xyz, online store bd, online shop bd, Organic fruits, Thai, UK, Korea, China, cosmetics, Jewellery, bags, dress, mobile, accessories, automation Products,">
     <meta itemprop="name" content="{{ $productdetails->name }}">
     <meta itemprop="description" content="Best online shopping in Bangladesh for beauty products, men, women, kids, fashion items, clothes, electronics, home appliances, gadgets, watch, many more.">
     <meta itemprop="image" content="https://rajshop.xyz/{{ $productdetails->image->image }}">
@@ -170,8 +168,8 @@
 
                         <div class="col-xs-12 col-sm-12 col-md-6 gallery-holder">
                             <div class="product-item-holder size-big single-product-gallery small-gallery">
-
-                                @if (isset($varients))
+                            
+                                @if ($productdetails->type==1)
                                     <div id="sync1" class="owl-carousel owl-theme">
                                         @forelse ($varients as $productImage)
                                             <div class="items">
@@ -314,8 +312,8 @@
 
                                 <div class="row mb-2 mt-2">
                                 {{-- Color Varients--}}
-                                    @if (empty($varients))
-                                    @else
+                                    @if ($productdetails->type==1)
+                                    
 {{--                                      <h2>  asdasdasdasdasdasdasd </h2>--}}
                                         <div class="col-12 col-md-12 colorpart mb-2">
                                             <div class="d-flex">
@@ -342,11 +340,12 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    @else
                                     @endif
 
                                     {{-- Size/Weight Varients--}}
-                                    @if (count($sizes) < 1)
-                                    @else
+                                    @if ($productdetails->type==1)
+                                   
                                         <div class="col-12 col-md-12 colorpart">
                                             <div class="d-flex">
                                                 <h4 id="resellerprice" class="m-0"><b style="font-size:20px">ভ্যারিয়েন্ট:
@@ -371,6 +370,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    @else
                                     @endif
 {{--                                    @if (count($weights) < 1)--}}
 {{--                                    @else--}}
@@ -426,18 +426,20 @@
                                           style="width: 50%;float: right;text-align: center;">
                                         @method('POST')
                                         @csrf
-                                        <input type="hidden" name="color" id="product_colororder"
-                                               value="{{ App\Models\Productcolor::where('product_id', $productdetails->id)->first()->color }}">
-                                        @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())
-                                            <input type="hidden" name="size" id="product_sizeorder"
+                                       
+                                        @if ($productdetails->type==1)
+                                            <input type="hidden" name="color" id="product_colororder" class="formColor"
+                                                   value="{{ App\Models\Productcolor::where('product_id', $productdetails->id)->first()->color }}">
+{{--                                        @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())--}}
+                                            <input type="hidden" name="size" id="product_sizeorder" class="formSize"
                                                    value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->size }}">
-                                            <input type="hidden" name="price" id="product_priceorder"
+                                            <input type="hidden" name="price" id="product_priceorder" class="formPrice"
                                                    value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
                                         @else
-                                            <input type="hidden" name="size" id="product_sizeorder"
-                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">
+{{--                                            <input type="hidden" name="size" id="product_sizeorder"--}}
+{{--                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">--}}
                                             <input type="hidden" name="price" id="product_priceorder"
-                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
+                                                   value="{{ $productdetails->new_price }}">
                                         @endif
 
                                         <input type="hidden" name="product_id" value=" {{ $productdetails->id }}"
@@ -507,18 +509,19 @@
                                                   style="width: 100%;float: right;text-align: center;">
                                                 @method('POST')
                                                 @csrf
-                                                <input type="hidden" name="color" id="product_colororder"
-                                                       value="{{ App\Models\Productcolor::where('product_id', $productdetails->id)->first()->color }}">
-                                                @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())
-                                                    <input type="hidden" name="size" id="product_sizeorder"
+                                                @if ($productdetails->type==1)
+                                                    <input type="hidden" name="color" id="product_colororder" class="formColor"
+                                                           value="{{ App\Models\Productcolor::where('product_id', $productdetails->id)->first()->color }}">
+                                                    {{--                                        @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())--}}
+                                                    <input type="hidden" name="size" id="product_sizeorder" class="formSize"
                                                            value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->size }}">
-                                                    <input type="hidden" name="price" id="product_priceorder"
+                                                    <input type="hidden" name="price" id="product_priceorder" class="formPrice"
                                                            value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
                                                 @else
-                                                    <input type="hidden" name="size" id="product_sizeorder"
-                                                           value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">
+                                                    {{--                                            <input type="hidden" name="size" id="product_sizeorder"--}}
+                                                    {{--                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">--}}
                                                     <input type="hidden" name="price" id="product_priceorder"
-                                                           value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
+                                                           value="{{ $productdetails->new_price }}">
                                                 @endif
 
                                                 <input type="hidden" name="product_id" value=" {{ $productdetails->id }}"
@@ -817,45 +820,47 @@
                         products</h3>
                     <div class="owl-carousel related-owl-carousel featured-carousel owl-theme outer-top-xs"
                         id="relatedCarousel">
-                        @forelse ($relatedproducts as $relatedproduct)
+                        @forelse ($relatedproducts as $promotional)
                             <div class="item item-carousel">
-                                <div class="products">
-
-                                    <div class="product" id="featuredproduct">
+                                <div class="product">
+                                    <div class="product-micro">
                                         <div class="row product-micro-row">
                                             <div class="col-12">
-                                                <div class="product-image">
+                                                <div class="product-image" style="position: relative;">
                                                     <div class="image text-center">
-                                                        <a
-                                                            href="{{ url('product/' . $relatedproduct->slug) }}">
-                                                            <img src="{{ asset($relatedproduct->image->image) }}"
-                                                                alt="{{ $relatedproduct->name }}"
-                                                                id="featureimage">
+                                                        <a href="{{ url('product/' . $promotional->slug) }}">
+                                                            <img src="{{ asset($promotional->image->image) }}"
+                                                                 alt="{{ $promotional->name }}" id="featureimagess">
                                                         </a>
                                                     </div>
-                                                    <!-- /.image -->
+                                                    {{--                                                @if (App\Models\Productsize::where('product_id',$promotional->id)->first())--}}
+                                                    @if($promotional->type==1)
+
+                                                        <span id="discountpart"> <p id="pdis">SAVE ৳{{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->Discount) }}</p></span>
+                                                    @else
+                                                        <span id="discountpart"> <p id="pdis">SAVE ৳{{ ($promotional->old_price - $promotional->new_price) }}</p></span>
+                                                    @endif
+
                                                 </div>
                                                 <!-- /.product-image -->
                                             </div>
                                             <!-- /.col -->
                                             <div class="col-12">
-                                                <div class="infofe p-md-3 p-2"
-                                                    style="padding-bottom: 4px !important;">
+                                                <div class="infofe p-md-2 p-2" style="padding-bottom: 4px !important;">
                                                     <div class="product-info">
                                                         <h2 class="name text-truncate" id="f_name"><a
-                                                                href="{{ url('product/' . $relatedproduct->slug) }}"
-                                                                id="f_pro_name">{{ $relatedproduct->name }}</a>
-                                                        </h2>
+                                                                    href="{{ url('product/' . $promotional->slug) }}"
+                                                                    id="f_pro_name">{{ $promotional->name }}</a></h2>
                                                     </div>
 
                                                     @php
-                                                        $review = App\Models\Review::where('product_id', $relatedproduct->id)->avg(
+                                                        $review = App\Models\Review::where('product_id', $promotional->id)->avg(
                                                             'ratting',
                                                         );
                                                     @endphp
                                                     <div class="d-flex" style="justify-content:space-between">
                                                         <div class="star" style="padding-top: 5px;">
-                                                            <span style="font-weight: bold;color:black;font-size:10px">({{ App\Models\Review::where('product_id', $relatedproduct->id)->get()->count() }})</span>
+                                                            <span style="font-weight: bold;color:black;font-size:10px">({{ App\Models\Review::where('product_id', $promotional->id)->get()->count() }})</span>
                                                             @if (intval($review) == 0)
                                                                 <span class="fas fa-star"></span>
                                                                 <span class="fas fa-star"></span>
@@ -900,82 +905,69 @@
                                                                 <span class="fas fa-star" id="checked"></span>
                                                             @endif
                                                         </div>
-{{--                                                        <div class="like">--}}
-{{--                                                            <div class="d-flex" style="justify-content: space-around;font-size: 14px;">--}}
-{{--                                                                <span style="padding-right:14px;"><span class="sts" style="padding-right: 2px;font-size:12px;"--}}
-{{--                                                                        id="likereactof{{ $relatedproduct->id }}">{{ App\Models\React::where('product_id', $relatedproduct->id)->where('sigment','like')->get()->count() }}</span><i--}}
-{{--                                                                        @if(App\Models\React::where('product_id', $relatedproduct->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','like')->first()) style="color:green !important" @endif class="fas fa-thumbs-up" id="likereactdone{{ $relatedproduct->id }}"--}}
-{{--                                                                        onclick="givereactlike({{ $relatedproduct->id }})"></i></span>--}}
-{{--                                                                <span><span class="sts" style="padding-right: 2px;font-size:12px;"--}}
-{{--                                                                        id="lovereactof{{ $relatedproduct->id }}">{{ App\Models\React::where('product_id', $relatedproduct->id)->where('sigment','love')->get()->count() }}</span><i--}}
-{{--                                                                        @if(App\Models\React::where('product_id', $relatedproduct->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','love')->first()) style="color:red !important" @endif class="fas fa-heart" id="lovereactdone{{ $relatedproduct->id }}"--}}
-{{--                                                                        onclick="givereactlove({{ $relatedproduct->id }})"></i></span>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
+                                                        {{--                                                    <div class="like">--}}
+                                                        {{--                                                        <div class="d-flex" style="justify-content: space-around;font-size: 14px;">--}}
+                                                        {{--                                                            <span style="padding-right:14px;"><span class="sts" style="padding-right: 2px;font-size:12px;"--}}
+                                                        {{--                                                                    id="likereactof{{ $promotional->id }}">{{ App\Models\React::where('product_id', $promotional->id)->where('sigment','like')->get()->count() }}</span><i--}}
+                                                        {{--                                                                    @if(App\Models\React::where('product_id', $promotional->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','like')->first()) style="color:green !important" @endif class="fas fa-thumbs-up" id="likereactdone{{ $promotional->id }}"--}}
+                                                        {{--                                                                    onclick="givereactlike({{ $promotional->id }})"></i></span>--}}
+                                                        {{--                                                            <span><span class="sts" style="padding-right: 2px;font-size:12px;"--}}
+                                                        {{--                                                                    id="lovereactof{{ $promotional->id }}">{{ App\Models\React::where('product_id', $promotional->id)->where('sigment','love')->get()->count() }}</span><i--}}
+                                                        {{--                                                                    @if(App\Models\React::where('product_id', $promotional->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','love')->first()) style="color:red !important" @endif class="fas fa-heart" id="lovereactdone{{ $promotional->id }}"--}}
+                                                        {{--                                                                    onclick="givereactlove({{ $promotional->id }})"></i></span>--}}
+                                                        {{--                                                        </div>--}}
+                                                        {{--                                                    </div>--}}
                                                     </div>
 
-{{--                                                    @if (App\Models\Productsize::where('product_id', $relatedproduct->id)->first())--}}
-                                                    @if ($relatedproduct->type==1)
+                                                    {{--                                                @if (App\Models\ProductSize::where('product_id',$promotional->id)->first())--}}
+                                                    @if($promotional->type== 1)
+
                                                         <div class="price-box">
                                                             <del class="old-product-price strong-400">৳
-                                                                {{ round(App\Models\Productsize::where('product_id', $relatedproduct->id)->first()->RegularPrice) }}</del>
-                                                            <span class="product-price strong-600">৳
-                                                                {{ round(App\Models\Productsize::where('product_id', $relatedproduct->id)->first()->SalePrice) }}
-                                                            </span>
+                                                                {{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->RegularPrice) }}</del>
+                                                            <span
+                                                                    class="product-price strong-600">৳ {{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->SalePrice) }}</span>
                                                         </div>
                                                     @else
+
                                                         <div class="price-box">
                                                             <del class="old-product-price strong-400">৳
-                                                               {{round($relatedproduct->old_price)}}
-                                                            </del>
-                                                            <span class="product-price strong-600">৳
-                                                                {{round($relatedproduct->new_price)}}
-                                                            </span>
+                                                                {{ round($promotional->old_price) }}</del>
+                                                            <span
+                                                                    class="product-price strong-600">৳ {{ round($promotional->new_price) }}</span>
                                                         </div>
                                                     @endif
 
                                                 </div>
-                                                <form name="form" action="{{ url('add-to-cart') }}"
-                                                    method="POST" enctype="multipart/form-data"
-                                                    style="width: 100%;float: left;text-align: center;">
+
+                                                <form name="form" action="{{url('add-to-cart')}}" method="POST" enctype="multipart/form-data"
+                                                      style="width: 100%;float: left;text-align: center;">
                                                     @method('POST')
                                                     @csrf
-                                                    
-                                                    <input type="text" name="color" id="product_colorold"
-                                                        value=""
-                                                        hidden>
-{{--                                                    @if (App\Models\Productsize::where('product_id', $relatedproduct->id)->first())--}}
-                                                        @if ($relatedproduct->type==1)
-                                                        <input type="text" name="price" id="product_priceold"
-                                                            value="{{ round(App\Models\Productsize::where('product_id', $relatedproduct->id)->first()->SalePrice) }}"
-                                                            hidden>
-                                                        <input type="text" name="size" id="product_sizeold"
-                                                            value="{{ App\Models\Productsize::where('product_id', $relatedproduct->id)->first()->size }}"
-                                                            hidden>
-                                                    @else
-                                                        <input type="text" name="price" id="product_priceold"
-                                                            value="{{ round($relatedproduct->new_price) }}"
-                                                            hidden>
-                                                        <input type="text" name="size" id="product_sizeold"
-                                                            value=""
-                                                            hidden>
+                                                    @if($promotional->type==1)
+                                                        <input type="text" name="color" id="product_colorold" value="{{ App\Models\Productimage::where('product_id',$promotional->id)->first()->color }}" hidden>
                                                     @endif
-                                                    
-                                                    <input type="text" name="product_id"
-                                                        value=" {{ $relatedproduct->id }}" hidden>
-                                                    <input type="text" name="qty" value="1"
-                                                        id="qtyor" hidden>
+                                                    @if($promotional->type==1)
+                                                        {{--                                                @if (App\Models\ProductSize::where('product_id',$promotional->id)->first())--}}
+                                                        <input type="text" name="price" id="product_priceold" value="{{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->SalePrice) }}" hidden>
+                                                        <input type="text" name="size" id="product_sizeold" value="{{ App\Models\ProductSize::where('product_id',$promotional->id)->first()->size }}" hidden>
+                                                    @else
+                                                        <input type="text" name="price" id="product_priceold" value="{{ round($promotional->new_price) }}" hidden>
+                                                        {{--                                                    <input type="text" name="size" id="product_sizeold" value="{{ App\Models\Weight::where('product_id',$promotional->id)->first()->weight }}" hidden>--}}
+                                                    @endif
+                                                    <input type="text" name="qty" value="1" id="qtyor" hidden>
+
+                                                    <input type="text" name="product_id" value=" {{ $promotional->id }}" hidden>
                                                     <button class="btn btn-danger btn-sm mb-0 btn-block"
-                                                        style="width: 100%;border-radius: 0%;" id="purcheseBtn">Order
-                                                        Now</button>
+                                                            style="width: 100%;border-radius: 0%;" id="purcheseBtn">অর্ডার করুন</button>
                                                 </form>
 
                                             </div>
                                             <!-- /.col -->
                                         </div>
-                                        <!-- /.cart -->
+                                        <!-- /.product-micro-row -->
                                     </div>
-                                    <!-- /.product -->
+                                    <!-- /.product-micro -->
 
                                 </div>
                                 <!-- /.products -->
@@ -1467,14 +1459,15 @@
 
 
     function getcolor(color, key,id) {
-        console.log(color);
-        console.log(key);
-        console.log(id);
+       
         
         $("#sync1").data('owl.carousel').to(key, 300, true);
         $('#product_color').val(color);
         $('#product_colororder').val(color);
         $('.colortext').css('color', '#000');
+
+        $('.formColor').val(color);
+        
         $('.colortext').css('background', '#fff');
         $('#colortext'+id).css('color', '#fff');
         $('#colortext'+id).css('background', '#613EEA');
@@ -1482,8 +1475,7 @@
     }
 
     function getsize(size,id) {
-        console.log(size);
-        console.log(id);
+       
         $('#product_size').val(size);
         $('#product_sizeorder').val(size);
         var reg = $('#regularpriceofsize' + id).val();
@@ -1493,6 +1485,11 @@
 
         $('#regPrice').text(reg);
         $('#salePrice').text(sale);
+        
+        $('.formSize').val(size);
+        $('.formPrice').val(sale);
+        
+        
 
         $('.sizetext').css('color', '#000');
         $('.sizetext').css('background', '#fff');

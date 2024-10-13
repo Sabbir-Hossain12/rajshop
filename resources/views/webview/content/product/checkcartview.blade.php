@@ -4,11 +4,11 @@
             <div class="row">
                 <div class="col-4 col-xs-4">
                     <div class="image">
-                        <a href="#"><img src="{{ asset($item->image) }}" alt=""></a>
+                        <a href="#"><img src="{{ asset($item->options->image) }}" alt=""></a>
                     </div>
                 </div>
                 <div class="col-7 col-xs-7" style="padding-left: 0">
-                    <h3 class="name"><a href="#" style="font-size: 11px;color: black;">{{ $item->name }}</a>
+                    <h3 class="name"><a href="#" style="font-size: 11px;color: black;">{{ $item->name }} x <span class="text-primary"> {{$item->qty}} </span></a>
                     </h3>
                     <div class="price">৳{{ $item->price }}</div>
                 </div>

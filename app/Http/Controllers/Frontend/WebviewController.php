@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
+use App\Models\CreatePage;
 use App\Models\Customer;
 use App\Models\OrderStatus;
 use App\Models\Productcolor;
@@ -247,56 +249,62 @@ class WebviewController extends Controller
     public function orderhistory()
     {
         $date = \Carbon\Carbon::now();
-        $orders = Order::with(['orderdetails','customer','status'])
-                    ->where('customer_id', Auth::guard('customer')->user()->id)
+        $orders = Order::with(['orderdetails', 'customer', 'status'])
+            ->where('customer_id', Auth::guard('customer')->user()->id)
 //                    ->join('customers', 'customers.id', '=', 'orders.customer_id')
 //                    ->select('orders.*', 'customers.*')
-                    ->get();
-        
+            ->get();
+
 //        dd($orders);
         return view('webview.auth.orderhistory', ['date' => $date, 'orders' => $orders]);
     }
 
     public function index($slug)
     {
-        if ($slug == 'about_us') {
+        $title='';
+        if ($slug == 'about-us') 
+        {
             $title = 'About US';
-        } else {
-            if ($slug == 'contact_us') {
-                $title = 'Contact Us';
-            } else {
-                if ($slug == 'shipping_guide') {
-                    $title = 'Shipping Guard';
-                } else {
-                    if ($slug == 'investor_relation') {
-                        $title = 'Investor Relation';
-                    } else {
-                        if ($slug == 'company') {
-                            $title = 'Company';
-                        } else {
-                            if ($slug == 'customer_service') {
-                                $title = 'Customer Service';
-                            } else {
-                                if ($slug == 'help_center') {
-                                    $title = 'Help Center';
-                                } else {
-                                    if ($slug == 'faq') {
-                                        $title = 'FAQ';
-                                    } else {
-                                        if ($slug == 'terms_codition') {
-                                            $title = 'Terms & Conditions';
-                                        } else {
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        } 
+        elseif($slug == 'contact_us')
+        {
+           $title = 'Contact Us';
+        } 
+        elseif($slug == 'order-procedure')
+        {
+           $title = 'Order Procedure';
+        } 
+        
+        elseif($slug == 'delivery-rules')
+        {
+           $title = 'Delivery Rules';
         }
+        elseif($slug == 'return-policy')
+        {
+            $title = 'Return Policy';
+        }
+        elseif($slug == 'terms-&-conditions')
+        {
+            $title = 'Terms & Conditions';
+        }
+        elseif($slug == 'privacy-policy')
+        {
+            $title = 'Privacy Policy';
+        }
+        elseif($slug == 'faq')
+        {
+            $title = 'FAQ';
+        }
+        
+        
+        else
+        {
+            abort(404);
+        }
+        
 
-        $value = Information::where('key', $slug)->first();
+
+        $value = CreatePage::where('slug', $slug)->first();
         return view('webview.content.information.info', ['title' => $title, 'slug' => $slug, 'value' => $value]);
     }
 
@@ -322,22 +330,27 @@ class WebviewController extends Controller
             ->firstOrFail();
         $products = Product::where(['category_id' => $productdetails->category_id, 'status' => 1])
             ->with('image')
-            ->select('id', 'name', 'slug', 'new_price', 'old_price')
+            ->select('id', 'name', 'slug', 'new_price', 'old_price','type')
             ->get();
-        $relatedproducts=Product::where('category_id',$productdetails->category_id)->where('status',1)->inRandomOrder()->limit(15)->get();
+        $relatedproducts = Product::where('category_id', $productdetails->category_id)->where('status',
+            1)->inRandomOrder()->limit(15)->get();
 //        dd($relatedproducts);
-        
+
         $shipping = ShippingCharge::where('status', 1)->get();
         $reviews = Review::where('product_id', $productdetails->id)->get();
         $varients = Productcolor::where('product_id', $productdetails->id)->get();
 //        dd($varients);
         // return $productcolors;
-         $sizes = Productsize::where('product_id', $productdetails->id)
+        $sizes = Productsize::where('product_id', $productdetails->id)
             ->get();
 
 
         return view('webview.content.product.details',
-            ['varients' => $varients, 'sizes' => $sizes, 'shipping' => $shipping, 'productdetails' => $productdetails, 'relatedproducts' => $relatedproducts, 'products' => $products, 'reviews' => $reviews]);
+            [
+                'varients' => $varients, 'sizes' => $sizes, 'shipping' => $shipping,
+                'productdetails' => $productdetails, 'relatedproducts' => $relatedproducts, 'products' => $products,
+                'reviews' => $reviews
+            ]);
     }
 
     public function menuindex($slug)
@@ -358,11 +371,18 @@ class WebviewController extends Controller
 
     public function categoryproduct($slug)
     {
-        $categorysingle = Category::where('slug', $slug)->select('id', 'category_name', 'slug', 'status')->first();
-        $categoryproducts = Product::where('category_id', $categorysingle->id)->where('status', 'Active')->get();
+        $categorysingle = Category::where('slug', $slug)->select('id', 'name', 'slug', 'status')->first();
+        $categoryproducts = Product::where('category_id', $categorysingle->id)->where('status', 1)->get();
 
         return view('webview.content.product.category',
             ['categoryproducts' => $categoryproducts, 'categorysingle' => $categorysingle]);
+    }
+
+    public function getPromotional()
+    {
+        $promotionalProducts = Product::where('topsale', 1)->where('status', 1)->get();
+
+        return view('webview.content.product.promotional', ['promotionalProducts' => $promotionalProducts]);
     }
 
     public function brandproduct($slug)
@@ -378,8 +398,8 @@ class WebviewController extends Controller
     {
         $search = $request->input('search');
         $searchproducts = Product::query()
-            ->where('ProductName', 'LIKE', "%{$search}%")
-            ->orWhere('ProductSlug', 'LIKE', "%{$search}%")
+            ->where('name', 'LIKE', "%{$search}%")
+            ->orWhere('slug', 'LIKE', "%{$search}%")
             ->get();
         return view('webview.content.product.mainsearch', ['searchproducts' => $searchproducts]);
     }
@@ -492,18 +512,18 @@ class WebviewController extends Controller
 
     public function vieworder($slug)
     {
-        $order_status=OrderStatus::where('status','Active')->get();
+        $order_status = OrderStatus::where('status', 'Active')->get();
         $orders = Order::with([
-            'customer', 'orderdetails','status' ,'shipping'
+            'customer', 'orderdetails', 'status', 'shipping'
         ])->where('invoice_id', $slug)->first();
 //        dd($orders);
-        return view('webview.content.cart.vieworder', ['orders' => $orders,'order_status'=>$order_status]);
+        return view('webview.content.cart.vieworder', ['orders' => $orders, 'order_status' => $order_status]);
     }
 
     public function orderTrakingNow(Request $request)
     {
         $orders = Order::with([
-            'customer', 'orderdetails','status' ,'shipping'
+            'customer', 'orderdetails', 'status', 'shipping'
         ])->where('invoice_id', $request->invoiceID)->first();
         return view('webview.content.cart.trackorder', ['orders' => $orders]);
     }
