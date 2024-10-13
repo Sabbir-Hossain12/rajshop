@@ -718,12 +718,23 @@
                                 <li class="active"><a data-bs-toggle="tab" id="istteb" href="#review"
                                         style="margin-top: 10px;"> See Our
                                         Products Review</a></li>
+                                
+                                
+                                @if(Auth::guard('customer')->check()) 
                                 <li>
                                     <button class="btn btn-info" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal"
                                         style="margin:0px;margin-top: 10px;margin-right: 20px;">Leave
                                         Review</button>
                                 </li>
+                                    @else
+                                    <li>
+                                        <a class="btn btn-info" href="{{ route('login') }}"
+                                                style="margin:0px;margin-top: 10px;margin-right: 20px;">Leave
+                                            Review
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                             <!-- /.nav-tabs #product-tabs -->
                         </div>
@@ -771,7 +782,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form name="form" id="AddReview" enctype="multipart/form-data">
+                                <form  action="{{route('review.store')}}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group mb-3">
                                         <div class="star">
@@ -789,8 +800,8 @@
                                         <textarea class="form-group" name="messages" id="messages"></textarea>
                                     </div>
                                     <input type="hidden" name="rating" id="rating">
-                                    @if (Auth::id())
-                                        <input type="hidden" value="{{ Auth::id() }}" name="user_id"
+                                    @if (Auth::guard('customer')->check())
+                                        <input type="hidden" value="{{ Auth::guard('customer')->id() }}" name="customer_id"
                                             id="user_id">
                                     @else
                                     @endif
@@ -1173,29 +1184,29 @@
 
     $(document).ready(function() {
 
-        loadreview();
-
-        $('#AddReview').submit(function(e) {
-            e.preventDefault();
-
-            $.ajax({
-                type: 'POST',
-                url: '{{ url('review/store') }}',
-                processData: false,
-                contentType: false,
-                data: new FormData(this),
-
-                success: function(data) {
-                    swal({
-                        title: "Success!",
-                        icon: "success",
-                    });
-                },
-                error: function(error) {
-                    console.log('error');
-                }
-            });
-        });
+        {{--loadreview();--}}
+        
+        {{--$('#AddReview').submit(function(e) {--}}
+        {{--    e.preventDefault();--}}
+        
+        {{--    $.ajax({--}}
+        {{--        type: 'POST',--}}
+        {{--        url: '{{ url('review/store') }}',--}}
+        {{--        processData: false,--}}
+        {{--        contentType: false,--}}
+        {{--        data: new FormData(this),--}}
+        
+        {{--        success: function(data) {--}}
+        {{--            swal({--}}
+        {{--                title: "Success!",--}}
+        {{--                icon: "success",--}}
+        {{--            });--}}
+        {{--        },--}}
+        {{--        error: function(error) {--}}
+        {{--            console.log('error');--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
 
 
         var sync1 = $("#sync1");

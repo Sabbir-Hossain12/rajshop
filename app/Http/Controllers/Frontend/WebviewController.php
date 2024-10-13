@@ -85,11 +85,12 @@ class WebviewController extends Controller
 
     public function review(Request $request)
     {
+        
         $review = new Review();
         $review->product_id = $request->product_id;
         $review->messages = $request->messages;
         $review->rating = $request->rating;
-
+        dd($request->all);
         if ($request->file) {
             $file = $request->file;
             $name = time()."_".$file->getClientOriginalName();
