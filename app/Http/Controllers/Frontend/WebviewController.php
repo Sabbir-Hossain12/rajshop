@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
 use App\Models\Contact;
 use App\Models\CreatePage;
 use App\Models\Customer;
@@ -10,6 +11,7 @@ use App\Models\OrderStatus;
 use App\Models\Productcolor;
 use App\Models\Productsize;
 use App\Models\ShippingCharge;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use App\Models\Information;
 use App\Models\Product;
@@ -32,6 +34,7 @@ use App\Models\Share;
 use App\Models\Coupon;
 use App\Models\Postcomment;
 use Illuminate\Support\Facades\Auth;
+
 use Session;
 use Cart;
 
@@ -76,6 +79,70 @@ class WebviewController extends Controller
         }
     }
 
+
+    public function campaign($slug)
+    {
+        $campaign_data = Campaign::where('slug', $slug)->with('images')->first();
+        $product = Product::where('id', $campaign_data->product_id)
+            ->where('status', 1)
+            ->with('image')
+            ->first();
+        Cart::instance('shopping')->destroy();
+        $cart_count = Cart::instance('shopping')->count();
+        if ($cart_count == 0) {
+            Cart::instance('shopping')->add([
+                'id' => $product->id,
+                'name' => $product->name,
+                'qty' => 1,
+                'price' => $product->new_price,
+                'options' => [
+                    'slug' => $product->slug,
+                    'image' => $product->image->image,
+                    'old_price' => $product->old_price,
+                    'purchase_price' => $product->purchase_price,
+                ],
+            ]);
+        }
+        $shippingcharge = ShippingCharge::where('status', 1)->get();
+        $select_charge = ShippingCharge::where('status', 1)->first();
+        Session::put('shipping', $select_charge->amount);
+        return view('webview.content.landing-page.campaign', compact('campaign_data', 'product', 'shippingcharge'));
+        
+    }
+    public function shipping_charge(Request $request)
+    {
+
+        $shipping = ShippingCharge::where(['id' => $request->id])->first();
+        Session::put('shipping', $shipping->amount);
+        
+        return response()->json($shipping->amount, 200);
+        
+//        return view('frontEnd.layouts.ajax.cart');
+    }
+
+    public function cart_remove(Request $request)
+    {
+        $remove = Cart::instance('shopping')->update($request->id, 0);
+        $data = Cart::instance('shopping')->content();
+        return view('frontEnd.layouts.ajax.cart', compact('data'));
+    }
+    public function cart_increment(Request $request)
+    {
+        $item = Cart::instance('shopping')->get($request->id);
+        $qty = $item->qty + 1;
+        $increment = Cart::instance('shopping')->update($request->id, $qty);
+        $data = Cart::instance('shopping')->content();
+        return view('frontEnd.layouts.ajax.cart', compact('data'));
+    }
+    public function cart_decrement(Request $request)
+    {
+        $item = Cart::instance('shopping')->get($request->id);
+        $qty = $item->qty - 1;
+        $decrement = Cart::instance('shopping')->update($request->id, $qty);
+        $data = Cart::instance('shopping')->content();
+        return view('frontEnd.layouts.ajax.cart', compact('data'));
+    }
+
     public function resetcoupon(Request $request)
     {
         Session::forget('couponcode');
@@ -85,23 +152,31 @@ class WebviewController extends Controller
 
     public function review(Request $request)
     {
-        
+
+//     return $request;
         $review = new Review();
         $review->product_id = $request->product_id;
-        $review->messages = $request->messages;
-        $review->rating = $request->rating;
-        dd($request->all);
-        if ($request->file) {
-            $file = $request->file;
-            $name = time()."_".$file->getClientOriginalName();
-            $uploadPath = ('public/images/admin/profile/');
-            $file->move($uploadPath, $name);
-            $imageUrl = $uploadPath.$name;
-            $review->file = $imageUrl;
-        }
+        $review->review  = $request->review;
+        $review->ratting = $request->ratting;
+        $review->customer_id = $request->customer_id;
+        $review->name = Auth::guard('customer')->user()->name ?? 'John Doe';
+        $review->email = Auth::guard('customer')->user()->email ?? 'customer@gmail.com';
+        
+//        if ($request->file) 
+//        {
+//            $file = $request->file;
+//            $name = time()."_".$file->getClientOriginalName();
+//            $uploadPath = ('public/images/admin/profile/');
+//            $file->move($uploadPath, $name);
+//            $imageUrl = $uploadPath.$name;
+//            $review->file = $imageUrl;
+//        }
 
         $review->save();
-        return response()->json('success', 200);
+//        return response()->json('success', 200);
+
+        Toastr::success('Success','Review is Submitted and Pending for Approval');
+        return redirect()->back();
     }
 
     public function givereact(Request $request, $slug)

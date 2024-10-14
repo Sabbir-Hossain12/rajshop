@@ -33,6 +33,7 @@
                             <th>Email</th>
                             <th>Review</th>
                             <th>Ratting</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -46,6 +47,7 @@
                             <td>{{$value->email}}</td>
                             <td>{{Str::limit($value->review,50)}}</td>
                             <td>{{$value->ratting}}</td>
+                            <td>{{$value->status}}</td>
                             <td>
                                 <div class="button-list">
                                     @if($value->status == 'active')

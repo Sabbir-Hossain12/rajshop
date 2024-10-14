@@ -35,7 +35,7 @@
                         <div class="col-6">
                             <div class="text-end">
                                 <h3 class="text-dark mt-1"><span data-plugin="counterup">{{$total_order}}</span></h3>
-                                <p class="text-muted mb-1 text-truncate">Total Oreder</p>
+                                <p class="text-muted mb-1 text-truncate">Total Order</p>
                             </div>
                         </div>
                     </div> <!-- end row-->

@@ -369,6 +369,7 @@ class CustomerController extends Controller
 
         Toastr::success('Thanks, Your order place successfully', 'Success!');
         $site_setting = GeneralSetting::where('status', 1)->first();
+        
         $sms_gateway = SmsGateway::where(['status' => 1, 'order' => '1'])->first();
         if ($sms_gateway) {
             $url = "$sms_gateway->url";
@@ -412,7 +413,7 @@ class CustomerController extends Controller
             $shurjopay_service = new ShurjopayController();
             return $shurjopay_service->checkout($info);
         } else {
-            return redirect('customer/order-success/' . $order->id);
+            return redirect('order-received');
         }
     }
 

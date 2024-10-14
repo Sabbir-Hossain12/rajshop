@@ -315,6 +315,10 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'lock', 'check_re
     Route::get('order-pathao', [OrderController::class, 'order_pathao'])->name('admin.order.pathao');
     Route::get('/pathao-city', [OrderController::class, 'pathaocity'])->name('pathaocity');
     Route::get('/pathao-zone', [OrderController::class, 'pathaozone'])->name('pathaozone');
+    
+    //Single Order Status Change
+    Route::post('order-single-status-change', [OrderController::class, 'order_single_status_change'])->name('admin.order_single_status_change');
+    
 
     // Order route
     Route::get('reviews', [ReviewController::class, 'index'])->name('reviews.index');

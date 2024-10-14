@@ -51,11 +51,12 @@
                             <th style="width:8%">Action</th>
                             <th style="width:8%">Invoice</th>
                             <th style="width:10%">Date</th>
-                            <th style="width:10%">Name</th>
-                            <th style="width:10%">Phone</th>
-                            <th style="width:10%">Assign</th>
-                            <th style="width:10%">Amount</th>
-                            <th style="width:10%">Status</th>
+                            <th style="width:10%">Customer</th>
+                            <th style="width:20%">Products</th>
+                            <th style="width:4%">Notes</th>
+                            <th style="width:5%">Assign</th>
+                            <th style="width:5%">Amount</th>
+                            <th style="width:15%">Status</th>
                         </tr>
                     </thead>
                 
@@ -78,11 +79,39 @@
                             </td>
                             <td>{{$value->invoice_id}}</td>
                             <td>{{date('d-m-Y', strtotime($value->updated_at))}}<br> {{date('h:i:s a', strtotime($value->updated_at))}}</td>
-                            <td><strong>{{$value->shipping?$value->shipping->name:''}}</strong><p>{{$value->shipping?$value->shipping->address:''}}</p></td>
-                            <td>{{$value->shipping?$value->shipping->phone:''}}</td>
+                            <td><strong>{{$value->shipping?$value->shipping->name:''}}</strong>
+                                <p>{{$value->shipping?$value->shipping->address:''}}<br>
+                                {{$value->shipping?$value->shipping->phone:''}}</p>
+                            </td>
+                            <td>
+                                @foreach($value->orderdetails as $product) 
+                                <p class="mb-0">{{$product->product_name}} X <span class="text-dark fw-normal">{{$product->qty}}</span></p>
+                                @if(isset($product->product_color)) 
+                                <p class="mb-0"><span class="text-primary fw-normal">Color: </span>{{$product->product_color}}</p>
+                                    @endif
+                                
+                                @if(isset($product->product_size)) 
+                                <p><span class="text-primary fw-normal">Variant: </span>{{$product->product_size}}</p>
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td>{{$value->note}}</td>
                             <td>{{$value->user?$value->user->name:''}}</td>
                             <td>৳{{$value->amount}}</td>
-                            <td>{{$value->status?$value->status->name:''}}</td>
+                            <td>
+                                <form action="{{ route('admin.order_single_status_change') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="order_id" value="{{ $value->id }}">
+                                <div class="form-group">
+                                    <select name="order_status" class="form-control" onchange="this.form.submit()">
+{{--                                        <option disabled>Select..</option>--}}
+                                        @foreach($orderstatus as $keys=>$values)
+                                            <option @if($values->id==$value->order_status) selected @endif value="{{$values->id}}">{{$values->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                </form>
+                            </td>
                             
                         </tr>
                         @endforeach
@@ -327,6 +356,32 @@ $(document).ready(function(){
         });
     
     });
+
+    // Change individual Order Status
+    {{--function orderStatusChange(id,status)--}}
+    {{--{--}}
+    {{--    // let order_id = id;--}}
+    {{--    // let order_status = status;--}}
+    
+    {{--    $.ajax({--}}
+    {{--        type: 'POST',--}}
+    
+    {{--        url: "{{ route('admin.order.status.change') }}",--}}
+    {{--        data: {--}}
+    {{--            order_id:id,--}}
+    {{--            order_status:status--}}
+    {{--        },--}}
+    {{--        success: function (res) {--}}
+    
+    {{--            toastr.success(res.message);--}}
+    {{--            orderTable.ajax.reload();--}}
+    {{--        },--}}
+    {{--        error: function (err) {--}}
+    {{--            console.log('error')--}}
+    {{--        }--}}
+    {{--    })--}}
+    
+    {{--}--}}
     // order delete
     $(document).on('click', '.order_delete', function(e){
         e.preventDefault();

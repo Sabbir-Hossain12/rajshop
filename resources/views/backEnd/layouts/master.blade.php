@@ -325,7 +325,7 @@
                       <a href="{{route('reviews.pending')}}"><i data-feather="file-plus"></i> Pending Reviews ({{ $pending_reviews }})</a>
                     </li>
                     <li>
-                      <a href="{{route('reviews.pending')}}"><i data-feather="file-plus"></i> Create</a>
+                      <a href="{{route('reviews.create')}}"><i data-feather="file-plus"></i> Create</a>
                     </li>
                     <li>
                       <a href="{{route('reviews.index')}}"><i data-feather="file-plus"></i> All Reviews</a>

@@ -207,14 +207,14 @@
                                     {{ $productdetails->name }} </h1>
 
                                     @php
-                                    $review = App\Models\Review::where('product_id', $productdetails->id)->avg(
+                                    $review = App\Models\Review::where('status', 'active')->where('product_id', $productdetails->id)->avg(
                                         'ratting',
                                     );
                                 @endphp
                                 <div class="d-flex" style="justify-content:space-between">
                                     <div class="star" style="padding-top: 5px;">
                                         <span style="font-size:16px;" >
-                                        ({{ App\Models\Review::where('product_id', $productdetails->id)->get()->count() }}<span style="font-size: 12px"> reviews</span>)
+                                        ({{ App\Models\Review::where('product_id', $productdetails->id)->where('status','active')->get()->count() }}<span style="font-size: 12px"> reviews</span>)
                                         </span>
 
                                         @if (intval($review) == 0)
@@ -364,11 +364,13 @@
                                                         <label class="sizetext ms-0" id="sizetext{{ $size->id }}"
                                                             for="size{{ $size->size }}"
                                                             style="border: 1px solid #613EEA;font-size:20px;font-weight:bold;padding: 0px 8px;border-radius: 4px;margin-right:4px;margin-bottom:4px;"
-                                                            onclick="getsize('{{ $size->size }}','{{ $size->id }}')">{{ $size->size }}</label>
+                                                            onclick="getsize('{{ $size->size }}','{{ $size->id }}')">{{ $size->size }}
+                                                        </label>
                                                     @empty
                                                     @endforelse
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                     @else
                                     @endif
@@ -747,11 +749,89 @@
                                     <div class="product-tab">
 
                                         <div class="product-reviews">
-
+                                             @php $reviews = App\Models\Review::where('status','active')->get();   @endphp
                                             <div class="row">
                                                 <div class="col-lg-7 col-12">
-                                                    <div class="review" id="reviewload">
+                                                    <div class="review">
+                                                        @forelse ($reviews as $review)
+                                                            <div class="card mb-2">
+                                                                <div class="card-body">
+                                                                    <div class="d-flex">
+                                                                      <img src="{{ asset('public/profile-user.png') }}" style="width:60px;height:60px">
+                                                                        <div class="info ps-2">
+                                                                            <h6 class="m-0" style="font-weight: bold;font-size: 18px;">
+                                                                                {{ App\Models\Customer::where('id', $review->customer_id)->first()->name }}</h6>
+                                                                            <div class="review">
+                                                                                <div class="d-flex">
+                                                                                    <div class="star">
+                                                                                        @if ($review->ratting == 1)
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                                                                        @elseif($review->ratting == 2)
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                                                                        @elseif($review->ratting == 3)
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                                                                        @elseif($review->ratting == 4)
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;"></span>
+                                                                                        @else
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                            <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                    <span style="padding-left: 10px;padding-top: 2px;">{{ date('d M, Y') }}</span>
+                                                                                </div>
+                                                                                <p>
+                                                                                    {{ $review->review }}
+                                                                                </p>
+{{--                                                                                @if (isset($review->file))--}}
+{{--                                                                                    <img src="{{ asset($review->file) }}" alt="" width="60px">--}}
+{{--                                                                                @else--}}
+{{--                                                                                @endif--}}
 
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex" style="justify-content: space-around;font-size: 26px;">
+{{--                            <span><span class="stss"--}}
+{{--                            id="likeof{{ $review->id }}">{{ App\Models\Like::where('review_id', $review->id)->get()->count() }}</span><i--}}
+{{--                            class="fas fa-thumbs-up" id="likedone{{ $review->id }}"--}}
+{{--                            onclick="givelike({{ $review->id }})"></i></span>--}}
+{{--                                                                        <span><span class="stss"--}}
+{{--                                                                                    id="shareof{{ $review->id }}">{{ App\Models\Share::where('review_id', $review->id)->get()->count() }}</span><i--}}
+{{--                                                                                    class="fas fa-heart" id="sharedone{{ $review->id }}"--}}
+{{--                                                                                    onclick="giveshare({{ $review->id }})"></i>--}}
+{{--                                                                        </span>--}}
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+
+                                                        @empty
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    No review found !
+                                                                </div>
+                                                            </div>
+                                                        @endforelse
                                                     </div>
                                                 </div>
                                             </div>
@@ -797,18 +877,19 @@
                                         id="product_id">
                                     <div class="form-group mb-3">
                                         <label for="floatingInput">Message</label>
-                                        <textarea class="form-group" name="messages" id="messages"></textarea>
+                                        <textarea class="form-group" name="review" id="messages" required></textarea>
                                     </div>
-                                    <input type="hidden" name="rating" id="rating">
+{{--                                    <input type="hidden" name="id" value="2" id="id">--}}
+                                    <input type="hidden" name="ratting" id="rating" value="5" required>
                                     @if (Auth::guard('customer')->check())
                                         <input type="hidden" value="{{ Auth::guard('customer')->id() }}" name="customer_id"
                                             id="user_id">
                                     @else
                                     @endif
-                                    <div class="mt-4 mb-4">
-                                        <input class="form-control form-control-lg" name="file" id="file"
-                                            type="file">
-                                    </div>
+{{--                                    <div class="mt-4 mb-4">--}}
+{{--                                        <input class="form-control form-control-lg" name="file" id="file"--}}
+{{--                                            type="file">--}}
+{{--                                    </div>--}}
                                     <br>
                                     <div class="form-group mt-2" style="text-align: right">
                                         <div class="submitBtnSCourse">
@@ -1007,6 +1088,32 @@
 @else
     <input type="hidden" name="user_id" id="user_id" >
 @endif
+
+<script>
+    
+    $(document).ready(function () {
+        //Color Preselect
+        // Trigger the first radio button to be clicked
+        $('.colorinfo input[type="radio"]:first').trigger('click');
+
+        // Get the first label corresponding to the first radio input
+        var firstColorId = $('.colorinfo input[type="radio"]:first').attr('id');
+        $('#colortext' + firstColorId).css('color', '#fff');
+        $('#colortext' + firstColorId).css('background', '#613EEA');
+  
+        //Variant Preselect  
+        // Trigger the first radio button to be clicked
+        $('.sizeinfo input[type="radio"]:first').trigger('click');
+
+        // Get the first label corresponding to the first radio input
+        var firstVariantId = $('.sizeinfo input[type="radio"]:first').attr('id');
+        $('#colortext' + firstVariantId).css('color', '#fff');
+        $('#colortext' + firstVariantId).css('background', '#613EEA');
+        
+        
+
+    })
+</script>
 
 <script>
     function givereactlike(id) {
@@ -1472,7 +1579,10 @@
     function getcolor(color, key,id) {
        
         
-        $("#sync1").data('owl.carousel').to(key, 300, true);
+        // $("#sync1").data('owl.carousel').to(key, 300, true);
+        if ($('#sync1').data('owl.carousel')) {
+            $("#sync1").data('owl.carousel').to(key, 300, true); // Ensure key is not undefined
+        }
         $('#product_color').val(color);
         $('#product_colororder').val(color);
         $('.colortext').css('color', '#000');

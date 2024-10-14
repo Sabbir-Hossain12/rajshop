@@ -90,9 +90,9 @@ class ReviewController extends Controller
         $active->status = 'active';
         $active->save();
         
-        $product = Product::select('id','ratting')->find($active->product_id);
-        $product->ratting += 1;
-        $product->save();
+//        $product = Review::select('id','ratting')->find($active->product_id);
+//        $product->ratting += 1;
+//        $product->save();
         Toastr::success('Success','Data active successfully');
         return redirect()->back();
     }

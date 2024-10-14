@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CustomerController;
 use App\Http\Controllers\Frontend\GoogleController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\StockController;
@@ -139,11 +140,19 @@ Route::get('/', function () {
     return view('webview.content.maincontent');
 });
 
+//Campaign
+Route::get('/campaign/{slug}', [WebviewController::class, 'campaign'])->name('campaign');
+Route::post('/order-save', [CustomerController::class, 'order_save'])->name('customer.ordersave');
+Route::get('/shipping-charge', [WebviewController::class, 'shipping_charge'])->name('shipping.charge');
+Route::get('cart/remove', [WebviewController::class, 'cart_remove'])->name('cart.remove');
+Route::get('cart/decrement', [WebviewController::class, 'cart_decrement'])->name('cart.decrement');
+
+Route::get('cart/increment', [WebviewController::class, 'cart_increment'])->name('cart.increment');
 // web view
 Route::get('/set-value/city/{id}', [StockController::class, 'getCityByCurier']);
 Route::get('venture/{slug}', [WebviewController::class, 'index']);
 Route::get('menu/{slug}', [WebviewController::class, 'menuindex']);
-Route::get('product/{slug}', [WebviewController::class, 'productdetails']);
+Route::get('product/{slug}', [WebviewController::class, 'productdetails'])->name('product');
 Route::get('products/category/{slug}', [WebviewController::class, 'categoryproduct']);
 Route::get('products/brand/{slug}', [WebviewController::class, 'brandproduct']);
 Route::get('get/products/by-category', [WebviewController::class, 'getcategoryproduct']);

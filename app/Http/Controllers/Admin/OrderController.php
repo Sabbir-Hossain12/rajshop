@@ -60,6 +60,7 @@ class OrderController extends Controller
             $pathaocities = [];
             $pathaostore = [];
         } 
+//        dd($show_data);
         return view('backEnd.order.index',compact('show_data','order_status','users', 'steadfast','pathaostore','pathaocities'));
     } 
     
@@ -230,18 +231,45 @@ class OrderController extends Controller
     public function order_status(Request $request){
         $orders = Order::whereIn('id', $request->input('order_ids'))->update(['order_status' => $request->order_status]);
 
-        if($request->order_status == 5){
+        if($request->order_status == 6)
+        {
             $orders = Order::whereIn('id', $request->input('order_ids'))->get();
-            foreach($orders as $order){
-                $orders_details = OrderDetails::select('id','order_id','product_id')->where('order_id',$order->id)->get();
-                foreach($orders_details as $order_details){
+            foreach($orders as $order)
+            {
+                $orders_details = OrderDetails::select('id','order_id','product_id','qty')->where('order_id',$order->id)->get();
+                foreach($orders_details as $order_details)
+                {
                     $product = Product::select('id','stock')->find($order_details->product_id);
                     $product->stock -= $order_details->qty;
                     $product->save();
                 }
             }
         }
+        
         return response()->json(['status'=>'success','message'=>'Order status change successfully']);
+        
+    }
+// Order Single Status Change
+    public function order_single_status_change(Request $request)
+    {
+        $order = Order::findOrFail($request->order_id);
+        $order->order_status = $request->order_status;
+        $order->save();
+
+        if($request->order_status == 6)
+        {
+                $orders_details = OrderDetails::select('id','order_id','product_id','qty')->where('order_id',$request->order_id)->get();
+                foreach($orders_details as $order_details)
+                {
+                    $product = Product::select('id','stock')->find($order_details->product_id);
+                    $product->stock -= $order_details->qty;
+                    $product->save();
+                }
+                
+        }
+        
+        Toastr::success('Success','Order Status Changed successfully');
+        return redirect()->back();
     }
     
     public function bulk_destroy(Request $request){

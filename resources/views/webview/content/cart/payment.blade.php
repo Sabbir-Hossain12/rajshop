@@ -11,6 +11,8 @@
                 <div class="card-body text-center">
                     <h2 class="h4 pb-3" style="color:green">আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে আমাদের কল সেন্টার থেকে ফোন করে আপনার অর্ডারটি কনফার্ম করা হবে</h2>
                     <a class="btn btn-primary mt-3" href="{{url('/')}}">প্রোডাক্ট বাছাই করুন</a>
+                    
+                    <p class="mt-2">নিত্য নতুন অফার পেতে আমাদের ফেসবুক গ্রুপে <a href="{{\App\Models\SocialMedia::where('title','Facebook Group')->first()->link}}">জয়েন </a>হন </p>
                 </div>
             </div>
         </div>

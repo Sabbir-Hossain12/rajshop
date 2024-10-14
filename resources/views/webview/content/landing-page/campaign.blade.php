@@ -390,9 +390,11 @@
                                                         <td>
                                                             <a href="{{route('product',$value->options->slug)}}"><i class="fas fa-trash text-danger"></i></a>
                                                         </td>
+                                                        
                                                         <td class="text-left">
                                                             <a style="font-size: 14px;" href="{{route('product',$value->options->slug)}}"><img src="{{asset($value->options->image)}}" height="30" width="30"> {{Str::limit($value->name,20)}}</a>
                                                         </td>
+                                                        
                                                         <td width="15%" class="cart_qty">
                                                             <div class="qty-cart vcart-qty">
                                                                 <div class="quantity">
@@ -402,7 +404,9 @@
                                                                 </div>
                                                             </div>
                                                         </td>
+                                                        
                                                         <td>৳{{$value->price*$value->qty}}</td>
+                                                        
                                                     </tr>
                                                 @endforeach
                                                 </tbody>
@@ -416,7 +420,7 @@
                                                 <tr>
                                                     <th colspan="3" class="text-end px-4">ডেলিভারি চার্জ</th>
                                                     <td>
-                                                        <span id="cart_shipping_cost"><span class="alinur">৳ </span><strong>{{$shipping}}</strong></span>
+                                                        <span id="cart_shipping_cost"><span class="alinur">৳ </span><strong id="shippingVal" >{{$shipping}}</strong></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -477,7 +481,10 @@
             url: "{{route('shipping.charge')}}",
             dataType: "html",
             success: function(response){
-                $('.cartlist').html(response);
+                // console.log(response);
+                $('#shippingVal').text(response);
+                
+                // $('.cartlist').html(response);
             }
         });
     });
