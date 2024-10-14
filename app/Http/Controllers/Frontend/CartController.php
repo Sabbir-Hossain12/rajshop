@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Brian2694\Toastr\Facades\Toastr;
 use Cart;
 use Illuminate\Http\Request;
 //use Cart;
@@ -42,7 +43,33 @@ class CartController extends Controller
         // return response()->json('success',200);
     }
 
+    public function addtocart2(Request $request)
+    {
+        $pid = $request->product_id;
+        $cartProduct = Product::with('image')->where('id', $pid)->first();
 
+
+        Cart::add([
+            'id' => $request->product_id,
+            'name' => $cartProduct->name,
+            'code' => $cartProduct->product_code,
+            'price' => $request->price,
+            'qty' => $request->qty,
+            'weight' => 1,
+            'options' =>
+                [
+                    'size' => $request->size,
+                    'color' => $request->color,
+                    'image' => $cartProduct->image->image,
+                    'code' => $cartProduct->product_code,
+                ],
+
+        ]);
+
+        Toastr::success('Success','Product Added to cart');
+
+        return redirect()->back();
+    }
     public function updatecart(Request $request)
     {
         $rowId = $request->rowId;

@@ -423,7 +423,7 @@
                                     </div>
                                     </div>
                                     
-                                    <form name="form" action="{{ url('add-to-cart') }}" method="POST"
+                                    <form name="form" action="{{ url('add-to-cart2') }}" method="POST"
                                           enctype="multipart/form-data"
                                           style="width: 50%;float: right;text-align: center;">
                                         @method('POST')
@@ -749,7 +749,7 @@
                                     <div class="product-tab">
 
                                         <div class="product-reviews">
-                                             @php $reviews = App\Models\Review::where('status','active')->get();   @endphp
+                                             @php $reviews = App\Models\Review::where( 'product_id', $productdetails->id)->where('status','active')->get();   @endphp
                                             <div class="row">
                                                 <div class="col-lg-7 col-12">
                                                     <div class="review">

@@ -19,6 +19,8 @@
 <link rel="stylesheet" href="{{ asset('public/webview/assets') }}/css/style.css">
 {{-- toaster --}}
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- toastr css -->
+<link rel="stylesheet" href="{{asset('public/backEnd/')}}/assets/css/toastr.min.css" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 

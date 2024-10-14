@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CustomerController;
+use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\GoogleController;
 use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\Frontend\ShoppingController;
 use App\Http\Controllers\Frontend\StockController;
 
 use App\Http\Controllers\Frontend\WebviewController;
@@ -39,11 +41,11 @@ Route::get('/controller', function () {
 //    Route::get('search', [FrontendController::class, 'search'])->name('search');
 //    Route::get('product/{id}', [FrontendController::class, 'details'])->name('product');
 //    Route::get('quick-view', [FrontendController::class, 'quickview'])->name('quickview');
-//    Route::get('/shipping-charge', [FrontendController::class, 'shipping_charge'])->name('shipping.charge');
+    Route::get('/shipping-charge', [FrontendController::class, 'shipping_charge'])->name('shipping.charge');
 //    Route::get('site/contact-us', [FrontendController::class, 'contact'])->name('contact');
 //    Route::get('/page/{slug}', [FrontendController::class, 'page'])->name('page');
 //    Route::get('districts', [FrontendController::class, 'districts'])->name('districts');
-//    Route::get('/campaign/{slug}', [FrontendController::class, 'campaign'])->name('campaign');
+    Route::get('/campaign/{slug}', [FrontendController::class, 'campaign'])->name('campaign');
 //    Route::get('/offer', [FrontendController::class, 'offers'])->name('offers');
 //    Route::get('/payment-success', [FrontEndController::class, 'payment_success'])->name('payment_success');
 //    Route::get('/payment-cancel', [FrontEndController::class, 'payment_cancel'])->name('payment_cancel');
@@ -53,13 +55,13 @@ Route::get('/controller', function () {
 //
 //    Route::get('/add-to-cart/{id}/{qty}', [ShoppingController::class, 'addTocartGet']);
 //
-//    Route::get('shop/cart', [ShoppingController::class, 'cart_show'])->name('cart.show');
-//    Route::get('cart/remove', [ShoppingController::class, 'cart_remove'])->name('cart.remove');
-//    Route::get('cart/count', [ShoppingController::class, 'cart_count'])->name('cart.count');
-//    Route::get('mobilecart/count', [ShoppingController::class, 'mobilecart_qty'])->name('mobile.cart.count');
-//    Route::get('cart/decrement', [ShoppingController::class, 'cart_decrement'])->name('cart.decrement');
+    Route::get('shop/cart', [ShoppingController::class, 'cart_show'])->name('cart.show');
+    Route::get('cart/remove', [ShoppingController::class, 'cart_remove'])->name('cart.remove');
+    Route::get('cart/count', [ShoppingController::class, 'cart_count'])->name('cart.count');
+    Route::get('mobilecart/count', [ShoppingController::class, 'mobilecart_qty'])->name('mobile.cart.count');
+    Route::get('cart/decrement', [ShoppingController::class, 'cart_decrement'])->name('cart.decrement');
 //
-//    Route::get('cart/increment', [ShoppingController::class, 'cart_increment'])->name('cart.increment');
+    Route::get('cart/increment', [ShoppingController::class, 'cart_increment'])->name('cart.increment');
 //});
 //
 //Route::group(['prefix' => 'customer', 'namespace' => 'Frontend', 'middleware' => ['ipcheck', 'check_refer']],
@@ -83,7 +85,7 @@ Route::get('/controller', function () {
 //        Route::post('/forgot-password/resendotp',
 //            [CustomerController::class, 'forgot_resend'])->name('customer.forgot.resendotp');
 //        Route::get('/checkout', [CustomerController::class, 'checkout'])->name('customer.checkout');
-//        Route::post('/order-save', [CustomerController::class, 'order_save'])->name('customer.ordersave');
+        Route::post('/order-save', [CustomerController::class, 'order_save'])->name('customer.ordersave');
 //        Route::get('/order-success/{id}', [CustomerController::class, 'order_success'])->name('customer.order_success');
 //
 //        Route::get('/order-track', [CustomerController::class, 'order_track'])->name('customer.order_track');
@@ -141,13 +143,13 @@ Route::get('/', function () {
 });
 
 //Campaign
-Route::get('/campaign/{slug}', [WebviewController::class, 'campaign'])->name('campaign');
-Route::post('/order-save', [CustomerController::class, 'order_save'])->name('customer.ordersave');
-Route::get('/shipping-charge', [WebviewController::class, 'shipping_charge'])->name('shipping.charge');
-Route::get('cart/remove', [WebviewController::class, 'cart_remove'])->name('cart.remove');
-Route::get('cart/decrement', [WebviewController::class, 'cart_decrement'])->name('cart.decrement');
-
-Route::get('cart/increment', [WebviewController::class, 'cart_increment'])->name('cart.increment');
+//Route::get('/campaign/{slug}', [WebviewController::class, 'campaign'])->name('campaign');
+//Route::post('/order-save', [CustomerController::class, 'order_save'])->name('customer.ordersave');
+//Route::get('/shipping-charge', [WebviewController::class, 'shipping_charge'])->name('shipping.charge');
+//Route::get('cart/remove', [WebviewController::class, 'cart_remove'])->name('cart.remove');
+//Route::get('cart/decrement', [WebviewController::class, 'cart_decrement'])->name('cart.decrement');
+//
+//Route::get('cart/increment', [WebviewController::class, 'cart_increment'])->name('cart.increment');
 // web view
 Route::get('/set-value/city/{id}', [StockController::class, 'getCityByCurier']);
 Route::get('venture/{slug}', [WebviewController::class, 'index']);
@@ -176,6 +178,8 @@ Route::get('give/react/{slug}', [WebviewController::class, 'givereact']);
 
 // cart
 Route::post('add-to-cart', [CartController::class, 'addtocart']);
+Route::post('add-to-cart2', [CartController::class, 'addtocart2']);
+
 Route::post('order-to-cart', [CartController::class, 'ordertocart']);
 Route::get('get-cart-content', [CartController::class, 'getcartcontent']);
 Route::post('remove-cart', [CartController::class, 'destroy']);
