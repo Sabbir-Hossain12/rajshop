@@ -89,35 +89,40 @@ class WebviewController extends Controller
             ->first();
         Cart::instance('shopping')->destroy();
         $cart_count = Cart::instance('shopping')->count();
-        if ($cart_count == 0) {
+        if ($cart_count == 0) 
+        
+        {
             Cart::instance('shopping')->add([
                 'id' => $product->id,
                 'name' => $product->name,
                 'qty' => 1,
                 'price' => $product->new_price,
-                'options' => [
+                'options' =>
+                    [
                     'slug' => $product->slug,
                     'image' => $product->image->image,
                     'old_price' => $product->old_price,
                     'purchase_price' => $product->purchase_price,
-                ],
+                    ],
             ]);
         }
+        
+        //dd(Cart::instance('shopping')->content());
+        
         $shippingcharge = ShippingCharge::where('status', 1)->get();
         $select_charge = ShippingCharge::where('status', 1)->first();
         Session::put('shipping', $select_charge->amount);
         return view('webview.content.landing-page.campaign', compact('campaign_data', 'product', 'shippingcharge'));
         
     }
+    
     public function shipping_charge(Request $request)
     {
 
         $shipping = ShippingCharge::where(['id' => $request->id])->first();
         Session::put('shipping', $shipping->amount);
-        
-        return response()->json($shipping->amount, 200);
-        
-//        return view('frontEnd.layouts.ajax.cart');
+//      return response()->json($shipping->amount, 200);
+        return view('frontEnd.layouts.ajax.cart');
     }
 
     public function cart_remove(Request $request)

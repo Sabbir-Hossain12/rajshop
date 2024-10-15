@@ -233,7 +233,7 @@
           });
       }
 
-      $('#cart_add').on('change',function(e){
+    $('#cart_add').on('change',function(e){
        var id =$(this).val();
         if(id){
             $.ajax({
@@ -242,7 +242,8 @@
             data:{'id':id},
             url:"{{route('admin.order.cart_add')}}",
             dataType: "json",
-            success: function(cartinfo){
+            success: function(cartinfo)
+            {
                 return cart_content()+cart_details();
             }
             });
@@ -298,7 +299,7 @@
           });
         }
    });
-   $(".product_discount").change(function(){
+    $(".product_discount").change(function(){
         var id = $(this).data("id");
         var discount = $(this).val();
           $.ajax({
@@ -322,6 +323,8 @@
             return cart_content()+cart_details();
           }
        });
+      
+      
    });// pshippingfee from total
     $("#area").on("change", function () {
         var id = $(this).val();

@@ -33,10 +33,15 @@
                                 <div class="form-group mb-3">
                                     <label for="name" class="form-label">Landing Page Title *</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $edit_data->name}}"  id="name" required="">
+                                    
                                     @error('name')
+                                    
                                     <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                    </span>
+                                    
                                     @enderror
                                 </div>
                             </div>
@@ -59,7 +64,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group mb-3">
                                     <label for="banner_title" class="form-label">Banner Title</label>
-                                    <input type="text" class="form-control @error('banner_title') is-invalid @enderror" name="banner_title" value="{{ $edit_data->banner_title}}"  id="banner_title">
+                                    <input type="text" class="form-control @error('banner_title') is-invalid @enderror" name="banner_title" value="{{ $edit_data->banner_title}}" >
                                     @error('banner_title')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

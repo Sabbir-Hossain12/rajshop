@@ -44,15 +44,15 @@
                             <div class="col-sm-12">
                                 <div class="form-group mb-3">
                                     <label for="banner_title" class="form-label">Banner Title *</label>
-                                    <input type="text" class="form-control @error('banner_title') is-invalid @enderror" name="banner_title" value="{{ old('banner_title') }}"  id="banner_title" required="">
+                                    <input type="text" class="form-control" name="banner_title" value="{{ old('banner_title') }}"  >
                                     @error('banner_title')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
-                                </span>
+                                    </span>
                                     @enderror
                                 </div>
                             </div>
-                            <!-- col-end -->
+{{--                            <!-- col-end -->--}}
 
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
@@ -61,14 +61,14 @@
                                     @error('banner')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
-                                </span>
+                                    </span>
                                     @enderror
                                 </div>
                             </div>
 
                             <div class="col-sm-12">
                                 <div class="form-group mb-3">
-                                    <label for="video" class="form-label">Video </label>
+                                    <label for="video" class="form-label">Video</label>
                                     <input type="text" class="form-control @error('video') is-invalid @enderror" name="video" value="{{ old('video') }}"  id="video">
                                     @error('video')
                                     <span class="invalid-feedback" role="alert">

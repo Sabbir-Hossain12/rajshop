@@ -520,6 +520,7 @@ class OrderController extends Controller
                 'old_price' => $cart->options->old_price,
                 'purchase_price' => $cart->options->purchase_price,
                 'product_discount' => $request->discount,
+                'details_id' => $cart->options->details_id,
             ],
         ]);
         return response()->json($cartinfo);
@@ -565,6 +566,8 @@ class OrderController extends Controller
     }
     
     public function order_update(Request $request){
+//        dd(Cart::instance('pos_shopping')->content());
+
         $this->validate($request,[
             'name'=>'required',
             'phone'=>'required',
@@ -580,7 +583,7 @@ class OrderController extends Controller
         $subtotal = Cart::instance('pos_shopping')->subtotal();
         $subtotal = str_replace(',','',$subtotal);
         $subtotal = str_replace('.00', '',$subtotal);
-        $discount = Session::get('pos_discount')+Session::get('product_discount');
+        $discount = Session::get('pos_discount')+ Session::get('product_discount');
         $shippingfee  = ShippingCharge::find($request->area);
 
         $exits_customer = Customer::where('phone',$request->phone)->select('phone','id')->first();
@@ -630,9 +633,12 @@ class OrderController extends Controller
         $payment->payment_status = 'pending';
         $payment->save();
 
+//        dd($request->all());
        // order details data save
         foreach(Cart::instance('pos_shopping')->content() as $cart){
             $exits = OrderDetails::where('id',$cart->options->details_id)->first();
+           
+//          dd($cart->options->details_id);
             if($exits){
                 $order_details                   =   OrderDetails::find($exits->id);
                 $order_details->product_discount =   $cart->options->product_discount;
@@ -640,7 +646,9 @@ class OrderController extends Controller
                 $order_details->qty              =   $cart->qty;
                 $order_details->save();
             }else{
-                $order_details                   =   new OrderDetails();
+
+//                return $cart;
+                    $order_details                   =   new OrderDetails();
                 $order_details->order_id         =   $order->id;
                 $order_details->product_id       =   $cart->id;
                 $order_details->product_name     =   $cart->name;

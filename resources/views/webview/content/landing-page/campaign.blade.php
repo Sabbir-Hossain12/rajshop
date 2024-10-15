@@ -484,7 +484,7 @@
                 // console.log(response);
                 $('#shippingVal').text(response);
                 
-                // $('.cartlist').html(response);
+                $('.cartlist').html(response);
             }
         });
     });

@@ -27,6 +27,7 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'banner_title' => 'required',
             'short_description' => 'required',
             'description' => 'required',
             'name' => 'required',
@@ -48,7 +49,7 @@ class CampaignController extends Controller
         }
 
 
-// Image One
+        // Image One
         if ($request->hasFile('image_one')) {
             $image1 = $request->file('image_one');
             $name1 = time() . '-' . strtolower(preg_replace('/\s+/', '-', $image1->getClientOriginalName()));
@@ -59,7 +60,7 @@ class CampaignController extends Controller
             $input['image_one']=$image1Url;
         }
 
-// Image Two
+        // Image Two
         if ($request->hasFile('image_two')) {
             $image2 = $request->file('image_two');
             $name2 = time() . '-' . strtolower(preg_replace('/\s+/', '-', $image2->getClientOriginalName()));
@@ -70,7 +71,7 @@ class CampaignController extends Controller
             $input['image_two']=$image2Url;
         }
 
-// Image Three
+        // Image Three
         if ($request->hasFile('image_three')) {
             $image3 = $request->file('image_three');
             $name3 = time() . '-' . strtolower(preg_replace('/\s+/', '-', $image3->getClientOriginalName()));
@@ -84,7 +85,8 @@ class CampaignController extends Controller
         $campaign = Campaign::create($input);
 
         $images = $request->file('image');
-        if($images){
+        if($images)
+        {
 
             $name =  time().'-'.$images->getClientOriginalName();
             $name = strtolower(preg_replace('/\s+/', '-', $name));
@@ -94,10 +96,9 @@ class CampaignController extends Controller
 
             $pimage  = new CampaignReview();
             $pimage->campaign_id = $campaign->id;
-            $pimage->image      = $imageUrl;
+            $pimage->image       = $imageUrl;
             $pimage->save();
-
-
+            
         }
 
         Toastr::success('Success','Data insert successfully');
