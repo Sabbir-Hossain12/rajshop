@@ -41,57 +41,30 @@ class AuthenticatedSessionController extends Controller
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+        public function store(Request $request)
     {
 
-//        $user =DB::table('customers')->whereIn('status',['Active','Inactive'])->where('email',$request->email)
-//            ->first();
-//
-//        if(isset($user))
-//        {
-//            if(Auth::guard('web')->attempt(['email'=>$user->email,'password'=>$request->password])){
-//                return redirect()->intended(RouteServiceProvider::HOME);
-//            }else{
-//                 return redirect()->back()->with('error','Password Does Not Match');
-//            }
-//        }
-//        
-//        else
-//        
-//        {
-//            $user =DB::table('users')->where('email',$request->phone)
-//            ->first();
-//            if(isset($user)){
-//                if (!Hash::check($request->password, $user->password)) {
-//                    return redirect()->back()->with('error','Password Does Not Match');
-//                }
-//                return redirect()->back()->with('error','You are blocked by authority');
-//            }else{
-//                return redirect()->back()->with('error','Information Does Not Match');
-//            }
-//        }
-//   dd($request->all());
         $auth_check = Customer::where('email', $request->email)->first();
-        if ($auth_check)
-        {
-            if (Auth::guard('customer')->attempt(['email' => $request->email, 'password' => $request->password])) 
-            {
-                Toastr::success('You are login successfully', 'success!');
-                if (Cart::instance('shopping')->count() > 0) 
-                {
-                    return redirect()->route('dashboard');
-                }
-
+        $phone_check = Customer::where('phone', $request->email)->first();
+        
+        if ($auth_check || $phone_check) {
+            if ($auth_check && Auth::guard('customer')->attempt(['email' => $request->email, 'password' => $request->password])) {
+                Toastr::success('You are logged in successfully', 'Success!');
                 return redirect()->route('dashboard');
             }
-            Toastr::error('message', 'Opps! your phone or password wrong');
+            
+            if ($phone_check && Auth::guard('customer')->attempt(['phone' => $request->email, 'password' => $request->password])) {
+                Toastr::success('You are logged in successfully', 'Success!');
+                return redirect()->route('dashboard');
+            }
+            
+            Toastr::error('Your phone number or password is incorrect', 'Oops!');
+            return redirect()->back();
+        } else {
+            Toastr::error('Sorry! You have no account', 'Account Not Found');
             return redirect()->back();
         }
-        else
-        {
-            Toastr::error('message', 'Sorry! You have no account');
-            return redirect()->back();
-        }
+        
     }
 
     /**

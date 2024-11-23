@@ -16,6 +16,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Productcolor;
 use App\Models\Courierapi;
 use Session;
 use Cart;
@@ -39,10 +40,10 @@ class OrderController extends Controller
                           });
                 });
             }
-           $show_data = $show_data->paginate(10);
+           $show_data = $show_data->paginate(50);
         }else{
             $order_status = OrderStatus::where('slug',$slug)->withCount('orders')->first();
-            $show_data = Order::where(['order_status'=>$order_status->id])->latest()->with('shipping','status')->paginate(10);
+            $show_data = Order::where(['order_status'=>$order_status->id])->latest()->with('shipping','status')->paginate(50);
         }
         $users = User::get();
         $steadfast = Courierapi::where(['status'=>1, 'type'=>'steadfast'])->first();
@@ -59,11 +60,11 @@ class OrderController extends Controller
         } else {
             $pathaocities = [];
             $pathaostore = [];
-        } 
+        }
 //        dd($show_data);
         return view('backEnd.order.index',compact('show_data','order_status','users', 'steadfast','pathaostore','pathaocities'));
-    } 
-    
+    }
+
     public function pathaocity(Request $request)
     {
         $pathao_info = Courierapi::where(['status'=>1, 'type'=>'pathao'])->select('id', 'type', 'url', 'token', 'status')->first();
@@ -74,7 +75,7 @@ class OrderController extends Controller
         } else {
             return response()->json([]);
         }
-    } 
+    }
     public function pathaozone(Request $request)
     {
         $pathao_info = Courierapi::where(['status'=>1, 'type'=>'pathao'])->select('id', 'type', 'url', 'token', 'status')->first();
@@ -86,16 +87,16 @@ class OrderController extends Controller
              return response()->json([]);
         }
     }
-    
+
     public function order_pathao(Request $request)
     {
         $order_id = $request->order_ids;
 
         if(isset($order_id)){
-            
+
             $order = Order::with('shipping')->find($order_id);
             $order_count = OrderDetails::select('order_id')->where('order_id', $order->id)->count();
-        
+
             $pathao_info = Courierapi::where(['status' => 1, 'type' => 'pathao'])->select('id', 'type', 'url', 'token', 'status')->first();
             if ($pathao_info) {
                 $response = Http::withHeaders([
@@ -123,6 +124,7 @@ class OrderController extends Controller
                 ]);
             }
             if ($response->status() == '200') {
+                 $order->update(['order_status'=>5]);
                 Toastr::success($response['data']['consignment_id'], 'Courier Tracking ID');
                 return redirect()->back();
             } else {
@@ -132,25 +134,25 @@ class OrderController extends Controller
             return redirect()->back();
         }else{
             Toastr::error('Order Id should not be empty');
-          
+
             return redirect()->back();
         }
 
 
-    
+
     }
-    
+
     public function invoice($invoice_id){
         $order = Order::where(['invoice_id'=>$invoice_id])->with('orderdetails','payment','shipping','customer')->firstOrFail();
         return view('backEnd.order.invoice',compact('order'));
     }
-    
+
     public function process($invoice_id){
         $data = Order::where(['invoice_id'=>$invoice_id])->select('id','invoice_id','order_status')->with('orderdetails')->first();
         $shippingcharge = ShippingCharge::where('status',1)->get();
         return view('backEnd.order.process',compact('data','shippingcharge'));
     }
-    
+
     public function order_process(Request $request)
     {
 
@@ -202,7 +204,7 @@ class OrderController extends Controller
                         'Accept' => 'application/json',
                     ],
                 ]);
-                
+
                 $responseData = json_decode($response->getBody(), true);
             } else {
                 return "ok";
@@ -213,7 +215,7 @@ class OrderController extends Controller
         Toastr::success('Success', 'Order status change successfully');
         return redirect('admin/order/' . $link);
     }
-    
+
     public function destroy(Request $request){
         $order = Order::where('id',$request->id)->delete();
         $order_details = OrderDetails::where('order_id',$request->id)->delete();
@@ -222,12 +224,12 @@ class OrderController extends Controller
         Toastr::success('Success','Order delete success successfully');
         return redirect()->back();
     }
-    
+
     public function order_assign(Request $request){
         $products = Order::whereIn('id', $request->input('order_ids'))->update(['user_id' => $request->user_id]);
         return response()->json(['status'=>'success','message'=>'Order user id assign']);
     }
-    
+
     public function order_status(Request $request){
         $orders = Order::whereIn('id', $request->input('order_ids'))->update(['order_status' => $request->order_status]);
 
@@ -245,9 +247,9 @@ class OrderController extends Controller
                 }
             }
         }
-        
+
         return response()->json(['status'=>'success','message'=>'Order status change successfully']);
-        
+
     }
 // Order Single Status Change
     public function order_single_status_change(Request $request)
@@ -265,13 +267,13 @@ class OrderController extends Controller
                     $product->stock -= $order_details->qty;
                     $product->save();
                 }
-                
+
         }
-        
+
         Toastr::success('Success','Order Status Changed successfully');
         return redirect()->back();
     }
-    
+
     public function bulk_destroy(Request $request){
         $orders_id = $request->order_ids;
         foreach($orders_id as $order_id){
@@ -287,50 +289,59 @@ class OrderController extends Controller
         $view = view('backEnd.order.print', ['orders' => $orders])->render();
         return response()->json(['status' => 'success', 'view' => $view]);
     }
-    public function bulk_courier($slug, Request $request)
+     public function bulk_courier($slug, Request $request)
     {
         $courier_info = Courierapi::where(['status' => 1, 'type' => $slug])->first();
         
+        $data = [];
         if ($courier_info) {
             $orders_id = $request->order_ids;
-            foreach ($orders_id as $order_id) {
+            
+            foreach ($orders_id as $order_id) 
+            {
                 $order = Order::find($order_id);
-                $courier = $order->order_status;
-                   
-                $response = Http::withHeaders([
-                            'Api-Key' => $courier_info->api_key,
-                            'Secret-Key' => $courier_info->secret_key,
-                            'Content-Type' => 'application/json'
-
-                ])->post('https://portal.packzy.com/api/v1/create_order', [
-                        'invoice' => $order->invoice_id,
-                        'recipient_name' => $order->shipping ? $order->shipping->name : 'InboxHat',
-                        'recipient_phone' => $order->shipping ? $order->shipping->phone : '01750578495',
-                        'recipient_address' => $order->shipping ? $order->shipping->address : '01750578495',
-                        'cod_amount' => $order->amount
-                    ]);
-
-
-
-               
-                $responseData = json_decode($response->getBody(), true);
-                if ($responseData['status'] == 200) {
-                    $message = 'Your order place to courier successfully';
-                    $status = 'success';
-                    $order->order_status = 4;
-                    $order->save();
-                } else {
-                    $message = 'Your order place to courier failed';
-                    $status = 'failed';
-                }
-                return response()->json(['status' => $status, 'message' => $message]);
-               
+                $data[] = [
+                    'invoice' => $order->invoice_id,
+                    'recipient_name' => $order->shipping ? $order->shipping->name : 'InboxHat',
+                    'recipient_address' => $order->shipping ? $order->shipping->address : '01750578495',
+                    'recipient_phone' => $order->shipping ? $order->shipping->phone : '01750578495',
+                    'cod_amount' => $order->amount,
+                    'note' => 'as fast as possible',
+                ];
+            }            
+    
+            $response = Http::withHeaders([
+                'Api-Key' => $courier_info->api_key,
+                'Secret-Key' => $courier_info->secret_key,
+                'Content-Type' => 'application/json',
+            ])->post('https://portal.packzy.com/api/v1/create_order/bulk-order', ['data' => json_encode($data)]);
+            
+            
+            
+            // return $response;
+            
+            if ($response->status() == 200) {
+                $message = 'Your order placed to courier successfully';
+                $status = 'success';
                 
+                foreach ($orders_id as $order_id) 
+                {
+                    $order = Order::find($order_id);
+                    $order->order_status = 5;
+                    $order->save();
+                }
+            } else 
+            {
+                $message = 'Your order placed to courier failed';
+                $status = 'failed';
             }
+    
+            return response()->json(['status' => $status, 'message' => $message]);
         } else {
             return "stop";
         }
     }
+    
     public function stock_report(Request $request){
         $products = Product::select('id', 'name','new_price','stock')
             ->where('status', 1);
@@ -379,7 +390,7 @@ class OrderController extends Controller
         $shippingcharge = ShippingCharge::where('status',1)->get();
         return view('backEnd.order.create',compact('products','cartinfo','shippingcharge'));
     }
-    
+
     public function order_store(Request $request){
         $this->validate($request,[
             'name'=>'required',
@@ -398,7 +409,7 @@ class OrderController extends Controller
         $subtotal = str_replace('.00', '',$subtotal);
         $discount = Session::get('pos_discount')+Session::get('product_discount');
         $shippingfee  = ShippingCharge::find($request->area);
-        
+
         $exits_customer = Customer::where('phone',$request->phone)->select('phone','id')->first();
         if($exits_customer){
             $customer_id = $exits_customer->id;
@@ -414,10 +425,19 @@ class OrderController extends Controller
             $store->save();
             $customer_id = $store->id;
         }
- 
+
+        $last_invoice = Order::orderBy('id', 'DESC')->pluck('invoice_id')->first();
+        $invoicePart = explode('-', $last_invoice);
+
+        $lastValue = end($invoicePart);
+        $currentYear = date('Y');
+        $lastValueInt = (int) $lastValue + 1;
+
+        $newInvoiceId = 'INV-'. $currentYear .'-' . str_pad($lastValueInt, 6, '0', STR_PAD_LEFT);
+
          // order data save
         $order                   = new Order();
-        $order->invoice_id       = rand(11111,99999);
+        $order->invoice_id       = $newInvoiceId;
         $order->amount           = ($subtotal + $shippingfee->amount) - $discount;
         $order->discount         = $discount ? $discount : 0;
         $order->shipping_charge  = $shippingfee->amount;
@@ -506,6 +526,9 @@ class OrderController extends Controller
         return response()->json($cartinfo);
     }
     public function cart_remove(Request $request){
+        
+        OrderDetails::where('order_id' , $request->order)->where('product_id' , $request->product)->delete();
+        
         $remove = Cart::instance('pos_shopping')->remove($request->id);
         $cartinfo = Cart::instance('pos_shopping')->content();
         return response()->json($cartinfo);
@@ -557,14 +580,34 @@ class OrderController extends Controller
                 'image' => $ordetails->image->image,
                 'purchase_price' => $ordetails->purchase_price,
                 'product_discount' => $ordetails->product_discount,
+                'product_color' => $ordetails->product_color,
                 'details_id' => $ordetails->id,
+                'order_id' => $ordetails->order_id,
             ],
         ]);
         }
         $cartinfo  = Cart::instance('pos_shopping')->content();
         return view('backEnd.order.edit',compact('products','cartinfo','shippingcharge','shippinginfo','order'));
     }
-    
+    // ProductController.php
+    public function updateColor(Request $request)
+    {
+        // $request->validate([
+        //     'product_id' => 'required|integer',
+        //     'product_color' => 'required|string',
+        // ]);
+
+        // Assuming you have a Product model
+        $price = Productcolor::where('product_id' , $request->product_id)->where('color' , $request->product_color)->first()->vPrice;
+        $product = OrderDetails::where('order_id' ,$request->order_id)->where('product_id' , $request->product_id)->first();
+        $product->product_color = $request->product_color;
+        $product->sale_price = $price ?? 0;
+        $product->save();
+
+        return response()->json(['success' => true]);
+    }
+
+
     public function order_update(Request $request){
 //        dd(Cart::instance('pos_shopping')->content());
 
@@ -601,16 +644,16 @@ class OrderController extends Controller
             $store->save();
             $customer_id = $store->id;
         }
- 
+
          // order data save
         $order                   =  Order::where('id',$request->order_id)->first();
-        $order->invoice_id       = rand(11111,99999);
+        // $order->invoice_id       = rand(11111,99999);
         $order->amount           = ($subtotal + $shippingfee->amount) - $discount;
         $order->discount         = $discount ? $discount : 0;
         $order->shipping_charge  = $shippingfee->amount;
         $order->customer_id      =  $customer_id;
-        $order->order_status     = 1;
-        $order->note             = $request->note;
+        // $order->order_status     = 1;
+        $order->note       = $request->notes;
         $order->save();
 
 
@@ -637,7 +680,7 @@ class OrderController extends Controller
        // order details data save
         foreach(Cart::instance('pos_shopping')->content() as $cart){
             $exits = OrderDetails::where('id',$cart->options->details_id)->first();
-           
+
 //          dd($cart->options->details_id);
             if($exits){
                 $order_details                   =   OrderDetails::find($exits->id);
@@ -645,10 +688,12 @@ class OrderController extends Controller
                 $order_details->sale_price       =   $cart->price;
                 $order_details->qty              =   $cart->qty;
                 $order_details->save();
-            }else{
+            }
 
-//                return $cart;
-                    $order_details                   =   new OrderDetails();
+            else {
+
+//              return $cart;
+                $order_details                   =   new OrderDetails();
                 $order_details->order_id         =   $order->id;
                 $order_details->product_id       =   $cart->id;
                 $order_details->product_name     =   $cart->name;
@@ -658,14 +703,14 @@ class OrderController extends Controller
                 $order_details->qty              =   $cart->qty;
                 $order_details->save();
             }
-            
+
         }
         Cart::instance('pos_shopping')->destroy();
         Session::forget('pos_shipping');
         Session::forget('pos_discount');
         Session::forget('product_discount');
         Toastr::success('Thanks, Your order place successfully', 'Success!');
-        return redirect('admin/order/pending');
+        return redirect('admin/order/all');
     }
 
 }

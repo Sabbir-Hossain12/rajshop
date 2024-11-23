@@ -11,6 +11,38 @@
     padding: 6px;
     line-height: 35px;
 }
+.slider_img {
+    position: relative;
+}
+
+.image-container {
+    position: relative; /* Establishes a positioning context for the icon */
+    display: inline-block; /* Ensures images sit next to each other */
+}
+
+.edit-image {
+    transition: transform 0.2s; /* Smooth transition */
+}
+
+.image-container:hover .edit-image {
+    transform: scale(1.05); /* Slightly enlarge the image on hover */
+}
+
+.delete-icon {
+    position: absolute;
+    top: 3px;
+    right: 0px;
+    background: rgba(255, 0, 0, 0.7);
+    color: white;
+    padding: 19px;
+    border-radius: 50%;
+    display: none;
+    cursor: pointer;
+}
+
+.image-container:hover .delete-icon {
+    display: block; /* Show the icon on hover */
+}
 </style>
 <link href="{{asset('public/backEnd')}}/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
 <link href="{{asset('public/backEnd')}}/assets/libs/summernote/summernote-lite.min.css" rel="stylesheet" type="text/css" />
@@ -172,8 +204,19 @@
               </div>
             </div>
             <!-- col-end -->
+            <div class="col-sm-4">
+              <div class="form-group mb-3">
+                <label for="pro_unit" class="form-label">Product Unit (Optional)</label>
+                <input type="text" class="form-control @error('pro_unit') is-invalid @enderror" name="pro_unit" value="{{ $edit_data->pro_unit }}" id="pro_unit" />
+                @error('pro_unit')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
 
-            <div class="col-sm-4 mb-3">
+            <div class="col-sm-6 mb-3">
               <label for="image">Image *</label>
               <div class="input-group control-group increment">
                 <input type="file" name="productimage" id="productimage" class="form-control @error('image') is-invalid @enderror" />
@@ -192,18 +235,31 @@
                 @endforeach
               </div>
             </div>
-            <!-- col end -->
-            <div class="col-sm-4">
-              <div class="form-group mb-3">
-                <label for="pro_unit" class="form-label">Product Unit (Optional)</label>
-                <input type="text" class="form-control @error('pro_unit') is-invalid @enderror" name="pro_unit" value="{{ $edit_data->pro_unit }}" id="pro_unit" />
-                @error('pro_unit')
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-                @enderror
+
+            <!-- col-end -->
+
+            <div class="col-sm-6 mb-3">
+              <label for="image">Image Slider *</label>
+              <div class="input-group control-group increment">
+                <input type="file" name="imageSlider[]" id="sliderImage" class="form-control" multiple />
               </div>
+
+              <div class="slider_img">
+                @forelse ($sliderImage as $image)
+                <div class="image-container">
+                    <img src="{{ asset($image->image_url) }}" class="edit-image border" alt="{{ $image->image_url }}" onclick="deleteSliderImage({{ $image->id }})" data-id="{{$image->id}}"/>
+                    <span class="delete-icon" onclick="deleteSliderImage({{ $image->id }})">&#10006;</span> <!-- This is a simple X icon -->
+                </div>                  
+                @empty
+                  
+                @endforelse
+              </div>
+
             </div>
+
+          <!-- col-end -->
+            <!-- col end -->
+            
             <div class="col-sm-4">
               <div class="form-group mb-3">
                 <label for="pro_video" class="form-label">Product Video (Optional)</label>
@@ -226,10 +282,10 @@
               </div>
             </div>
 
-            <div class="col-lg-12">
+            <div class="col-lg-12 mb-3">
                 <div class="form-group">
                     <label for="">Short Description</label>
-                    <textarea name="short_des" id="short_des" rows="3" class="form-control">{{$edit_data->short_des}}</textarea>
+                    <textarea name="short_des" id="short_des" rows="3" class="form-control summernote">{{$edit_data->short_des}}</textarea>
                 </div>
             </div>
 
@@ -250,6 +306,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Color</th>
+                                    <th>Price</th>
                                     <th>Image</th>
                                     <th>Choose File</th>
                                     <th></th>
@@ -260,6 +317,7 @@
                                     <tr>
                                         <td><input type="hidden" id="mID" style="width:80px;border: none;color: black;" value="{{ $varient->id }}"><input type="text" id="mediaID" style="width:80px;border: none;color: black;" value="{{ $varient->color_id }}" disabled></td>
                                         <td><input type="text" name="color" id="color" style="width:80px;border: none;color: black;" value="{{ $varient->color }}" disabled> </td>
+                                        <td><input type="number" name="vPrice" id="vPrice" style="width:120px;color: black;" value="{{ $varient->vPrice }}"> </td>
                                         <td><img src="{{ asset($varient->Image) }}" style="width:50px"></td>
                                         <td><input type="file" id="image" class="form-control"></td>
                                         <td><button type="button" class="btn btn-sm btn-danger mdelete-btn"><i class="fa fa-trash"></i></button></td>
@@ -366,7 +424,7 @@
               <div class="form-group">
                 <label for="topsale" class="d-block">Hot Deals</label>
                 <label class="switch">
-                  <input type="checkbox" value="1" name="topsale" id="topsale" @if($edit_data->topsale==1)checked @endif>
+                  <input type="checkbox" name="topsale" id="topsale" @if($edit_data->topsale==1)checked @endif>
                   <span class="slider round"></span>
                 </label>
                 @error('topsale')
@@ -397,6 +455,29 @@
 <script src="{{asset('public/backEnd/')}}/assets/js/pages/form-advanced.init.js"></script>
 <!-- Plugins js -->
 <script src="{{asset('public/backEnd/')}}/assets/libs//summernote/summernote-lite.min.js"></script>
+
+<script>
+  function deleteSliderImage(imageId) {
+      // alert(imageId);
+      if (confirm("Are you sure you want to delete this image?")) {
+          // Make an AJAX request to delete the image
+          $.ajax({
+              url: '{{url('admin/products/slider/')}}' + '/' + imageId, // This should work with the GET route
+              type: 'GET', // Set to GET
+              success: function(response) {
+                  // Handle success
+                  $('img[data-id="' + imageId + '"]').remove(); // Remove image from DOM
+                  alert('Image deleted successfully.');
+              },
+              error: function(xhr) {
+                  // Handle error
+                  alert('Error deleting image. Please try again.');
+              }
+          });
+      }
+}
+
+</script>
 <script>
   $(".summernote").summernote({
     placeholder: "Enter Your Text Here",
@@ -493,6 +574,7 @@
                     obj.mID = currentRow.find("#mID").val();
                     obj.mediaID = currentRow.find("#mediaID").val();
                     obj.color = currentRow.find("#color").val();
+                    obj.vPrice = currentRow.find("#vPrice").val();
                     obj.image = currentRow.find("#image")[0].files[0];
                     variant.push(obj);
                     variantCount++;
@@ -517,12 +599,26 @@
                     return;
                 }
 
-                if(size == 0){
-                    toastr.error('Size / Weight Should Not Be Empty');
-                    return;
-                }
+                // if(size == 0){
+                //     toastr.error('Size / Weight Should Not Be Empty');
+                //     return;
+                // }
 
             }
+            
+            var slider = [];
+            var sliderCount = 0;
+
+            // Assuming #sliderImage is the input element for selecting multiple images
+            var files = $("#sliderImage")[0].files; // Get the FileList from the input
+
+            for (var i = 0; i < files.length; i++) {
+                var obj = {};
+                obj.image = files[i]; // Store each file in the object
+                slider.push(obj);
+                sliderCount++;
+            }
+
 
             var formData = new FormData();
             formData.append('name', name.val());
@@ -542,6 +638,9 @@
             formData.append('type', type.val());
             formData.append('short_des', short_des.val());
             formData.append('image', $('#productimage')[0].files[0]);
+            slider.forEach(function(item) {
+                formData.append('sliderImage[]', item.image); // Use 'sliderImage[]' for multiple files
+            });
 
             if(type.val()==0){
 
@@ -609,6 +708,7 @@
                 "<tr>" +
                 '<td><input type="hidden" id="mID" style="width:80px;border: none;color: black;" value="" disabled><input type="text" id="mediaID" style="width:80px;border: none;color: black;" value="' + e.params.data.id + '" disabled></td>' +
                 '<td><input type="text" name="color" id="color" style="width:80px;border: none;color: black;" value="' + e.params.data.text + '" disabled> </td>' +
+                '<td><input type="number" name="vPrice" id="vPrice" style="width:120px;color: black;" value="" > </td>' +
                 '<td><img src="" style="width:50px"></td>' +
                 '<td><input type="file" id="image" class="form-control"></td>' +
                 '<td><button type="button" class="btn btn-sm btn-danger mdelete-btn"><i class="fa fa-trash"></i></button></td>\n' +

@@ -1,5 +1,5 @@
-@extends('backEnd.layouts.master') 
-@section('title','Order Create') 
+@extends('backEnd.layouts.master')
+@section('title','Order Create')
 @section('css')
 <style>
     .increment_btn,
@@ -10,7 +10,7 @@
 </style>
 <link href="{{asset('public/backEnd')}}/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
 <link href="{{asset('public/backEnd')}}/assets/libs/summernote/summernote-lite.min.css" rel="stylesheet" type="text/css" />
-@endsection 
+@endsection
 @section('content')
 <div class="container-fluid">
     <!-- start page title -->
@@ -40,7 +40,7 @@
                                 <select id="cart_add" class="form-control select2 @error('product_id') is-invalid @enderror"  value="{{ old('product_id') }}" >
                                     <option value="">Select..</option>
                                     @foreach($products as $value)
-                                        <option value="{{$value->id}}">{{$value->name}}</option> 
+                                        <option value="{{$value->id}}">{{$value->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('product_id')
@@ -57,11 +57,12 @@
                               <tr>
                               <tr>
                                 <th style="width:10%">Image</th>
-                                <th style="width:25%">Name</th>
+                                <th style="width:22%">Name</th>
+                                <th style="width:15%">Color</th>
                                 <th style="width:15%">Quantity</th>
-                                <th style="width:15%">Sell Price</th>
-                                <th style="width:15%">Discount</th>
-                                <th style="width:15%">Sub Total</th>
+                                <th style="width:11%">Sell Price</th>
+                                <th style="width:11%">Discount</th>
+                                <th style="width:11%">Sub Total</th>
                                 <th style="width:15%">Action</th>
                               </tr>
                               </tr>
@@ -71,9 +72,20 @@
                                 $product_discount = 0;
                               @endphp
                               @foreach($cartinfo as $key=>$value)
+                              @php
+                                $product_color_image = App\Models\Productcolor::where('product_id', $value->id)->where('color' , $value->options->product_color)->first()->Image ?? App\Models\Productimage::where('product_id', $value->id)->first()->image;
+                              @endphp
                               <tr>
-                                <td><img height="30" src="{{asset($value->options->image)}}"></td>
+                                <td><img height="30" src="{{asset($value->options->image)}}" alt="Null"></td>
                                 <td>{{$value->name}}</td>
+                                <td>
+                                    <select class="form-select product_color" aria-label="Default select example">
+                                        <option data-id="{{$value->options->order_id ?? '' }}" value="{{$value->options->product_color ?? '' }}">{{$value->options->product_color ?? 'No Color'}}</option>
+                                        @foreach (App\Models\Productcolor::where('product_id', $value->id)->get() as $color)
+                                            <option data-id="{{$value->options->order_id}}" data-pro_id="{{ $value->id }}" value="{{$color->color}}" class="{{ $value->options->product_color == $color->color ? 'd-none' : '' }}">{{$color->color}}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
                                 <td>
                                   <div class="qty-cart vcart-qty">
                                     <div class="quantity">
@@ -87,7 +99,7 @@
                                 <td class="discount"><input type="number" class="product_discount" value="{{$value->options->product_discount}}" placeholder="0.00" data-id="{{$value->rowId}}">
                                 </td>
                                 <td>{{($value->price - $value->options->product_discount)*$value->qty}}</td>
-                                <td><button type="button" class="btn btn-danger btn-xs cart_remove" data-id="{{$value->rowId}}"><i class="fa fa-times"></i></button></td>
+                                <td><button type="button" class="btn btn-danger btn-xs cart_remove" data-id="{{$value->rowId}}" data-order="{{$value->options->order_id}}" data-product="{{ $value->id }}"><i class="fa fa-times"></i></button></td>
                               </tr>
                               @php
                               $product_discount += $value->options->product_discount*$value->qty;
@@ -180,6 +192,12 @@
                                 </tbody>
                             </table>
                         </div>
+                        <!-- col-end -->
+                        <div class="col-sm-12">
+                            <div class="form-group mb-3">
+                                <input type="address" placeholder="Admin Notes" id="address" class="form-control" name="notes" value="{{$order->note}}" >
+                            </div>
+                        </div>
                         <div>
                             <input type="submit" class="btn btn-success" value="Update Order" />
                         </div>
@@ -192,7 +210,7 @@
         <!-- end col-->
     </div>
 </div>
-@endsection 
+@endsection
 @section('script')
 <script src="{{asset('public/backEnd/')}}/assets/libs/parsleyjs/parsley.min.js"></script>
 <script src="{{asset('public/backEnd/')}}/assets/js/pages/form-validation.init.js"></script>
@@ -209,6 +227,40 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.select2').select2();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('.product_color').on('change', function() {
+
+            var selectedOption = $(this).find('option:selected'); // Get the selected option
+            var orderId = selectedOption.data('id'); // Retrieve the data-id from the selected option
+            var selectedColor = $(this).val(); // Get the selected color value
+            var productId = selectedOption.data('pro_id'); 
+
+            var selectedColor = $(this).val();
+            // var orderId = $(this).data('id'); // Get the product ID from Blade
+
+            // alert(selectedColor + orderId);
+            $.ajax({
+                url: '{{ route('admin.update.product.color') }}', // Your route
+                type: 'POST',
+                data: {
+                    order_id: orderId,
+                    product_id: productId,
+                    product_color: selectedColor,
+                    _token: '{{ csrf_token() }}' // Include CSRF token for security
+                },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    }
+                },
+                error: function(xhr) {
+                    alert('An error occurred while updating the color.');
+                }
+            });
+        });
     });
 </script>
 <script>
@@ -272,7 +324,7 @@
         var qty = $(this).val();
         if(id){
               $.ajax({
-               cache: false, 
+               cache: false,
                type:"GET",
                data:{'id':id,'qty':qty},
                url:"{{route('admin.order.cart_decrement')}}",
@@ -286,11 +338,14 @@
     $(".cart_remove").click(function(e){
         e.preventDefault();
         var id = $(this).data("id");
+        var order = $(this).data("order");
+        var product = $(this).data("product");
+        
         if(id){
               $.ajax({
                cache: false,
                type:"GET",
-               data:{'id':id},
+               data:{'id': id , 'order': order , 'product': product },
                url:"{{route('admin.order.cart_remove')}}",
                dataType: "json",
               success: function(cartinfo){
@@ -323,8 +378,8 @@
             return cart_content()+cart_details();
           }
        });
-      
-      
+
+
    });// pshippingfee from total
     $("#area").on("change", function () {
         var id = $(this).val();

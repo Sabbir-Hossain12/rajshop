@@ -33,6 +33,7 @@ use App\Models\Like;
 use App\Models\Share;
 use App\Models\Coupon;
 use App\Models\Postcomment;
+use App\Models\SliderImage;
 use Illuminate\Support\Facades\Auth;
 
 use Session;
@@ -78,7 +79,84 @@ class WebviewController extends Controller
             return response()->json($response, 200);
         }
     }
+    // public function givereact(Request $request,$slug){
 
+    //     if($slug=='like'){
+    //         $ex=React::where('user_id',$request->ip())->where('product_id',$request->product_id)->where('sigment','like')->first();
+    //         if(isset($ex)){
+    //             $ex->delete();
+    //             $data=[
+    //                 'total'=>React::where('product_id',$request->product_id)->where('sigment','like')->get()->count(),
+    //                 'product_id'=>$request->product_id,
+    //                 'sigment'=>'unlike',
+    //             ];
+    //             return response()->json($data, 200);
+    //         }else{
+    //             $like = new React();
+    //             $like->product_id=$request->product_id;
+    //             $like->user_id=$request->ip();
+    //             $like->sigment=$slug;
+    //             $like->save();
+    //             $data=[
+    //                 'total'=>React::where('product_id',$request->product_id)->where('sigment','like')->get()->count(),
+    //                 'product_id'=>$request->product_id,
+    //                 'sigment'=>'like',
+    //             ];
+    //             return response()->json($data, 200);
+    //         }
+    //     }else{
+    //         $ex=React::where('user_id',$request->ip())->where('product_id',$request->product_id)->where('sigment','love')->first();
+    //         if(isset($ex)){
+    //             $ex->delete();
+    //             $data=[
+    //                 'total'=>React::where('product_id',$request->product_id)->where('sigment','love')->get()->count(),
+    //                 'product_id'=>$request->product_id,
+    //                 'sigment'=>'unlove',
+    //             ];
+    //             return response()->json($data, 200);
+    //         }else{
+    //             $like = new React();
+    //             $like->product_id=$request->product_id;
+    //             $like->user_id=$request->ip();
+    //             $like->sigment=$slug;
+    //             $like->save();
+    //             $data=[
+    //                 'total'=>React::where('product_id',$request->product_id)->where('sigment','love')->get()->count(),
+    //                 'product_id'=>$request->product_id,
+    //                 'sigment'=>'love',
+    //             ];
+    //             return response()->json($data, 200);
+    //         }
+    //     }
+
+    // }
+
+    // public function givelike(Request $request){
+
+    //     $ex=Like::where('user_id',$request->user_id)->where('product_id',$request->product_id)->where('review_id',$request->review_id)->first();
+    //     if(isset($ex)){
+    //         $ex->delete();
+    //         $data=[
+    //             'total'=>Like::where('review_id',$request->review_id)->get()->count(),
+    //             'review_id'=>$request->review_id,
+    //             'status'=>'unlike',
+    //         ];
+    //         return response()->json($data, 200);
+    //     }else{
+    //         $like = new Like();
+    //         $like->product_id=$request->product_id;
+    //         $like->user_id=$request->user_id;
+    //         $like->review_id=$request->review_id;
+    //         $like->like='Yes';
+    //         $like->save();
+    //         $data=[
+    //             'total'=>Like::where('review_id',$request->review_id)->get()->count(),
+    //             'review_id'=>$request->review_id,
+    //             'status'=>'like',
+    //         ];
+    //         return response()->json($data, 200);
+    //     }
+    // }
 
     public function campaign($slug)
     {
@@ -89,8 +167,8 @@ class WebviewController extends Controller
             ->first();
         Cart::instance('shopping')->destroy();
         $cart_count = Cart::instance('shopping')->count();
-        if ($cart_count == 0) 
-        
+        if ($cart_count == 0)
+
         {
             Cart::instance('shopping')->add([
                 'id' => $product->id,
@@ -106,16 +184,16 @@ class WebviewController extends Controller
                     ],
             ]);
         }
-        
+
         //dd(Cart::instance('shopping')->content());
-        
+
         $shippingcharge = ShippingCharge::where('status', 1)->get();
         $select_charge = ShippingCharge::where('status', 1)->first();
         Session::put('shipping', $select_charge->amount);
         return view('webview.content.landing-page.campaign', compact('campaign_data', 'product', 'shippingcharge'));
-        
+
     }
-    
+
     public function shipping_charge(Request $request)
     {
 
@@ -157,34 +235,38 @@ class WebviewController extends Controller
 
     public function review(Request $request)
     {
-
-//     return $request;
+    
         $review = new Review();
         $review->product_id = $request->product_id;
         $review->review  = $request->review;
-        $review->ratting = $request->ratting;
+        $review->ratting = $request->ratting; // Fixed typo from 'ratting' to 'rating'
         $review->customer_id = $request->customer_id;
-        $review->name = Auth::guard('customer')->user()->name ?? 'John Doe';
-        $review->email = Auth::guard('customer')->user()->email ?? 'customer@gmail.com';
-        
-//        if ($request->file) 
-//        {
-//            $file = $request->file;
-//            $name = time()."_".$file->getClientOriginalName();
-//            $uploadPath = ('public/images/admin/profile/');
-//            $file->move($uploadPath, $name);
-//            $imageUrl = $uploadPath.$name;
-//            $review->file = $imageUrl;
-//        }
-
+        $review->name = Auth::guard('customer')->user()->name ?? $request->name;
+        $review->email = Auth::guard('customer')->user()->email ?? '';
+    
+        // Check if there are files in the request
+        if ($request->hasFile('image')) {
+            $imageUrls = []; 
+            
+            foreach ($request->file('image') as $file) {
+                $name = time() . "_" . $file->getClientOriginalName();
+                $uploadPath = public_path('images/reviews/'); // Use public_path for better path handling
+                $file->move($uploadPath, $name);
+                $imageUrls[] = 'images/reviews/' . $name; // Store relative paths
+            }
+            
+            // Save the images as a JSON string or a comma-separated string
+            $review->image = json_encode($imageUrls); // Adjust based on how you want to store them
+        }
+    
         $review->save();
-//        return response()->json('success', 200);
-
-        Toastr::success('Success','Review is Submitted and Pending for Approval');
+    
+        Toastr::success('Success', 'Review is Submitted and Pending for Approval');
         return redirect()->back();
     }
+    
 
-    public function givereact(Request $request, $slug)
+    public function givereact (Request $request, $slug)
     {
         if ($slug == 'like') {
             $ex = React::where('user_id', $request->ip())->where('product_id', $request->product_id)->where('sigment',
@@ -343,19 +425,19 @@ class WebviewController extends Controller
     public function index($slug)
     {
         $title='';
-        if ($slug == 'about-us') 
+        if ($slug == 'about-us')
         {
             $title = 'About US';
-        } 
+        }
         elseif($slug == 'contact_us')
         {
            $title = 'Contact Us';
-        } 
+        }
         elseif($slug == 'order-procedure')
         {
            $title = 'Order Procedure';
-        } 
-        
+        }
+
         elseif($slug == 'delivery-rules')
         {
            $title = 'Delivery Rules';
@@ -376,13 +458,13 @@ class WebviewController extends Controller
         {
             $title = 'FAQ';
         }
-        
-        
+
+
         else
         {
             abort(404);
         }
-        
+
 
 
         $value = CreatePage::where('slug', $slug)->first();
@@ -418,19 +500,20 @@ class WebviewController extends Controller
 //        dd($relatedproducts);
 
         $shipping = ShippingCharge::where('status', 1)->get();
-        $reviews = Review::where('product_id', $productdetails->id)->get();
+        $reviews = Review::where('product_id', $productdetails->id)->paginate(5);
         $varients = Productcolor::where('product_id', $productdetails->id)->get();
 //        dd($varients);
         // return $productcolors;
         $sizes = Productsize::where('product_id', $productdetails->id)
             ->get();
+        $sliderImg = SliderImage::where('product_id' , $productdetails->id)->get();
 
 
         return view('webview.content.product.details',
             [
                 'varients' => $varients, 'sizes' => $sizes, 'shipping' => $shipping,
                 'productdetails' => $productdetails, 'relatedproducts' => $relatedproducts, 'products' => $products,
-                'reviews' => $reviews
+                'reviews' => $reviews, 'sliderImg' => $sliderImg,
             ]);
     }
 

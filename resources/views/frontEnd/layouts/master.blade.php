@@ -60,9 +60,23 @@
         </noscript>
         <!-- End Facebook Pixel Code -->
         @endforeach
+        
+        <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NVCX4H9K');</script>
+<!-- End Google Tag Manager -->
 
     </head>
     <body class="gotop">
+        
+        <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NVCX4H9K"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
         @php $subtotal = Cart::instance('shopping')->subtotal(); @endphp
         <div class="mobile-menu">
             <div class="mobile-menu-logo">
@@ -312,7 +326,7 @@
 
             <input type="hidden" name="wp_number" value="{{$generalsetting->wp_number}}" id="wp_number">
 
-            <!-- WhatsApp Chat Box -->
+             WhatsApp Chat Box 
             <div id="whatsapp-chat-box">
                 <header>
                     <img src="https://img.icons8.com/ios/50/000000/user.png" alt="Profile Picture">

@@ -72,16 +72,74 @@
         #sync1 .items img{
             transition: .5s;
         }
+         #whatsapp-chat-icon , #messenger-chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: bounce 2s infinite;
+            z-index: 100;
+            width: fit-content;
+        }
+
+        #whatsapp-chat-icon a img , #messenger-chat-icon a img{
+            transition: transform 0.2s;
+        }
+
+        #whatsapp-chat-icon a:hover img , #messenger-chat-icon a:hover img{
+            animation: vibrate 0.2s;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes vibrate {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 0); }
+            40% { transform: translate(2px, 0); }
+            60% { transform: translate(-2px, 0); }
+            80% { transform: translate(2px, 0); }
+            100% { transform: translate(0); }
+        }
+        @media (max-width: 576px) {
+            #whatsapp-chat-icon , #messenger-chat-icon {
+            bottom: 0;
+            right: 0 !important;
+            z-index: 10000;
+            animation: none;
+
+        }
+        }
+
+
 
 
     </style>
-{{--    {!!App\Models\Basicinfo::first()->facebook_pixel!!}--}}
-{{--    {!!App\Models\Basicinfo::first()->google_analytics!!}--}}
+ <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NVCX4H9K');</script>
+<!-- End Google Tag Manager -->
 
 
 </head>
 
 <body class="main-body">
+
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NVCX4H9K"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
     <!-- header -->
     @include('webview.partials.header')
@@ -106,9 +164,43 @@
     @yield('subfooter')
 
 
-<a href="https://wa.me/+8801709358600?text=I%20am%20interested" target="_blank" style="position: fixed;bottom: 60px;left: 6px;z-index:1111">
-    <img src="{{asset('public/whatsappns.png')}}" style="height:60px;border-radius:50%">
-</a>
+<div id="messenger-chat-icon">
+    <a href="{{$generalsetting->messenger}}" target="_blank" style="">
+        <img src="{{asset('public/messenger.png')}}" width="62px" style="border-radius:50%">
+    </a>
+</div>    
+<!--<div id="whatsapp-chat-icon">-->
+<!--    <a href="https://wa.me/+88{{App\Models\Contact::first()->phone}}?text=I%20am%20interested" target="_blank">-->
+<!--        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Chat" width="55px">-->
+<!--    </a>-->
+<!--</div>-->
+<input type="hidden" name="wp_number" value="{{$generalsetting->wp_number}}" id="wp_number">
+
+<script>
+    // Function to handle chat box functionality
+    function createWhatsAppChat() {
+        var chatButton = document.getElementById('whatsapp-chat-icon');
+        var chatBox = document.getElementById('whatsapp-chat-box');
+
+        // Toggle chat box visibility
+        chatButton.onclick = function () {
+            if (chatBox.style.display === 'none') {
+                chatBox.style.display = 'block';
+                chatBox.style.opacity = 1;
+            } else {
+                chatBox.style.opacity = 0;
+                setTimeout(function () {
+                    chatBox.style.display = 'none';
+                }, 300); // Delay hiding to allow fade-out transition
+            }
+        };
+    }
+
+    // Initialize chat functionality
+    window.onload = function () {
+        createWhatsAppChat();
+    };
+</script>
 
 
 
@@ -146,7 +238,31 @@
 {{--{!!App\Models\Basicinfo::first()->chat_box!!}--}}
 
 
+<script>
+    $(document).ready(function() {
+        function checkWindowSize() {
+            var marquee = $('#marquee');
+            if (window.innerWidth <= 768) { // Adjust the width as needed for mobile
+                marquee.show();
 
+                // Adjust the animation duration based on the content length
+                var contentWidth = $('#marquee-content').width();
+                var marqueeWidth = marquee.width();
+                var duration = (contentWidth + marqueeWidth) / 50; // Adjust speed here
+
+                $('#marquee-content').css('animation-duration', duration + 's');
+            } else {
+                marquee.hide();
+            }
+        }
+
+        // Check on load
+        checkWindowSize();
+
+        // Check on resize
+        $(window).resize(checkWindowSize);
+    });
+</script>
 
     <script>
         window.onscroll = function() {
@@ -156,13 +272,13 @@
         var header = document.getElementById("myHeader");
         var sticky = header.offsetTop;
 
-        function myFunction() 
+        function myFunction()
         {
-            if (window.pageYOffset > sticky) 
+            if (window.pageYOffset > sticky)
             {
                 header.classList.add("sticky");
-            } 
-            else 
+            }
+            else
             {
                 header.classList.remove("sticky");
             }

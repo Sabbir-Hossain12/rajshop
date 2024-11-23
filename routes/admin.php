@@ -29,11 +29,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\DashboardController;
-
-
-
-
-
+use App\Http\Controllers\Admin\MarqueeController;
 
 // unathenticate admin route
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['customer', 'ipcheck', 'check_refer']],
@@ -46,6 +42,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['cus
 Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'lock', 'check_refer'], 'prefix' => 'admin'], function () {
     Route::get('product/color', [ProductController::class, 'variant']);
     Route::get('product/size-weight', [ProductController::class, 'sizeweight']);
+    // routes/web.php
+    Route::get('/product/price-by-color', [ProductController::class, 'getPriceByColor']);
+
 
     Route::get('remove-varient/{id}', [ProductController::class, 'removevarient']);
     Route::get('remove-size/{id}', [ProductController::class, 'removesize']);
@@ -126,6 +125,10 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'lock', 'check_re
     // courierapi
     Route::get('courierapi/manage', [ApiIntegrationController::class, 'courier_manage'])->name('courierapi.manage');
     Route::post('courierapi/save', [ApiIntegrationController::class, 'courier_update'])->name('courierapi.update');
+
+    //Marquee
+    Route::get('marquee/view', [MarqueeController::class, 'index'])->name('marquee.index');
+    Route::post('marquee/update', [MarqueeController::class, 'update'])->name('marquee.update');
 
     // attribute
     Route::get('orderstatus/manage', [OrderStatusController::class, 'index'])->name('orderstatus.index');
@@ -211,6 +214,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'lock', 'check_re
     Route::get('products/update-status', [ProductController::class, 'update_status'])->name('products.update_status');
     Route::get('products/price-edit', [ProductController::class, 'price_edit'])->name('products.price_edit');
     Route::post('products/price-update', [ProductController::class, 'price_update'])->name('products.price_update');
+    Route::get('products/slider/{id}' , [ProductController::class, 'deleteImage']);
 
     // campaign
     Route::get('campaign/manage', [CampaignController::class, 'index'])->name('campaign.index');
@@ -296,6 +300,9 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'lock', 'check_re
     Route::get('order/cart-details', [OrderController::class, 'cart_details'])->name('admin.order.cart_details');
     Route::get('order/cart-shipping', [OrderController::class, 'cart_shipping'])->name('admin.order.cart_shipping');
     Route::get('order/cart-clear', [OrderController::class, 'cart_clear'])->name('admin.order.cart_clear');
+    Route::post('order/update-product-color', [OrderController::class, 'updateColor'])->name('admin.update.product.color');
+    // web.php
+
 
     // Order route
     Route::get('order/{slug}', [OrderController::class, 'index'])->name('admin.orders');
@@ -315,10 +322,10 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth', 'lock', 'check_re
     Route::get('order-pathao', [OrderController::class, 'order_pathao'])->name('admin.order.pathao');
     Route::get('/pathao-city', [OrderController::class, 'pathaocity'])->name('pathaocity');
     Route::get('/pathao-zone', [OrderController::class, 'pathaozone'])->name('pathaozone');
-    
+
     //Single Order Status Change
     Route::post('order-single-status-change', [OrderController::class, 'order_single_status_change'])->name('admin.order_single_status_change');
-    
+
 
     // Order route
     Route::get('reviews', [ReviewController::class, 'index'])->name('reviews.index');

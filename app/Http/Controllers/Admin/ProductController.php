@@ -15,6 +15,7 @@ use App\Models\Childcategory;
 use App\Models\Brand;
 use App\Models\Color;
 use App\Models\Size;
+use App\Models\SliderImage;
 use Carbon\Carbon;
 use Toastr;
 use File;
@@ -89,7 +90,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->short_des = $request->short_des;
         $product->status = $request->status;
-        $product->topsale = $request->topsale;
+        $product->topsale = $request->has('topsale') ? 1 : 0;
         $product->type = $request->type;
         $result = $product->save();
 
@@ -114,6 +115,31 @@ class ProductController extends Controller
         $pimage->image      = $imageUrl;
         $pimage->save();
 
+        $sliderImages = $request->file('sliderImage'); // Get the array of uploaded files
+
+        foreach ($sliderImages as $sliderImage) {
+            if ($sliderImage->isValid()) {
+                // Process each valid uploaded file
+                $name = time() . '-' . $sliderImage->getClientOriginalName();
+                $name = strtolower(preg_replace('/\s+/', '-', $name));
+
+                // Define the upload path
+                $uploadPath = 'public/images/slider/';
+
+                // Move the uploaded file to the specified path
+                $sliderImage->move($uploadPath, $name); // Use $value instead of $image
+
+                // Construct the image URL
+                $imageUrl = $uploadPath . $name;
+
+                // Create a new SliderImage instance and save
+                $slider_img = new SliderImage();
+                $slider_img->product_id = $product->id;
+                $slider_img->image_url  = $imageUrl;
+                $slider_img->save();
+            }
+        }
+
         if ($result) {
             if (!empty($variants)) {
                 foreach ($variants as $vr) {
@@ -121,6 +147,7 @@ class ProductController extends Controller
                     $variant->product_id = $product->id;
                     $variant->color_id = $vr['mediaID'];
                     $variant->color = $vr['color'];
+                    $variant->vPrice = $vr['vPrice'];
                     $variantImg = $vr['image'];
                     if ($variantImg) {
                         $imgnamev = $time . $variantImg->getClientOriginalName();
@@ -156,6 +183,7 @@ class ProductController extends Controller
     {
         $edit_data = Product::with('images')->find($id);
         $categories = Category::where('parent_id', '=', '0')->where('status', 1)->select('id', 'name', 'status')->get();
+        $sliderImage = SliderImage::where('product_id' , $id)->select('id','image_url')->get();
         $categoryId = Product::find($id)->category_id;
         $subcategoryId = Product::find($id)->subcategory_id;
         $subcategory = Subcategory::where('category_id', '=', $categoryId)->select('id', 'subcategoryName', 'status')->get();
@@ -165,9 +193,31 @@ class ProductController extends Controller
         $totalcolors = Color::where('status', 1)->get();
         $varients = Productcolor::where('product_id', $id)->get();
         $sizes = Productsize::where('product_id', $id)->get();
-        return view('backEnd.product.edit', compact('edit_data', 'categories', 'subcategory', 'childcategory', 'brands', 'varients', 'sizes', 'totalsizes', 'totalcolors'));
+        return view('backEnd.product.edit', compact('edit_data', 'categories', 'subcategory', 'childcategory', 'brands', 'varients', 'sizes', 'totalsizes', 'totalcolors', 'sliderImage'));
     }
 
+    public function deleteImage($id) {
+        $sliderImage = SliderImage::find($id);
+
+        if ($sliderImage) {
+            // Get the full path to the image file
+            $imagePath = 'C:\xampp\htdocs\Shahadat/' . $sliderImage->image_url;
+            // dd($imagePath);
+
+            // Check if the file exists before attempting to delete
+            if (file_exists($imagePath)) {
+                // Delete the file from the server
+                unlink($imagePath);
+            }
+
+            // Delete the record from the database
+            $sliderImage->delete();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 404);
+    }
 
     public function removevarient($id)
     {
@@ -278,7 +328,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->short_des = $request->short_des;
         $product->status = $request->status;
-        $product->topsale = $request->topsale;
+        $product->topsale = $request->has('topsale') ? 1 : 0;
         $product->type = $request->type;
         $product->updated_at = Carbon::now();
         $result = $product->update();
@@ -315,6 +365,7 @@ class ProductController extends Controller
                         $variant->product_id = $product->id;
                         $variant->color_id = $vr['mediaID'];
                         $variant->color = $vr['color'];
+                        $variant->vPrice = $vr['vPrice'];
                         $variantImg = $vr['image'];
                         if ($variantImg != 'undefined') {
                             $imgnamev = $time . $variantImg->getClientOriginalName();
@@ -329,6 +380,7 @@ class ProductController extends Controller
                         $variant->product_id = $product->id;
                         $variant->color_id = $vr['mediaID'];
                         $variant->color = $vr['color'];
+                        $variant->vPrice = $vr['vPrice'];
                         $variantImg = $vr['image'];
                         if ($variantImg) {
                             $imgnamev = $time . $variantImg->getClientOriginalName();
@@ -362,6 +414,34 @@ class ProductController extends Controller
                         $size->SalePrice = $si['RegularPrice'] - $si['Discount'];
                         $size->save();
                     }
+                }
+            }
+            
+        }
+        $sliderImages = $request->file('sliderImage'); // Get the array of uploaded files
+
+
+        if (isset($sliderImages)) {
+            foreach ($sliderImages as $sliderImage) {
+                if ($sliderImage->isValid()) {
+                    // Process each valid uploaded file
+                    $name = time() . '-' . $sliderImage->getClientOriginalName();
+                    $name = strtolower(preg_replace('/\s+/', '-', $name));
+
+                    // Define the upload path
+                    $uploadPath = 'public/images/slider/';
+
+                    // Move the uploaded file to the specified path
+                    $sliderImage->move($uploadPath, $name); // Use $value instead of $image
+
+                    // Construct the image URL
+                    $imageUrl = $uploadPath . $name;
+
+                    // Create a new SliderImage instance and save
+                    $slider_img = new SliderImage();
+                    $slider_img->product_id = $product->id;
+                    $slider_img->image_url  = $imageUrl;
+                    $slider_img->save();
                 }
             }
         }
@@ -424,5 +504,11 @@ class ProductController extends Controller
     {
         $products = Product::whereIn('id', $request->input('product_ids'))->update(['status' => $request->status]);
         return response()->json(['status' => 'success', 'message' => 'Product status change successfully']);
+    }
+    public function getPriceByColor(Request $request) {
+        
+        $productColor = Productcolor::where('color', $request->color)->where('id', $request->id)->first()->vPrice;
+        
+        return response()->json([ 'success' => $productColor, ]);
     }
 }

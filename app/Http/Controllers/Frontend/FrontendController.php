@@ -23,6 +23,7 @@ use App\Models\Payment;
 use App\Models\Order;
 use App\Models\Review;
 use App\Models\Blog;
+use App\Models\SliderImage;
 use Session;
 use Cart;
 use Auth;
@@ -237,8 +238,9 @@ class FrontendController extends Controller
         // return $productcolors;
         $productsizes = Productsize::where('product_id', $details->id)
             ->get();
+        $sliderImg = SliderImage::where('product_id' , $details->id)->get();
 
-        return view('frontEnd.layouts.pages.details', compact('details', 'products', 'shippingcharge', 'productcolors', 'productsizes', 'reviews'));
+        return view('frontEnd.layouts.pages.details', compact('details', 'products', 'shippingcharge', 'productcolors', 'productsizes', 'reviews', 'sliderImg'));
     }
     public function quickview(Request $request)
     {

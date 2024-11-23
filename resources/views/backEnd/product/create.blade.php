@@ -136,7 +136,7 @@
               </div>
             </div>
             <!-- col-end -->
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label for="new_price" class="form-label">New Price *</label>
                 <input type="text" class="form-control @error('new_price') is-invalid @enderror" name="new_price" value="{{ old('new_price') }}" id="new_price" required />
@@ -148,7 +148,7 @@
               </div>
             </div>
             <!-- col-end -->
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               <div class="form-group mb-3">
                 <label for="stock" class="form-label">Stock *</label>
                 <input type="text" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock') }}" id="stock" />
@@ -161,7 +161,7 @@
             </div>
             <!-- col-end -->
 
-            <div class="col-sm-4 mb-3">
+            <div class="col-sm-6 mb-3">
               <label for="image">Image *</label>
 
               <div class="input-group control-group increment">
@@ -172,6 +172,14 @@
                   <strong>{{ $message }}</strong>
                 </span>
                 @enderror
+              </div>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <label for="image">Slider Image *</label>
+
+              <div class="input-group control-group increment">
+                <input class="form-control" type="file" id="sliderImage" multiple>
+
               </div>
             </div>
             <!-- col end -->
@@ -210,9 +218,9 @@
             </div>
 
             <div class="col-lg-12">
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="">Short Description</label>
-                    <textarea name="short_des" id="short_des" rows="3" class="form-control"></textarea>
+                    <textarea name="short_des" id="short_des" rows="3" class="form-control summernote"></textarea>
                 </div>
             </div>
 
@@ -233,6 +241,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Color</th>
+                                <th>Price</th>
                                 <th>Image</th>
                                 <th>Choose File</th>
                                 <th></th>
@@ -333,7 +342,7 @@
               <div class="form-group">
                 <label for="topsale" class="d-block">Hot Deals</label>
                 <label class="switch">
-                  <input type="checkbox" value="1" id="topsale" name="topsale" />
+                  <input type="checkbox" id="topsale" name="topsale" />
                   <span class="slider round"></span>
                 </label>
                 @error('topsale')
@@ -458,6 +467,7 @@
                     var obj = {};
                     obj.mediaID = currentRow.find("#mediaID").val();
                     obj.color = currentRow.find("#color").val();
+                    obj.vPrice = currentRow.find("#vPrice").val();
                     obj.image = currentRow.find("#image")[0].files[0];
                     variant.push(obj);
                     variantCount++;
@@ -481,11 +491,24 @@
                     return;
                 }
 
-                if(size == 0){
-                    toastr.error('Size / Weight Should Not Be Empty');
-                    return;
-                }
+                // if(size == 0){
+                //     toastr.error('Size / Weight Should Not Be Empty');
+                //     return;
+                // }
 
+            }
+
+            var slider = [];
+            var sliderCount = 0;
+
+            // Assuming #sliderImage is the input element for selecting multiple images
+            var files = $("#sliderImage")[0].files; // Get the FileList from the input
+
+            for (var i = 0; i < files.length; i++) {
+                var obj = {};
+                obj.image = files[i]; // Store each file in the object
+                slider.push(obj);
+                sliderCount++;
             }
 
             var formData = new FormData();
@@ -507,6 +530,9 @@
             formData.append('type', type.val());
             formData.append('short_des', short_des.val());
             formData.append('image', $('#productimage')[0].files[0]);
+            slider.forEach(function(item) {
+                formData.append('sliderImage[]', item.image); // Use 'sliderImage[]' for multiple files
+            });
             if(type.val()==0){
 
             }else{
@@ -575,6 +601,7 @@
                 "<tr>" +
                 '<td><input type="text" id="mediaID" style="width:80px;border: none;color: black;" value="' + e.params.data.id + '" disabled></td>' +
                 '<td><input type="text" name="color" id="color" style="width:80px;border: none;color: black;" value="' + e.params.data.text + '" disabled> </td>' +
+                '<td><input type="text" name="vPrice" id="vPrice" style="width:120px;color: black;" value="" placeholder="Price"> </td>' +
                 '<td><img src="" style="width:50px"></td>' +
                 '<td><input type="file" id="image" class="form-control"></td>' +
                 '<td><button type="button" class="btn btn-sm btn-danger delete-btn"><i class="fa fa-trash"></i></button></td>\n' +

@@ -6,6 +6,19 @@
   <td><img height="30" src="{{asset($value->options->image)}}"></td>
   <td>{{$value->name}}</td>
   <td>
+        <!--<select class="form-select" aria-label="Default select example" >-->
+        <!--    <option value="{{$value->options->product_color}}">{{$value->options->product_color}}</option>-->
+        <!--    <option value="2">Two</option>-->
+        <!--    <option value="3">Three</option>-->
+        <!--</select>-->
+         <select class="form-select" aria-label="Default select example">
+          <!--<option data-id="{{$value->options->order_id ?? '' }}" value="{{$value->options->product_color ?? '' }}">{{$value->options->product_color ?? 'No Color'}}</option>-->
+          @foreach (App\Models\Productcolor::where('product_id', $value->id)->get() as $color)
+              <option data-id="{{$value->options->order_id}}" value="{{$color->color}}">{{$color->color}}</option>
+          @endforeach
+      </select>
+    </td>
+  <td>
     <div class="qty-cart vcart-qty">
       <div class="quantity">
           <button class="minus cart_decrement" value="{{$value->qty}}"  data-id="{{$value->rowId}}">-</button>
@@ -71,7 +84,7 @@
         var qty = $(this).val();
         if(id){
               $.ajax({
-               cache: false, 
+               cache: false,
                type:"GET",
                data:{'id':id,'qty':qty},
                url:"{{route('admin.order.cart_decrement')}}",

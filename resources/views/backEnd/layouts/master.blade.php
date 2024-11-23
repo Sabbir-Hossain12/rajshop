@@ -301,11 +301,11 @@
                     <li>
                       <a href="{{route('sizes.index')}}"><i data-feather="file-plus"></i> Sizes</a>
                     </li>
-                    
+
                     <li>
                       <a href="{{route('products.price_edit')}}"><i data-feather="file-plus"></i> Price Edit</a>
                     </li>
-                    
+
                   </ul>
                 </div>
               </li>
@@ -320,7 +320,7 @@
                   <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebar-product-review">
-                  <ul class="nav-second-level">                   
+                  <ul class="nav-second-level">
                     <li>
                       <a href="{{route('reviews.pending')}}"><i data-feather="file-plus"></i> Pending Reviews ({{ $pending_reviews }})</a>
                     </li>
@@ -341,8 +341,8 @@
                   <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebar-landing-page">
-                  <ul class="nav-second-level">                   
-                    
+                  <ul class="nav-second-level">
+
                     <li>
                       <a href="{{route('campaign.create')}}"><i data-feather="file-plus"></i> Create</a>
                     </li>
@@ -353,7 +353,7 @@
                 </div>
               </li>
               <!-- nav items end -->
-              
+
               <li>
                 <a href="#sidebar-users" data-bs-toggle="collapse">
                   <i data-feather="user"></i>
@@ -407,6 +407,9 @@
                     <li>
                       <a href="{{route('orderstatus.index')}}"><i data-feather="file-plus"></i> Order Status</a>
                     </li>
+                    <li>
+                        <a href="{{route('marquee.index')}}"><i data-feather="file-plus"></i>Marquee</a>
+                      </li>
                   </ul>
                 </div>
               </li>
@@ -418,7 +421,7 @@
                   <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebar-api-integration">
-                  <ul class="nav-second-level">                   
+                  <ul class="nav-second-level">
                     <li>
                       <a href="{{route('paymentgeteway.manage')}}"><i data-feather="file-plus"></i> Payment Gateway</a>
                     </li>
@@ -439,7 +442,7 @@
                   <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="sidebar-pixel-gtm">
-                  <ul class="nav-second-level">                   
+                  <ul class="nav-second-level">
                     <li>
                       <a href="{{route('tagmanagers.index')}}"><i data-feather="file-plus"></i> Tag Manager</a>
                     </li>
@@ -743,7 +746,7 @@
             });
         });
     </script>
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         $(document).ready(function() {
             $('.pathaozone').change(function() {
                 var id = $(this).val();

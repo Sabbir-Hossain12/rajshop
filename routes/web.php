@@ -164,6 +164,8 @@ Route::get('get/products/by-subcategory', [WebviewController::class, 'getsubcate
 Route::get('products/sub/category/{slug}', [WebviewController::class, 'subcategoryproduct']);
 Route::get('/search', [WebviewController::class, 'search'])->name('search');
 Route::get('/combo-offer', [WebviewController::class, 'combo'])->name('combo');
+// Route::get('give/like', [WebviewController::class, 'givelike']);
+Route::get('give/react/{slug}', [WebviewController::class, 'givereact']);
 
 //promotional product list
 Route::get('promotional/products', [WebviewController::class, 'getPromotional']);

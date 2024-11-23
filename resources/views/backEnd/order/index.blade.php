@@ -2,7 +2,7 @@
 @section('title',$order_status->name.' Order')
 @section('content')
 <div class="container-fluid">
-    
+
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -13,8 +13,8 @@
                 <h4 class="page-title">{{$order_status->name}} Order ({{$order_status->orders_count}})</h4>
             </div>
         </div>
-    </div>       
-    <!-- end page title --> 
+    </div>
+    <!-- end page title -->
    <div class="row order_page">
     <div class="col-12">
         <div class="card">
@@ -52,26 +52,26 @@
                             <th style="width:8%">Invoice</th>
                             <th style="width:10%">Date</th>
                             <th style="width:10%">Customer</th>
-                            <th style="width:20%">Products</th>
-                            <th style="width:4%">Notes</th>
+                            <th style="width:15%">Products</th>
+                            <th style="width:10%">Notes</th>
                             <th style="width:5%">Assign</th>
                             <th style="width:5%">Amount</th>
                             <th style="width:15%">Status</th>
                         </tr>
                     </thead>
-                
-                
+
+
                     <tbody>
                         @foreach($show_data as $key=>$value)
                         <tr>
                             <td><input type="checkbox" class="checkbox" value="{{$value->id}}"></td>
                             <td>{{$loop->iteration}}</td>
                             <td>
-                                <div class="button-list custom-btn-list">   
+                                <div class="button-list custom-btn-list">
                                     <a href="{{route('admin.order.invoice',['invoice_id'=>$value->invoice_id])}}" title="Invoice"><i class="fe-eye"></i></a>
                                     <a href="{{route('admin.order.process',['invoice_id'=>$value->invoice_id])}}" title="Process"><i class="fe-settings"></i></a>
                                     <a href="{{route('admin.order.edit',['invoice_id'=>$value->invoice_id])}}" title="Edit"><i class="fe-edit"></i></a>
-                                    <form method="post" action="{{route('admin.order.destroy')}}" class="d-inline">        
+                                    <form method="post" action="{{route('admin.order.destroy')}}" class="d-inline">
                                         @csrf
                                     <input type="hidden" value="{{$value->id}}" name="id">
                                     <button type="submit" title="Delete" class="delete-confirm"><i class="fe-trash-2"></i></button></form>
@@ -84,13 +84,13 @@
                                 {{$value->shipping?$value->shipping->phone:''}}</p>
                             </td>
                             <td>
-                                @foreach($value->orderdetails as $product) 
+                                @foreach($value->orderdetails as $product)
                                 <p class="mb-0">{{$product->product_name}} X <span class="text-dark fw-normal">{{$product->qty}}</span></p>
-                                @if(isset($product->product_color)) 
+                                @if(isset($product->product_color))
                                 <p class="mb-0"><span class="text-primary fw-normal">Color: </span>{{$product->product_color}}</p>
                                     @endif
-                                
-                                @if(isset($product->product_size)) 
+
+                                @if(isset($product->product_size))
                                 <p><span class="text-primary fw-normal">Variant: </span>{{$product->product_size}}</p>
                                     @endif
                                 @endforeach
@@ -99,7 +99,7 @@
                             <td>{{$value->user?$value->user->name:''}}</td>
                             <td>৳{{$value->amount}}</td>
                             <td>
-                                <form action="{{ route('admin.order_single_status_change') }}" method="POST">
+                                <form action="{{ route('admin.order_single_status_change') }}" method="POST" style="width: 100px">
                                     @csrf
                                     <input type="hidden" name="order_id" value="{{ $value->id }}">
                                 <div class="form-group">
@@ -112,7 +112,7 @@
                                 </div>
                                 </form>
                             </td>
-                            
+
                         </tr>
                         @endforeach
                     </tbody>
@@ -122,7 +122,7 @@
                     {{$show_data->links('pagination::bootstrap-4')}}
                 </div>
             </div> <!-- end card body-->
-           
+
         </div> <!-- end card -->
     </div><!-- end col-->
    </div>
@@ -270,7 +270,7 @@ $(document).ready(function(){
     $(".checkall").on('change',function(){
       $(".checkbox").prop('checked',$(this).is(":checked"));
     });
-    
+
     $(document).on('click', '.multi_pathao', function(e){
         e.preventDefault();
         var url = $(this).attr('href');
@@ -278,7 +278,7 @@ $(document).ready(function(){
           return $(this).val();
         });
         var order_ids=order.get();
-        
+
         if(order_ids.length ==0 || order_ids.length >1){
             $('#orids').val('');
             toastr.error('Please Select An Order First !');
@@ -286,7 +286,7 @@ $(document).ready(function(){
         }else{
             $('#orids').val(order_ids);
         }
-        
+
     });
 
     // order assign
@@ -295,17 +295,17 @@ $(document).ready(function(){
         var url = $(this).attr('action');
         var method = $(this).attr('method');
         let user_id=$(document).find('select#user_id').val();
-    
+
         var order = $('input.checkbox:checked').map(function(){
           return $(this).val();
         });
         var order_ids=order.get();
-        
+
         if(order_ids.length ==0){
             toastr.error('Please Select An Order First !');
             return ;
         }
-        
+
         $.ajax({
            type:'GET',
            url:url,
@@ -314,32 +314,32 @@ $(document).ready(function(){
                if(res.status=='success'){
                 toastr.success(res.message);
                 window.location.reload();
-                
+
             }else{
                 toastr.error('Failed something wrong');
             }
            }
         });
-    
+
     });
 
-    // order status change 
+    // order status change
     $(document).on('submit', 'form#order_status_form', function(e){
         e.preventDefault();
         var url = $(this).attr('action');
         var method = $(this).attr('method');
         let order_status=$(document).find('select#order_status').val();
-    
+
         var order = $('input.checkbox:checked').map(function(){
           return $(this).val();
         });
         var order_ids=order.get();
-        
+
         if(order_ids.length ==0){
             toastr.error('Please Select An Order First !');
             return ;
         }
-        
+
         $.ajax({
            type:'GET',
            url:url,
@@ -348,13 +348,13 @@ $(document).ready(function(){
                if(res.status=='success'){
                 toastr.success(res.message);
                 window.location.reload();
-                
+
             }else{
                 toastr.error('Failed something wrong');
             }
            }
         });
-    
+
     });
 
     // Change individual Order Status
@@ -362,17 +362,17 @@ $(document).ready(function(){
     {{--{--}}
     {{--    // let order_id = id;--}}
     {{--    // let order_status = status;--}}
-    
+
     {{--    $.ajax({--}}
     {{--        type: 'POST',--}}
-    
+
     {{--        url: "{{ route('admin.order.status.change') }}",--}}
     {{--        data: {--}}
     {{--            order_id:id,--}}
     {{--            order_status:status--}}
     {{--        },--}}
     {{--        success: function (res) {--}}
-    
+
     {{--            toastr.success(res.message);--}}
     {{--            orderTable.ajax.reload();--}}
     {{--        },--}}
@@ -380,7 +380,7 @@ $(document).ready(function(){
     {{--            console.log('error')--}}
     {{--        }--}}
     {{--    })--}}
-    
+
     {{--}--}}
     // order delete
     $(document).on('click', '.order_delete', function(e){
@@ -390,12 +390,12 @@ $(document).ready(function(){
           return $(this).val();
         });
         var order_ids=order.get();
-        
+
         if(order_ids.length ==0){
             toastr.error('Please Select An Order First !');
             return ;
         }
-        
+
         $.ajax({
            type:'GET',
            url:url,
@@ -404,15 +404,15 @@ $(document).ready(function(){
                if(res.status=='success'){
                 toastr.success(res.message);
                 window.location.reload();
-                
+
             }else{
                 toastr.error('Failed something wrong');
             }
            }
         });
-    
+
     });
-    
+
     // multiple print
     $(document).on('click', '.multi_order_print', function(e){
         e.preventDefault();
@@ -421,7 +421,7 @@ $(document).ready(function(){
           return $(this).val();
         });
         var order_ids=order.get();
-        
+
         if(order_ids.length ==0){
             toastr.error('Please Select Atleast One Order!');
             return ;
@@ -432,8 +432,8 @@ $(document).ready(function(){
            data:{order_ids},
            success:function(res){
                if(res.status=='success'){
-                   console.log(res.items, res.info);                          
-                   var myWindow = window.open("", "_blank");                   
+                   console.log(res.items, res.info);
+                   var myWindow = window.open("", "_blank");
                    myWindow.document.write(res.view);
             }else{
                 toastr.error('Failed something wrong');
@@ -449,12 +449,12 @@ $(document).ready(function(){
           return $(this).val();
         });
         var order_ids=order.get();
-        
+
         if(order_ids.length ==0){
             toastr.error('Please Select An Order First !');
             return ;
         }
-        
+
         $.ajax({
            type:'GET',
            url:url,
@@ -463,13 +463,13 @@ $(document).ready(function(){
                if(res.status=='success'){
                 toastr.success(res.message);
                 window.location.reload();
-                
+
             }else{
                 toastr.error('Failed something wrong');
             }
            }
         });
-    
+
     });
 })
 </script>

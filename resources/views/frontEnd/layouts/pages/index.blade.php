@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="{{ asset('public/frontEnd/css/owl.theme.default.min.css') }}" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" rel="stylesheet" />
 @endpush @section('content')
+
 <section class="slider-section">
     <div class="container-fluid">
         <div class="row">
@@ -154,13 +155,13 @@
                                             alt="{{ $value->name }}" />
                                     </a>
                                 </div>
-                                    
+
                                 <div class="pro_des">
                                     <div class="pro_name">
                                         <a
                                             href="{{ route('product', $value->slug) }}">{{ Str::limit($value->name, 80) }}</a>
                                     </div>
-                                    
+
                                     <div class="pro_price">
                                         <p>
                                             @if ($value->old_price)
@@ -171,7 +172,7 @@
 
                                         </p>
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
@@ -302,6 +303,8 @@
 @endsection @push('script')
 <script src="{{ asset('public/frontEnd/js/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('public/frontEnd/js/jquery.syotimer.min.js') }}"></script>
+
+
 
 <script>
     $(document).ready(function() {

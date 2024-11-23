@@ -17,8 +17,8 @@ use App\Models\EcomPixel;
 use App\Models\GoogleTagManager;
 use App\Models\Order;
 use App\Models\PaymentGateway;
-use Config;
-use Session;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Paginator::useBootstrap();
     }
 
     /**
@@ -103,7 +103,7 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
 
-
+       
 
         View()->composer('webview.content.maincontent', function ($view) {
             $categories = Category::where(['front_view' => 1, 'status' => 1])

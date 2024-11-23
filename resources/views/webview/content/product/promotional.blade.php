@@ -73,9 +73,9 @@
                                                             </a>
                                                         </div>
                                                         {{--                                                @if (App\Models\Productsize::where('product_id',$promotional->id)->first())--}}
-                                                        @if($promotional->type==1)
+                                                        @if(App\Models\Productsize::where('product_id',$promotional->id)->exists() && $promotional->type==1)
 
-                                                            <span id="discountpart"> <p id="pdis">SAVE ৳{{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->Discount) }}</p></span>
+                                                            <span id="discountpart"> <p id="pdis">SAVE ৳{{ round(App\Models\Productsize::where('product_id',$promotional->id)->first()->Discount) }}</p></span>
                                                         @else
                                                             <span id="discountpart"> <p id="pdis">SAVE ৳{{ ($promotional->old_price - $promotional->new_price) }}</p></span>
                                                         @endif
@@ -144,36 +144,31 @@
                                                                     <span class="fas fa-star" id="checked"></span>
                                                                 @endif
                                                             </div>
-                                                            {{--                                                    <div class="like">--}}
-                                                            {{--                                                        <div class="d-flex" style="justify-content: space-around;font-size: 14px;">--}}
-                                                            {{--                                                            <span style="padding-right:14px;"><span class="sts" style="padding-right: 2px;font-size:12px;"--}}
-                                                            {{--                                                                    id="likereactof{{ $promotional->id }}">{{ App\Models\React::where('product_id', $promotional->id)->where('sigment','like')->get()->count() }}</span><i--}}
-                                                            {{--                                                                    @if(App\Models\React::where('product_id', $promotional->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','like')->first()) style="color:green !important" @endif class="fas fa-thumbs-up" id="likereactdone{{ $promotional->id }}"--}}
-                                                            {{--                                                                    onclick="givereactlike({{ $promotional->id }})"></i></span>--}}
-                                                            {{--                                                            <span><span class="sts" style="padding-right: 2px;font-size:12px;"--}}
-                                                            {{--                                                                    id="lovereactof{{ $promotional->id }}">{{ App\Models\React::where('product_id', $promotional->id)->where('sigment','love')->get()->count() }}</span><i--}}
-                                                            {{--                                                                    @if(App\Models\React::where('product_id', $promotional->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','love')->first()) style="color:red !important" @endif class="fas fa-heart" id="lovereactdone{{ $promotional->id }}"--}}
-                                                            {{--                                                                    onclick="givereactlove({{ $promotional->id }})"></i></span>--}}
-                                                            {{--                                                        </div>--}}
-                                                            {{--                                                    </div>--}}
+                                                            <div class="like">
+                                                        <div class="d-flex" style="justify-content: space-around;font-size: 14px;">
+                                                            <span style="padding-right:14px;"><span class="sts" style="padding-right: 2px;font-size:12px;"
+                                                                    id="likereactof{{ $promotional->id }}">{{ App\Models\React::where('product_id', $promotional->id)->where('sigment','like')->get()->count() }}</span><i
+                                                                    @if(App\Models\React::where('product_id', $promotional->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','like')->first()) style="color:#0070bc !important" @endif class="fas fa-thumbs-up" id="likereactdone{{ $promotional->id }}"
+                                                                    onclick="givereactlike({{ $promotional->id }})"></i></span>
+                                                            <span><span class="sts" style="padding-right: 2px;font-size:12px;"
+                                                                    id="lovereactof{{ $promotional->id }}">{{ App\Models\React::where('product_id', $promotional->id)->where('sigment','love')->get()->count() }}</span><i
+                                                                    @if(App\Models\React::where('product_id', $promotional->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','love')->first()) style="color:red !important" @endif class="fas fa-heart" id="lovereactdone{{ $promotional->id }}"
+                                                                    onclick="givereactlove({{ $promotional->id }})"></i></span>
+                                                        </div>
+                                                    </div>
                                                         </div>
 
-                                                        {{--                                                @if (App\Models\ProductSize::where('product_id',$promotional->id)->first())--}}
-                                                        @if($promotional->type== 1)
+                                                        {{--                                                @if (App\Models\Productsize::where('product_id',$promotional->id)->first())--}}
+                                                        @if(App\Models\Productsize::where('product_id',$promotional->id)->exists() && $promotional->type== 1)
 
                                                             <div class="price-box">
-                                                                <del class="old-product-price strong-400">৳
-                                                                    {{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->RegularPrice) }}</del>
-                                                                <span
-                                                                        class="product-price strong-600">৳ {{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->SalePrice) }}</span>
+                                                                <del class="old-product-price strong-400">৳ {{ round(App\Models\Productsize::where('product_id',$promotional->id)->first()->RegularPrice) }}</del>
+                                                                <span class="product-price strong-600">৳ {{ round(App\Models\Productsize::where('product_id',$promotional->id)->first()->SalePrice) }}</span>
                                                             </div>
                                                         @else
-
                                                             <div class="price-box">
-                                                                <del class="old-product-price strong-400">৳
-                                                                    {{ round($promotional->old_price) }}</del>
-                                                                <span
-                                                                        class="product-price strong-600">৳ {{ round($promotional->new_price) }}</span>
+                                                                <del class="old-product-price strong-400">৳ {{ round($promotional->old_price) }}</del>
+                                                                <span class="product-price strong-600">৳ {{ round($promotional->new_price) }}</span>
                                                             </div>
                                                         @endif
 
@@ -183,13 +178,13 @@
                                                           style="width: 100%;float: left;text-align: center;">
                                                         @method('POST')
                                                         @csrf
-                                                        @if($promotional->type==1)
+                                                        @if(App\Models\Productsize::where('product_id',$promotional->id)->exists() && $promotional->type==1)
                                                             <input type="text" name="color" id="product_colorold" value="{{ App\Models\Productimage::where('product_id',$promotional->id)->first()->color }}" hidden>
                                                         @endif
-                                                        @if($promotional->type==1)
-                                                            {{--                                                @if (App\Models\ProductSize::where('product_id',$promotional->id)->first())--}}
-                                                            <input type="text" name="price" id="product_priceold" value="{{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->SalePrice) }}" hidden>
-                                                            <input type="text" name="size" id="product_sizeold" value="{{ App\Models\ProductSize::where('product_id',$promotional->id)->first()->size }}" hidden>
+                                                        @if(App\Models\Productsize::where('product_id',$promotional->id)->exists() && $promotional->type==1)
+                                                            {{--                                                @if (App\Models\Productsize::where('product_id',$promotional->id)->first())--}}
+                                                            <input type="text" name="price" id="product_priceold" value="{{ round(App\Models\Productsize::where('product_id',$promotional->id)->first()->SalePrice) }}" hidden>
+                                                            <input type="text" name="size" id="product_sizeold" value="{{ App\Models\Productsize::where('product_id',$promotional->id)->first()->size }}" hidden>
                                                         @else
                                                             <input type="text" name="price" id="product_priceold" value="{{ round($promotional->new_price) }}" hidden>
                                                             {{--                                                    <input type="text" name="size" id="product_sizeold" value="{{ App\Models\Weight::where('product_id',$promotional->id)->first()->weight }}" hidden>--}}
@@ -251,7 +246,7 @@
                 success: function(data) {
                     if (data.sigment == 'like') {
                         $('#cateoryPro #likereactof' + id).text(data.total);
-                        $('#cateoryPro #likereactdone' + id).css('color', 'green');
+                        $('#cateoryPro #likereactdone' + id).css('color', '#0070bc');
                     }else if (data.sigment == 'unlike') {
                         $('#cateoryPro #likereactof' + id).text(data.total);
                         $('#cateoryPro #likereactdone' + id).css('color', 'black');

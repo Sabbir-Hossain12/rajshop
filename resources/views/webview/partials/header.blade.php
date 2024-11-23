@@ -20,11 +20,11 @@
                         <a href="mailto:{{ $contact->email }}" title="{{ $contact->email }}"><i
                                 class="icon fas fa-envelope"></i>Contact</a>
                     </li>
-                    
+
                     <li>
                         <a href="#"><i class="icon fas fa-clock"></i>9 AM - 7 PM</a>
                     </li>
-                    
+
                     <li>
                         <a href="tel:{{ $contact->phone }}">
                             <i class="icon fas fa-phone"></i>{{ $contact->phone }}</a>
@@ -48,8 +48,13 @@
 {{--        <marquee behavior="" direction="" style="color: #fff;background: #147700;"> {{ $basicinfo->marquee_text }}</marquee>--}}
 {{--    </div>--}}
     <div class="main-header" id="myHeader" style="background: #fff;border-bottom: 1px solid #e9e9e9;">
+        <div id="marquee">
+            <div id="marquee-content">
+                {{ App\Models\Marquee::where('id', 1)->select('text')->first()->text ?? 'Default text' }}
+            </div>
+        </div>
         <div class="container">
-            <div class="row" style="margin: 0">
+            <div class="row" style="margin: 0;">
                 <div class="col-8 col-sm-9 col-md-9 col-lg-2 logo-holder ps-0">
                     <!-- ============================================================= LOGO ============================================================= -->
                     <div class="logo" style="display: flex;justify-content:space-between">
@@ -116,31 +121,31 @@
                     <div class="dropdown-cart">
                         <a href="#" class="dropdown" onclick="checkcart(this)" data-bs-toggle="dropdown"
                             id="smcarticon">
-                            
+
                             <div class="items-cart-inner">
                                 <div class="basket" style="padding: 0;display:flex;">
-                                    <span style="color: #147700;font-weight:bold">
-                                      
+                                    <span style="color: #0071bd;font-weight:bold">
+
 {{--                                        ৳  {{(int)str_replace(',', '', Cart::subtotal()) }}--}}
 {{--                                        {{ Cart::count()}} x--}}
                                     </span>
-                                    
+
                                     <i class="fa-solid fa-cart-shopping"
-                                        style="padding-top: 26px; font-size: 20px; color: #147700;">
+                                        style="padding-top: 26px; font-size: 20px; color: #0071bd;">
                                     </i>
                                     <span class="mx-1 fw-bold">
-                                       x {{ Cart::count()}} 
+                                       x {{ Cart::count()}}
                                     </span>
-                                    
+
                                 </div>
                             </div>
                         </a>
-                        
+
                         <ul class="dropdown-menu">
                             <li id="checkcartview">
                             </li>
                         </ul>
-                        
+
                         <!-- /.dropdown-menu-->
                     </div>
                     <!-- /.dropdown-cart -->
@@ -148,7 +153,7 @@
                     <a type="button" class="search-button d-lg-none" data-bs-toggle="modal"
                         data-bs-target="#searchPopup" style="float: right;font-size: 30px; color: #b9b9b9;"
                         href="#" id="smsericon"> <i class="fas fa-search"
-                            style="margin-top: 6px;margin-left: 7px;color:#147700"></i></a>
+                            style="margin-left: 7px;color:#0071bd; font-size: 25px"></i></a>
                     <!-- ============================================================= SHOPPING CART DROPDOWN : END============================================================= -->
                 </div>
                 <!-- /.top-cart-row -->
@@ -380,4 +385,38 @@
         line-height: 9px;
         vertical-align: middle;
     }
+    /*====Marquee CSS ====  */
+        #marquee {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+
+        #marquee-content {
+            display: inline-block;
+            padding-left: 100%; /* Start off-screen */
+            animation: marquee 8s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translate(0);
+            }
+            100% {
+                transform: translate(-100%);
+            }
+        }
+        @media only screen and (min-width:320px) and (max-width:767px) {
+            #marquee {
+                position: absolute;
+                /* top: -25px; */
+                z-index: 9;
+                background-color: #0071bd;
+                color: white;
+            }
+    }
+
 </style>
+
+

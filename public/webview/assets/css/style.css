@@ -17,15 +17,15 @@
 }
 
 .header-top-inner {
-    background: #147700;
+    background: #0071bd;
     padding: 2px;
     padding-left: 40px;
     padding-right: 40px;
 }
 
 button#purcheseBtn {
-    background: green;
-    border: 1px solid green;
+    background: #0071bd;
+    border: 1px solid #0071bd;
     color: white;
 }
 
@@ -157,8 +157,8 @@ button#purcheseBtn {
     margin: 0px;
     padding: 9px 15px 8px;
     text-align: center;
-    background-color: green;
-    border: 1px solid green;
+    background-color: #0071bd;
+    border: 1px solid #0071bd;
 }
 
 .dropbtn {
@@ -190,9 +190,9 @@ button#purcheseBtn {
 }
 
 #iconhead {
-    color: #147700;
+    color: #0071bd;
     font-size: 20px;
-    border-right: 1px solid #147700;
+    border-right: 1px solid #0071bd;
     padding-right: 10px;
 }
 
@@ -459,11 +459,17 @@ button#purcheseBtn {
 @media screen and (max-width:768px) {
     .main-header {
         padding: 0px;
+        & .container .row{
+            padding-top: 24px;
+        }
+    }
+    #headcart {
+        justify-content: end;
     }
 }
-
 #logoimage img {
-    max-height: 85px;
+    max-height: 80px;
+    max-width: 200px;
 }
 
 #menubutton {
@@ -573,7 +579,7 @@ button#purcheseBtn {
 .side-menu-header {
     position: relative;
     color: #fff;
-    background: green;
+    background: #0071bd;
 }
 
 .side-menu-close {
@@ -852,7 +858,7 @@ button#purcheseBtn {
     height: 110px;
     margin-top: 6px;
     border-radius: 50%;
-    border: 4px solid green;
+    border: 4px solid #0071bd;
 }
 
 #catp {
@@ -879,7 +885,7 @@ button#purcheseBtn {
     }
     #logosm {
         float: right;
-        margin-right: 57px;
+        /* margin-right: 57px; */
     }
     #cath {
         padding: 4px;
@@ -889,7 +895,7 @@ button#purcheseBtn {
         height: 96px;
         margin-top: 6px;
         border-radius: 50%;
-        border: 4px solid #044204;
+        border: 4px solid #0071bd;
     }
     #catp {
         font-size: 13px;
@@ -1045,6 +1051,8 @@ a:focus {
 
 .product .product-image img {
     width: 100%;
+    object-fit: contain;
+    min-height: 197px;
 }
 
 #categoryimage {
@@ -1096,7 +1104,7 @@ a:focus {
 }
 
 .footer .footer-bottom {
-    background: #033903;
+    background: #0071bd;
     padding-top: 30px;
     padding-bottom: 30px;
 }
@@ -1370,7 +1378,7 @@ ul.toggle-footer {
         box-shadow: 0 -1px 1px 0 rgb(0 0 0 / 15%);
         transition: transform 0.3s;
         -webkit-transition: transform 0.3s;
-        background-color: #044204;
+        background-color: #0071bd;
         opacity: 1;
         border-radius: 0px;
         width: 100%;

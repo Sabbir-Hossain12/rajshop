@@ -23,6 +23,7 @@ use App\Models\User;
 use App\Models\Coupon;
 use Cart;
 use Session;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -78,10 +79,19 @@ class OrderController extends Controller
                     $customer_id = $store->id;
                 }
             }
+            
+            $last_invoice = Order::orderBy('id', 'DESC')->pluck('invoice_id')->first();
+            $invoicePart = explode('-', $last_invoice);
+
+            $lastValue = end($invoicePart);
+            $currentYear = date('Y');
+            $lastValueInt = (int) $lastValue + 1;
+
+            $newInvoiceId = 'INV-'. $currentYear .'-' . str_pad($lastValueInt, 6, '0', STR_PAD_LEFT);
 
             // order data save
             $order = new Order();
-            $order->invoice_id = time();
+            $order->invoice_id = $newInvoiceId;
             $order->amount = ($subTotal + $deliveryCharge);
             $order->discount = 0;
             $order->shipping_charge = $deliveryCharge;
@@ -129,23 +139,9 @@ class OrderController extends Controller
             $site_setting = GeneralSetting::where('status', 1)->first();
             $sms_gateway = SmsGateway::where(['status' => 1, 'order' => '1'])->first();
             if ($sms_gateway) {
-                $url = "$sms_gateway->url";
-                $data = [
-                    "api_key" => "$sms_gateway->api_key",
-                    "contacts" => $request->phone,
-                    "type" => 'text',
-                    "senderid" => "$sms_gateway->serderid",
-                    "msg" => "Dear $request->name!\r\nYour order has been successfully placed. check your customer panel 
-                    on our website to know more about your order. Thank you for using $site_setting->name"
-                ];
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                $response = curl_exec($ch);
-                curl_close($ch);
+                $message = rawurlencode('আপনার অর্ডারটি প্লেস হয়েছে, শীগ্রই আমাদের প্রতিনিধি কল করে অর্ডারটি কনফার্ম করবেন। ORDER ID :'.$order->invoice_id.', Hotline:01627637190');
+                $url = "http://bulksmsbd.net/api/smsapi?api_key={$sms_gateway->api_key}&type=text&number={$request->customerPhone}&senderid={$sms_gateway->serderid}&message={$message}";
+                Http::get($url);
             }
 
             if ($request->payment_method == 'bkash') {
@@ -170,7 +166,9 @@ class OrderController extends Controller
                 );
                 $shurjopay_service = new ShurjopayController();
                 return $shurjopay_service->checkout($info);
+                
             } else {
+                Session::put('order',$order);
                 return redirect('order-received');
             }
         }

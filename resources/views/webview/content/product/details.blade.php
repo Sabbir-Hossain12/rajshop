@@ -8,20 +8,20 @@
     <meta name="keywords" content="rajshop.xyz, online store bd, online shop bd, Organic fruits, Thai, UK, Korea, China, cosmetics, Jewellery, bags, dress, mobile, accessories, automation Products,">
     <meta itemprop="name" content="{{ $productdetails->name }}">
     <meta itemprop="description" content="Best online shopping in Bangladesh for beauty products, men, women, kids, fashion items, clothes, electronics, home appliances, gadgets, watch, many more.">
-    <meta itemprop="image" content="https://rajshop.xyz/{{ $productdetails->image->image }}">
+    <meta itemprop="image" content="https://rajshop.com.bd/{{ $productdetails->image->image }}">
 
-    <meta property="og:url" content="https://rajshop.xyz/product/{{ $productdetails->slug }}">
+    <meta property="og:url" content="https://rajshop.com.bd/product/{{ $productdetails->slug }}">
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ $productdetails->name }}">
     <meta property="og:description" content="Online shopping in BD for beauty products, men, women, kids, fashion items, clothes, electronics, home appliances, gadgets, watch, many more.">
-    <meta property="og:image" content="https://rajshop.xyz/{{ $productdetails->image->image }}">
-    <meta property="image" content="https://rajshop.xyz/{{ $productdetails->image->image }}" />
-    <meta property="url" content="https://rajshop.xyz/product/{{ $productdetails->slug }}">
-    <meta itemprop="image" content="https://rajshop.xyz/{{ $productdetails->image->image }}">
-    <meta property="twitter:card" content="https://rajshop.xyz/{{ $productdetails->image->image }}" />
+    <meta property="og:image" content="https://rajshop.com.bd/{{ $productdetails->image->image }}">
+    <meta property="image" content="https://rajshop.com.bd/{{ $productdetails->image->image }}" />
+    <meta property="url" content="https://rajshop.com.bd/product/{{ $productdetails->slug }}">
+    <meta itemprop="image" content="https://rajshop.com.bd/{{ $productdetails->image->image }}">
+    <meta property="twitter:card" content="https://rajshop.com.bd/{{ $productdetails->image->image }}" />
     <meta property="twitter:title" content="{{ $productdetails->name }}" />
-    <meta property="twitter:url" content="https://rajshop.xyz/product/{{ $productdetails->slug }}">
-    <meta name="twitter:image" content="https://rajshop.xyz/{{ $productdetails->image->image }}">
+    <meta property="twitter:url" content="https://rajshop.com.bd/product/{{ $productdetails->slug }}">
+    <meta name="twitter:image" content="https://rajshop.com.bd/{{ $productdetails->image->image }}">
 @endsection
 <style>
     .stss {
@@ -52,9 +52,9 @@
         height: 34px;
         margin: 0;
         line-height: 4px;
-        background: green;
+        background: #0070bc;
         color: white;
-        border: 1px solid green;
+        border: 1px solid #0070bc;
     }
 
     #buttonminus {
@@ -119,7 +119,7 @@
     #orderBtn {
         position: relative;
         display: inline-block;
-        padding: 10px 20px;
+        padding: 8px 20px;
         font-size: 14px;
         color: white;
         background-color: green;
@@ -154,8 +154,67 @@
         position: relative;
         z-index: 2; /* Ensures the text is above the animated background */
     }
-    
-    
+    #shortdes {
+        margin-bottom: 0;
+    }
+    .shortdes {
+        & h1 , h2 , h3, h4 ,h5 {
+            margin-top: 0 !important;
+            margin-bottom: 10px !important;
+        }
+        & p {
+            margin-bottom: 0 !important;
+        }
+    }
+    .para_off p{
+        margin-bottom: 0 !important;
+    }
+    @media (max-width: 576px) {
+        #sync2 .items img {
+            height: 80px !important;
+            padding: 5px !important;
+        }
+        .qty_cart_btn {
+            flex-direction: column;
+            align-items: flex-start !important;
+
+            & form{
+                width: 100% !important;
+                & button {
+                    font-size: 18px !important;
+                    background: #fec107 !important;
+                    color: black !important;
+                }
+            }
+        }
+        .quantity-container {
+            & form{
+                & button {
+                    background: #fec107 !important;
+                    color: black !important;
+                }
+            }
+        }
+
+        
+        #sync1 {
+            height: fit-content;
+            & .items img {
+                height: auto !important;
+                object-fit: cover !important;
+            }
+        }
+        
+        .detail-block {
+            padding-top: 8px;
+        }
+        
+    }
+    #sync1 .items img:hover {
+        transform: none; /* Remove zoom effect */
+        transition: none; /* Disable transition */
+    }
+
 </style>
 <!-- Body -->
 
@@ -168,31 +227,68 @@
 
                         <div class="col-xs-12 col-sm-12 col-md-6 gallery-holder">
                             <div class="product-item-holder size-big single-product-gallery small-gallery">
-                            
+
                                 @if ($productdetails->type==1)
                                     <div id="sync1" class="owl-carousel owl-theme">
                                         @forelse ($varients as $productImage)
                                             <div class="items">
-                                                <img class="w-100 h-100" src="{{ asset($productImage->Image) }}"
-                                                    alt="" style="border-radius: 4px;">
+                                                <img class="w-100" src="{{ asset($productImage->Image) }}" alt="" style="border-radius: 4px;max-height: 480px;">
                                             </div>
                                         @empty
+                                        @endforelse
+                                        @forelse ( $sliderImg as $value )                                        
+                                            <div class="items">
+                                                <img class="w-100" src="{{ asset($value->image_url) }}" alt="" style="border-radius: 4px;max-height: 480px;">
+                                            </div>
+                                        @empty
+                                            
                                         @endforelse
                                     </div>
                                     <div id="sync2" class="owl-carousel owl-theme" style="padding-top: 10px;">
                                         @forelse ($varients as $productImage)
                                             <div class="items">
-                                                <img class="w-100 h-100"
-                                                    style="padding:10px;border:1px solid;border-radius: 4px;"
+                                                <img class="w-100"
+                                                    style="padding:5px;border:1px solid;border-radius: 4px;height: 100px; object-fit:fill;"
                                                     src="{{ asset($productImage->Image) }}" alt="">
                                             </div>
                                         @empty
                                         @endforelse
+                                        @forelse ( $sliderImg as $value )
+                                            <div class="items">
+                                                <img class="w-100"
+                                                    style="padding:5px;border:1px solid;border-radius: 4px;height: 100px; object-fit:fill;"
+                                                    src="{{ asset($value->image_url) }}" alt="">
+                                            </div>
+                                        @empty
+                                            
+                                        @endforelse
                                     </div>
                                 @else
-                                    <div class="items">
-                                        <img class="w-100 h-100" src="{{ asset($productdetails->image->image) }}"
-                                            alt="" style="border-radius: 4px;">
+                                <div id="sync1" class="owl-carousel owl-theme">                                       
+                                        <div class="items">
+                                            <img class="w-100" src="{{ asset($productdetails->image->image) }}"
+                                                alt="" style="border-radius: 4px;max-height: 480px;">
+                                        </div>
+                                        @forelse ( $sliderImg as $value )                                        
+                                        <div class="items">
+                                            <img class="w-100" src="{{ asset($value->image_url) }}" alt="" style="border-radius: 4px;max-height: 480px;">
+                                        </div>
+                                        @empty                                            
+                                        @endforelse
+                                    </div>
+                                    <div id="sync2" class="owl-carousel owl-theme" style="padding-top: 10px;">                                  
+                                        <div class="items">
+                                            <img class="w-100" src="{{ asset($productdetails->image->image) }}"
+                                                alt="" style="padding:5px;border:1px solid;border-radius: 4px;height: 100px; object-fit:fill;">
+                                        </div>
+                                        @forelse ( $sliderImg as $value )
+                                            <div class="items">
+                                                <img class="w-100"
+                                                    style="padding:5px;border:1px solid;border-radius: 4px;height: 100px; object-fit:fill;"
+                                                    src="{{ asset($value->image_url) }}" alt="">
+                                            </div>
+                                        @empty                                            
+                                        @endforelse
                                     </div>
                                 @endif
 
@@ -211,7 +307,7 @@
                                         'ratting',
                                     );
                                 @endphp
-                                <div class="d-flex" style="justify-content:space-between">
+                                <div class="d-flex align-items-center mt-1 mb-3"  style="justify-content:space-between">
                                     <div class="star" style="padding-top: 5px;">
                                         <span style="font-size:16px;" >
                                         ({{ App\Models\Review::where('product_id', $productdetails->id)->where('status','active')->get()->count() }}<span style="font-size: 12px"> reviews</span>)
@@ -261,28 +357,38 @@
                                             <span class="fas fa-star" style="font-size:16px;" id="checked"></span>
                                         @endif
                                     </div>
-{{--                                    <div class="like">--}}
-{{--                                        <div class="d-flex" style="justify-content: space-around;font-size: 20px;">--}}
-{{--                                            <span style="padding-right: 14px;font-size: 30px;"><span class="sts" style="padding-right: 6px;font-size: 20px;"--}}
-{{--                                                    id="likereactof{{ $productdetails->id }}">{{ App\Models\React::where('product_id', $productdetails->id)->where('sigment','like')->get()->count() }}</span><i--}}
-{{--                                                    @if(App\Models\React::where('product_id', $productdetails->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','like')->first()) style="color:green !important" @endif class="fas fa-thumbs-up" id="likereactdone{{ $productdetails->id }}"--}}
-{{--                                                    onclick="givereactlike({{ $productdetails->id }})"></i></span>--}}
-{{--                                            <span style="font-size: 30px;"><span class="sts" style="padding-right: 6px;font-size: 20px;"--}}
-{{--                                                    id="lovereactof{{ $productdetails->id }}">{{ App\Models\React::where('product_id', $productdetails->id)->where('sigment','love')->get()->count() }}</span><i--}}
-{{--                                                    @if(App\Models\React::where('product_id', $productdetails->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','love')->first()) style="color:red !important" @endif class="fas fa-heart" id="lovereactdone{{ $productdetails->id }}"--}}
-{{--                                                    onclick="givereactlove({{ $productdetails->id }})"></i></span>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
+                                   <div class="like">
+                                       <div class="d-flex" style="justify-content: space-around;font-size: 20px;">
+                                           <span style="padding-right: 14px;font-size: 20px;"><span class="sts" style="padding-right: 6px;font-size: 20px;"
+                                                   id="likereactof{{ $productdetails->id }}">
+                                                   {{ App\Models\React::where('product_id', $productdetails->id)->where('sigment','like')->get()->count() }}
+                                                </span>
+                                                <i @if(App\Models\React::where('product_id', $productdetails->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','like')->first()) style="color:#0070bc !important" @endif class="fas fa-thumbs-up" id="likereactdone{{ $productdetails->id }}"
+                                                   onclick="givereactlike({{ $productdetails->id }})"></i>
+                                                </span>
+                                           <span style="font-size: 20px;"><span class="sts" style="padding-right: 6px;font-size: 20px;"
+                                                   id="lovereactof{{ $productdetails->id }}">
+                                                   {{ App\Models\React::where('product_id', $productdetails->id)->where('sigment','love')->get()->count() }}
+                                                </span>
+                                                <i @if(App\Models\React::where('product_id', $productdetails->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','love')->first()) style="color:red !important" @endif class="fas fa-heart" id="lovereactdone{{ $productdetails->id }}"
+                                                   onclick="givereactlove({{ $productdetails->id }})"></i>
+                                                </span>
+                                       </div>
+                                   </div>
                                 </div>
 {{--                                <!-- /.rating-reviews -->--}}
 
-                                <div class="stock-container info-container m-t-10"
-                                    style="margin-top:10px;border-bottom: 1px solid #dfd6d6;">
-                                    <div class="row" style="margin-bottom:10px;">
-                                        <div class="col-12 col-sm-12">
-                                            
+                                <div class="stock-container info-container m-t-10 d-flex gap-3" style="margin-top:10px;border-bottom: 1px solid #dfd6d6;">
+                                    <div class="product-price strong-500 text-decoration-line-through" style="color:orange;font-weight:500;font-size: 20px;word-spacing: -3px;" id="productPriceAmount">
+                                        @if(App\Models\ProductSize::where('product_id',$productdetails->id)->exists() && $productdetails->type==1)
+                                        ৳ <span id="regPrice" style="color:orange;font-weight:500;">{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->RegularPrice }}</span>
+                                        @else
+                                        ৳ <span id="regPrice" style="color:orange;font-weight:500;">{{  $productdetails->old_price }}</span>
+                                        @endif
+                                    </div>
+                                    <div style="margin-bottom:10px;">
 {{--                                            @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())--}}
-                                            @if ($productdetails->type==1)    
+                                            @if(App\Models\ProductSize::where('product_id',$productdetails->id)->exists() && $productdetails->type==1)
                                                 <div class="product-price strong-700"
                                                     style="color:black;font-weight:bold" id="productPriceAmount">
                                                     ৳ <span id="salePrice">{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}</span>
@@ -293,27 +399,29 @@
                                                     ৳ <span id="salePrice" style="color:black;font-weight:bold;">{{ $productdetails->new_price }}</span>
                                                 </div>
                                             @endif
-
-                                        </div>
                                     </div>
                                     <!-- /.row -->
                                 </div>
-                                
+
                                 {{-- Short Descriptiption --}}
                                 <div class="stock-container info-container m-t-10"
                                      style="margin-top:10px;border-bottom: 1px solid #dfd6d6;">
                                     <div class="row" style="margin-bottom:10px;">
-                                        <div class="col-12 col-sm-12">
-                                            <p id="shortdes">{{ $productdetails->short_des }}</p></p>
+                                        <div class="col-12 col-sm-12 para_off" >
+                                            <p id="shortdes">
+                                                <div class="shortdes">
+                                                    {!! $productdetails->short_des !!}
+                                                </div>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                       
+
 
                                 <div class="row mb-2 mt-2">
                                 {{-- Color Varients--}}
                                     @if ($productdetails->type==1)
-                                    
+
 {{--                                      <h2>  asdasdasdasdasdasdasd </h2>--}}
                                         <div class="col-12 col-md-12 colorpart mb-2">
                                             <div class="d-flex">
@@ -321,19 +429,19 @@
                                                         style="font-size:20px">কালার:&nbsp;&nbsp;&nbsp;</b></h4>
                                                 <div class="colorinfo">
                                                     @forelse ($varients as $key=>$color)
-                                                           
+
                                                         <input type="radio" class="m-0"
                                                             id="color{{ $color->id }}" hidden name="color"
                                                             onclick="getcolor('{{ $color->color }}','{{ $key }}',{{$color->id}})">
-                                                        
+
                                                         <label class="colortext ms-0"
                                                             id="colortext{{ $color->id }}"
                                                             for="color{{ $color->color }}"
                                                             style="border: 1px solid #613EEA;font-size:20px;font-weight:bold;padding: 0px 8px;border-radius: 4px;margin-right:4px;margin-bottom:4px;"
                                                             onclick="getcolor('{{ $color->color }}','{{ $key }}',{{$color->id}})">
-                                                            
+
                                                             {{ $color->color }}
-                                                            
+
                                                         </label>
                                                     @empty
                                                     @endforelse
@@ -345,11 +453,13 @@
 
                                     {{-- Size/Weight Varients--}}
                                     @if ($productdetails->type==1)
-                                   
+
                                         <div class="col-12 col-md-12 colorpart">
                                             <div class="d-flex">
+                                                @if ($sizes->isNotEmpty())
                                                 <h4 id="resellerprice" class="m-0"><b style="font-size:20px">ভ্যারিয়েন্ট:
-                                                        &nbsp;&nbsp;&nbsp;</b></h4>
+                                                        &nbsp;&nbsp;&nbsp;</b></h4>                                                    
+                                                @endif
                                                 <div class="sizeinfo">
                                                     @forelse ($sizes as $size)
                                                         <input type="hidden" name="regularpriceofsize"
@@ -370,7 +480,7 @@
                                                     @endforelse
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                     @else
                                     @endif
@@ -404,7 +514,7 @@
 {{--                                    @endif--}}
                                 </div>
                                 <!-- /.stock-container -->
-                                <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center justify-content-between qty_cart_btn">
                                     <div>
                                     <p for=""
                                        style=" margin: 0; padding-top: 1px; font-weight: bold;text-align:left">
@@ -423,23 +533,22 @@
                                     </div>
                                     </div>
                                     
-                                    <form name="form" action="{{ url('add-to-cart2') }}" method="POST"
+                                    <form name="form" action="{{ url('add-to-cart') }}" id="addcartct" method="POST"
                                           enctype="multipart/form-data"
                                           style="width: 50%;float: right;text-align: center;">
                                         @method('POST')
                                         @csrf
-                                       
                                         @if ($productdetails->type==1)
                                             <input type="hidden" name="color" id="product_colororder" class="formColor"
                                                    value="{{ App\Models\Productcolor::where('product_id', $productdetails->id)->first()->color }}">
-{{--                                        @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())--}}
+                                            {{--                                        @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())--}}
                                             <input type="hidden" name="size" id="product_sizeorder" class="formSize"
-                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->size }}">
+                                                   value="{{ App\Models\ProductSize::where('product_id',$productdetails->id)->exists() ? App\Models\Productsize::where('product_id', $productdetails->id)->first()->size : null }}">
                                             <input type="hidden" name="price" id="product_priceorder" class="formPrice"
-                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
+                                                   value="{{ App\Models\ProductSize::where('product_id',$productdetails->id)->exists() ? App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice : $productdetails->new_price }}">
                                         @else
-{{--                                            <input type="hidden" name="size" id="product_sizeorder"--}}
-{{--                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">--}}
+                                            {{--                                            <input type="hidden" name="size" id="product_sizeorder"--}}
+                                            {{--                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">--}}
                                             <input type="hidden" name="price" id="product_priceorder"
                                                    value="{{ $productdetails->new_price }}">
                                         @endif
@@ -448,12 +557,12 @@
                                                hidden>
                                         <input type="hidden" name="qty" value="1" id="qtyoror">
                                         <button type="submit"
-                                                class="py-2 mb-0  ml-2 btn btn-styled btn-base-1 btn-icon-left strong-700 hov-bounce hov-shaddow buy-now"
-                                                style="background:#29A71A;color:white;width: 70%;font-size: 14px;">
-                                            Add To Cart
+                                                class=" mb-0 fw-bold ml-2 btn btn-styled btn-base-1 btn-icon-left strong-700 hov-bounce hov-shaddow buy-now"
+                                                style="background:linear-gradient(45deg,#4DBC60, #FF5733 );color:white;width: 99%;font-size: 18px;" id="orderBtn">
+                                          <span> <img src="{{ asset('public/images/Icons/fast-buy-3048.svg') }}" width="27" class="me-1" > অর্ডার করুন</span>
                                         </button>
                                     </form>
-                                    
+
                                 </div>
 {{--                                <!-- /.stock-container -->--}}
 {{--                                <div class="quantity-container info-container text-center"--}}
@@ -464,7 +573,7 @@
 {{--                                        <img src="{{ asset('public/whatsappo.png') }}" alt=""--}}
 {{--                                            style="width:30px"> &nbsp; Whatsapp--}}
 {{--                                    </a>--}}
-{{--                                    <form name="form" action="{{ url('add-to-cart') }}" method="POST"--}}
+{{--                                    <form name="form" action="{{ url('add-to-cart') }}" id="addcartct" method="POST"--}}
 {{--                                        enctype="multipart/form-data"--}}
 {{--                                        style="width: 50%;float: right;text-align: center;">--}}
 {{--                                        @method('POST')--}}
@@ -506,33 +615,34 @@
 {{--                                                {{ $contact->phone }}--}}
 {{--                                            </a>--}}
 
-                                            <form name="form" action="{{ url('add-to-cart') }}" method="POST"
+                                           <form name="form" action="{{ url('add-to-cart2') }}" id="addcart" method="POST"
                                                   enctype="multipart/form-data"
-                                                  style="width: 100%;float: right;text-align: center;">
+                                                  style="width: 98%;" class="mx-auto">
                                                 @method('POST')
                                                 @csrf
+        
                                                 @if ($productdetails->type==1)
                                                     <input type="hidden" name="color" id="product_colororder" class="formColor"
                                                            value="{{ App\Models\Productcolor::where('product_id', $productdetails->id)->first()->color }}">
-                                                    {{--                                        @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())--}}
+        {{--                                        @if (App\Models\Productsize::where('product_id', $productdetails->id)->first())--}}
                                                     <input type="hidden" name="size" id="product_sizeorder" class="formSize"
-                                                           value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->size }}">
+                                                           value="{{ App\Models\ProductSize::where('product_id',$productdetails->id)->exists() ? App\Models\Productsize::where('product_id', $productdetails->id)->first()->size : null }}">
                                                     <input type="hidden" name="price" id="product_priceorder" class="formPrice"
-                                                           value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->SalePrice }}">
+                                                           value="">
                                                 @else
-                                                    {{--                                            <input type="hidden" name="size" id="product_sizeorder"--}}
-                                                    {{--                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">--}}
+        {{--                                            <input type="hidden" name="size" id="product_sizeorder"--}}
+        {{--                                                   value="{{ App\Models\Productsize::where('product_id', $productdetails->id)->first()->weight }}">--}}
                                                     <input type="hidden" name="price" id="product_priceorder"
                                                            value="{{ $productdetails->new_price }}">
                                                 @endif
-
+        
                                                 <input type="hidden" name="product_id" value=" {{ $productdetails->id }}"
                                                        hidden>
                                                 <input type="hidden" name="qty" value="1" id="qtyoror">
                                                 <button type="submit"
-                                                        class=" mb-0  ml-2 btn btn-styled btn-base-1 btn-icon-left strong-700 hov-bounce hov-shaddow buy-now"
-                                                        style="background:linear-gradient(45deg,#4DBC60, #FF5733 );color:white;width: 100%;font-size: 16px;" id="orderBtn">
-                                                  <span>অর্ডার করতে ক্লিক করুন</span>
+                                                        class="py-2 mb-0 fw-bold  ml-2 btn btn-styled btn-base-1 btn-icon-left strong-700 hov-bounce hov-shaddow buy-now"
+                                                        style="background:#0070bc;color:white;width: 100%;font-size: 18px;">
+                                                     <img src="{{ asset('public/images/Icons/add-to-cart-3046.svg') }}" width="27" class="me-1" > কার্টে রাখুন
                                                 </button>
                                             </form>
                                         </div>
@@ -541,7 +651,7 @@
                                 </div>
 
                                 {{-- Product Overview--}}
-                                @if(isset($basicinfo->product_overview)) 
+                                @if(isset($basicinfo->product_overview))
                                 <div class="stock-container info-container m-t-10 bg-light p-3"
                                      style="margin-top:10px;border-bottom: 1px solid #dfd6d6;">
                                     <div class="row" style="margin-bottom:10px;">
@@ -577,7 +687,7 @@
 
                             <div class="tab-content">
 
-                                <div id="description" class="mx-2 tab-pane active">
+                                <div id="description" class="mx-2 tab-pane active py-0">
                                     <div class="product-tab">
                                         <p class="text mx-1">{!! $productdetails->description !!}</p>
                                         @if (isset($productdetails->pro_video))
@@ -697,8 +807,8 @@
 
                                     </div>
                                     <!-- /.product-tab -->
-                                    
-                                    
+
+
                                 </div>
                                 <!-- /.tab-pane -->
 
@@ -720,23 +830,24 @@
                                 <li class="active"><a data-bs-toggle="tab" id="istteb" href="#review"
                                         style="margin-top: 10px;"> See Our
                                         Products Review</a></li>
-                                
-                                
-                                @if(Auth::guard('customer')->check()) 
+
+
+                                {{-- @if(Auth::guard('customer')->check()) --}}
                                 <li>
                                     <button class="btn btn-info" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal"
                                         style="margin:0px;margin-top: 10px;margin-right: 20px;">Leave
                                         Review</button>
                                 </li>
-                                    @else
+
+                                    {{-- @else
                                     <li>
                                         <a class="btn btn-info" href="{{ route('login') }}"
                                                 style="margin:0px;margin-top: 10px;margin-right: 20px;">Leave
                                             Review
                                         </a>
                                     </li>
-                                @endif
+                                @endif --}}
                             </ul>
                             <!-- /.nav-tabs #product-tabs -->
                         </div>
@@ -749,7 +860,7 @@
                                     <div class="product-tab">
 
                                         <div class="product-reviews">
-                                             @php $reviews = App\Models\Review::where( 'product_id', $productdetails->id)->where('status','active')->get();   @endphp
+                                             @php $reviews = App\Models\Review::where( 'product_id', $productdetails->id)->where('status','active')->paginate(5); @endphp
                                             <div class="row">
                                                 <div class="col-lg-7 col-12">
                                                     <div class="review">
@@ -760,7 +871,7 @@
                                                                       <img src="{{ asset('public/profile-user.png') }}" style="width:60px;height:60px">
                                                                         <div class="info ps-2">
                                                                             <h6 class="m-0" style="font-weight: bold;font-size: 18px;">
-                                                                                {{ App\Models\Customer::where('id', $review->customer_id)->first()->name }}</h6>
+                                                                                {{ App\Models\Customer::where('id', $review->customer_id)->first()->name ?? $review->name }}</h6>
                                                                             <div class="review">
                                                                                 <div class="d-flex">
                                                                                     <div class="star">
@@ -801,10 +912,13 @@
                                                                                 <p>
                                                                                     {{ $review->review }}
                                                                                 </p>
-{{--                                                                                @if (isset($review->file))--}}
-{{--                                                                                    <img src="{{ asset($review->file) }}" alt="" width="60px">--}}
-{{--                                                                                @else--}}
-{{--                                                                                @endif--}}
+                                                                                @if (isset($review->image))
+                                                                                    @php $images = json_decode($review->image); @endphp
+                                                                                    @foreach ($images as $image)
+                                                                                        <img src="{{ asset('public') . '/' . $image }}" alt="" width="60px">
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            
 
                                                                             </div>
                                                                         </div>
@@ -832,6 +946,8 @@
                                                                 </div>
                                                             </div>
                                                         @endforelse
+                                                        <!-- Pagination Links -->
+                                                        {{ $reviews->links() }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -876,8 +992,16 @@
                                     <input type="hidden" value="{{ $productdetails->id }}" name="product_id"
                                         id="product_id">
                                     <div class="form-group mb-3">
-                                        <label for="floatingInput">Message</label>
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name" id="name" required>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="messages">Message</label>
                                         <textarea class="form-group" name="review" id="messages" required></textarea>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="image">Image</label>
+                                        <input class="form-control" type="file" name="image[]" id="image" multiple>
                                     </div>
 {{--                                    <input type="hidden" name="id" value="2" id="id">--}}
                                     <input type="hidden" name="ratting" id="rating" value="5" required>
@@ -926,7 +1050,7 @@
                                                         </a>
                                                     </div>
                                                     {{--                                                @if (App\Models\Productsize::where('product_id',$promotional->id)->first())--}}
-                                                    @if($promotional->type==1)
+                                                    @if (App\Models\ProductSize::where('product_id',$promotional->id)->exists() && $promotional->type==1)
 
                                                         <span id="discountpart"> <p id="pdis">SAVE ৳{{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->Discount) }}</p></span>
                                                     @else
@@ -997,22 +1121,22 @@
                                                                 <span class="fas fa-star" id="checked"></span>
                                                             @endif
                                                         </div>
-                                                        {{--                                                    <div class="like">--}}
-                                                        {{--                                                        <div class="d-flex" style="justify-content: space-around;font-size: 14px;">--}}
-                                                        {{--                                                            <span style="padding-right:14px;"><span class="sts" style="padding-right: 2px;font-size:12px;"--}}
-                                                        {{--                                                                    id="likereactof{{ $promotional->id }}">{{ App\Models\React::where('product_id', $promotional->id)->where('sigment','like')->get()->count() }}</span><i--}}
-                                                        {{--                                                                    @if(App\Models\React::where('product_id', $promotional->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','like')->first()) style="color:green !important" @endif class="fas fa-thumbs-up" id="likereactdone{{ $promotional->id }}"--}}
-                                                        {{--                                                                    onclick="givereactlike({{ $promotional->id }})"></i></span>--}}
-                                                        {{--                                                            <span><span class="sts" style="padding-right: 2px;font-size:12px;"--}}
-                                                        {{--                                                                    id="lovereactof{{ $promotional->id }}">{{ App\Models\React::where('product_id', $promotional->id)->where('sigment','love')->get()->count() }}</span><i--}}
-                                                        {{--                                                                    @if(App\Models\React::where('product_id', $promotional->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','love')->first()) style="color:red !important" @endif class="fas fa-heart" id="lovereactdone{{ $promotional->id }}"--}}
-                                                        {{--                                                                    onclick="givereactlove({{ $promotional->id }})"></i></span>--}}
-                                                        {{--                                                        </div>--}}
-                                                        {{--                                                    </div>--}}
+                                                        <div class="like">
+                                                        <div class="d-flex" style="justify-content: space-around;font-size: 14px;">
+                                                            <span style="padding-right:14px;"><span class="sts" style="padding-right: 2px;font-size:12px;"
+                                                                    id="likereactof{{ $promotional->id }}">{{ App\Models\React::where('product_id', $promotional->id)->where('sigment','like')->get()->count() }}</span><i
+                                                                    @if(App\Models\React::where('product_id', $promotional->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','like')->first()) style="color:#0070bc !important" @endif class="fas fa-thumbs-up" id="likereactdone{{ $promotional->id }}"
+                                                                    onclick="givereactlike({{ $promotional->id }})"></i></span>
+                                                            <span><span class="sts" style="padding-right: 2px;font-size:12px;"
+                                                                    id="lovereactof{{ $promotional->id }}">{{ App\Models\React::where('product_id', $promotional->id)->where('sigment','love')->get()->count() }}</span><i
+                                                                    @if(App\Models\React::where('product_id', $promotional->id)->whereIn('user_id', [\Request::ip(),Auth::id()])->where('sigment','love')->first()) style="color:red !important" @endif class="fas fa-heart" id="lovereactdone{{ $promotional->id }}"
+                                                                    onclick="givereactlove({{ $promotional->id }})"></i></span>
+                                                        </div>
+                                                    </div>
                                                     </div>
 
                                                     {{--                                                @if (App\Models\ProductSize::where('product_id',$promotional->id)->first())--}}
-                                                    @if($promotional->type== 1)
+                                                    @if (App\Models\ProductSize::where('product_id',$promotional->id)->exists() && $promotional->type==1)
 
                                                         <div class="price-box">
                                                             <del class="old-product-price strong-400">৳
@@ -1036,11 +1160,13 @@
                                                       style="width: 100%;float: left;text-align: center;">
                                                     @method('POST')
                                                     @csrf
-                                                    @if($promotional->type==1)
+                                                    @if (App\Models\ProductSize::where('product_id',$promotional->id)->exists() && $promotional->type==1)
                                                         <input type="text" name="color" id="product_colorold" value="{{ App\Models\Productimage::where('product_id',$promotional->id)->first()->color }}" hidden>
+                                                    @else
+                                                        <input type="text" name="color" id="product_colorold" value="{{ round($promotional->new_price) }}" hidden>
                                                     @endif
-                                                    @if($promotional->type==1)
-                                                        {{--                                                @if (App\Models\ProductSize::where('product_id',$promotional->id)->first())--}}
+                                                    @if (App\Models\ProductSize::where('product_id',$promotional->id)->exists() && $promotional->type==1)
+
                                                         <input type="text" name="price" id="product_priceold" value="{{ round(App\Models\ProductSize::where('product_id',$promotional->id)->first()->SalePrice) }}" hidden>
                                                         <input type="text" name="size" id="product_sizeold" value="{{ App\Models\ProductSize::where('product_id',$promotional->id)->first()->size }}" hidden>
                                                     @else
@@ -1089,8 +1215,90 @@
     <input type="hidden" name="user_id" id="user_id" >
 @endif
 
-<script>
+
+<script type="text/javascript">
+    window.dataLayer = window.dataLayer || [];
+    dataLayer.push({
+        ecommerce: null
+    });
+    dataLayer.push({
+        event: "view_item",
+        ecommerce: {
+            currency: "BDT",
+            value: Number("<?php echo $productdetails->new_price?>"),
+            items: [{
+                item_name: "{{ $productdetails->name }}",
+                item_id: Number("<?php echo $productdetails->id ?>"),
+                price: Number("<?php echo $productdetails->new_price?>"),
+                item_brand: "{{ $productdetails->brand?$productdetails->brand->name:'' }}",
+                item_category: "{{ $productdetails->category->name }}",
+                item_variant: Number("<?php echo $productdetails->pro_unit ?>"),
+                currency: "BDT",
+                quantity: '1',
+            }]
+
+        }
+    });
     
+    
+    $(document).ready(function() {
+        document.getElementById('addcart').addEventListener('submit', function(event) {
+            window.dataLayer = window.dataLayer || [];
+            dataLayer.push({
+                ecommerce: null
+            });
+            dataLayer.push({
+                event: "add_to_cart",
+                ecommerce: {
+                    currency: "BDT",
+                    value: Number("<?php echo $productdetails->new_price?>"),
+                    items: [{
+                        item_name: "{{ $productdetails->name }}",
+                        item_id: Number("<?php echo $productdetails->id ?>"),
+                        price: Number("<?php echo $productdetails->new_price?>"),
+                        item_brand: "{{ $productdetails->brand?$productdetails->brand->name:'' }}",
+                        item_category: "{{ $productdetails->category->name }}",
+                        item_variant: Number("<?php echo $productdetails->pro_unit ?>"),
+                        currency: "BDT",
+                        quantity: $('#qtyval').val()
+                    }]
+                }
+            });
+        });
+        
+        
+        document.getElementById('addcartct').addEventListener('submit', function(event) {
+            window.dataLayer = window.dataLayer || [];
+            dataLayer.push({
+                ecommerce: null
+            });
+            dataLayer.push({
+                event: "add_to_cart",
+                ecommerce: {
+                    currency: "BDT",
+                    value: Number("<?php echo $productdetails->new_price?>"),
+                    items: [{
+                        item_name: "{{ $productdetails->name }}",
+                        item_id: Number("<?php echo $productdetails->id ?>"),
+                        price: Number("<?php echo $productdetails->new_price?>"),
+                        item_brand: "{{ $productdetails->brand?$productdetails->brand->name:'' }}",
+                        item_category: "{{ $productdetails->category->name }}",
+                        item_variant: Number("<?php echo $productdetails->pro_unit ?>"),
+                        currency: "BDT",
+                        quantity: $('#qtyval').val()
+                    }]
+                }
+            });
+        });
+        
+    });
+    
+    
+</script>
+
+
+<script>
+
     $(document).ready(function () {
         //Color Preselect
         // Trigger the first radio button to be clicked
@@ -1100,8 +1308,8 @@
         var firstColorId = $('.colorinfo input[type="radio"]:first').attr('id');
         $('#colortext' + firstColorId).css('color', '#fff');
         $('#colortext' + firstColorId).css('background', '#613EEA');
-  
-        //Variant Preselect  
+
+        //Variant Preselect
         // Trigger the first radio button to be clicked
         $('.sizeinfo input[type="radio"]:first').trigger('click');
 
@@ -1109,8 +1317,8 @@
         var firstVariantId = $('.sizeinfo input[type="radio"]:first').attr('id');
         $('#colortext' + firstVariantId).css('color', '#fff');
         $('#colortext' + firstVariantId).css('background', '#613EEA');
-        
-        
+
+
 
     })
 </script>
@@ -1128,7 +1336,7 @@
             success: function(data) {
                 if (data.sigment == 'like') {
                     $('#relatedCarousel #likereactof' + id).text(data.total);
-                    $('#relatedCarousel #likereactdone' + id).css('color', 'green');
+                    $('#relatedCarousel #likereactdone' + id).css('color', '#0070bc');
                 }else if (data.sigment == 'unlike') {
                     $('#relatedCarousel #likereactof' + id).text(data.total);
                     $('#relatedCarousel #likereactdone' + id).css('color', 'black');
@@ -1138,7 +1346,7 @@
 
                 if (data.sigment == 'like') {
                     $('#productinfo #likereactof' + id).text(data.total);
-                    $('#productinfo #likereactdone' + id).css('color', 'green');
+                    $('#productinfo #likereactdone' + id).css('color', '#0070bc');
                 }else if (data.sigment == 'unlike') {
                     $('#productinfo #likereactof' + id).text(data.total);
                     $('#productinfo #likereactdone' + id).css('color', 'black');
@@ -1199,7 +1407,7 @@
             success: function(data) {
                 if (data.status == 'like') {
                     $('#likeof' + data.review_id).text(data.total);
-                    $('#likedone' + data.review_id).css('color', 'green');
+                    $('#likedone' + data.review_id).css('color', '#0070bc');
                 } else {
                     $('#likeof' + data.review_id).text(data.total);
                     $('#likedone' + data.review_id).css('color', 'black');
@@ -1275,6 +1483,7 @@
         $('#rating').val(id);
     }
 
+
     function loadreview() {
         $.ajax({
             type: 'GET',
@@ -1291,29 +1500,29 @@
 
     $(document).ready(function() {
 
-        {{--loadreview();--}}
-        
-        {{--$('#AddReview').submit(function(e) {--}}
-        {{--    e.preventDefault();--}}
-        
-        {{--    $.ajax({--}}
-        {{--        type: 'POST',--}}
-        {{--        url: '{{ url('review/store') }}',--}}
-        {{--        processData: false,--}}
-        {{--        contentType: false,--}}
-        {{--        data: new FormData(this),--}}
-        
-        {{--        success: function(data) {--}}
-        {{--            swal({--}}
-        {{--                title: "Success!",--}}
-        {{--                icon: "success",--}}
-        {{--            });--}}
-        {{--        },--}}
-        {{--        error: function(error) {--}}
-        {{--            console.log('error');--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--});--}}
+        // loadreview();
+
+        // $('#AddReview').submit(function(e) {
+        //     e.preventDefault();
+
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '{{ url('review/store') }}',
+        //         processData: false,
+        //         contentType: false,
+        //         data: new FormData(this),
+
+        //         success: function(data) {
+        //             swal({
+        //                 title: "Success!",
+        //                 icon: "success",
+        //             });
+        //         },
+        //         error: function(error) {
+        //             console.log('error');
+        //         }
+        //     });
+        // });
 
 
         var sync1 = $("#sync1");
@@ -1323,8 +1532,8 @@
 
         sync1.owlCarousel({
             items: 1,
-            slideSpeed: 2000,
-            autoplay: false,
+            slideSpeed: 3000,
+            autoplay: true,
             dots: false,
             loop: true,
             responsiveRefreshRate: 200,
@@ -1453,7 +1662,7 @@
                 success: function(data) {
                     updatecart();
                     if (data == 'success') {
-                        window.location.href = 'https://rajshop.xyz/checkout';
+                        window.location.href = 'https://rajshop.com.bd/checkout';
                         $('#processing').modal('hide');
                     }
                 },
@@ -1576,9 +1785,9 @@
     }
 
 
-    function getcolor(color, key,id) {
-       
-        
+    function getcolor(color, key, id) {
+
+
         // $("#sync1").data('owl.carousel').to(key, 300, true);
         if ($('#sync1').data('owl.carousel')) {
             $("#sync1").data('owl.carousel').to(key, 300, true); // Ensure key is not undefined
@@ -1588,15 +1797,37 @@
         $('.colortext').css('color', '#000');
 
         $('.formColor').val(color);
-        
+
         $('.colortext').css('background', '#fff');
         $('#colortext'+id).css('color', '#fff');
         $('#colortext'+id).css('background', '#613EEA');
-        
+
+        // AJAX request
+        $.ajax({
+            url: '{{url('admin/product/price-by-color')}}',
+            method: 'GET',
+            data: {
+                color: color,
+                id: id,
+            },
+            success: function(response) {
+                if (response.success == null) {
+                    $('#salePrice').text('N/A');
+                }else{
+                    $('#salePrice').text(response.success);
+                    $('#product_priceorder').val(response.success);
+                    $('.formPrice').val(response.success);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+            }
+        });
+
     }
 
     function getsize(size,id) {
-       
+
         $('#product_size').val(size);
         $('#product_sizeorder').val(size);
         var reg = $('#regularpriceofsize' + id).val();
@@ -1606,11 +1837,11 @@
 
         $('#regPrice').text(reg);
         $('#salePrice').text(sale);
-        
+
         $('.formSize').val(size);
         $('.formPrice').val(sale);
-        
-        
+
+
 
         $('.sizetext').css('color', '#000');
         $('.sizetext').css('background', '#fff');

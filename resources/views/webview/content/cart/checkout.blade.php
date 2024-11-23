@@ -21,6 +21,18 @@
     #cointext2{
         display:none;
     } 
+    .required-label {
+        position: relative;
+    }
+    
+    .required-star {
+        color: red; /* Change color as needed */
+        font-size: 1.2em; /* Adjust size as needed */
+        position: relative;
+        top: -0.3em; /* Move it up */
+        margin-left: 0.2em; /* Space between text and star */
+    }
+
 </style>
 
 @php
@@ -62,7 +74,7 @@
                 <div class="col-md-6">
                     <aside class="card mb-4">
                         <article class="card-body">
-                            <header class="mb-4" style="background: green; ">
+                            <header class="mb-4" style="background: #0071bd; ">
                                 <marquee behavior="alternate">
                                     <h1 class="m-0" style="color:white;font-size: 22px;">
                                         অর্ডার করতে নিচের ফর্মটি পূরণ করুন ....</h1>
@@ -73,12 +85,12 @@
 {{--                                $coupon = Session::get('availablecoupon');--}}
 {{--                                $couponcode = Session::get('couponcode');--}}
 {{--                            @endphp--}}
-                            <form action="{{ url('press/order') }}" method="POST"
+                            <form action="{{ url('press/order') }}" id="ordernow" method="POST"
                                 class="from-prevent-multiple-submits">
                                 @csrf
                                 <div class="row">
                                     <div class="form-group col-12">
-                                        <label>আপনার নাম </label>
+                                        <label>আপনার নাম<span class="required-star">*</span></label>
                                         <input type="text" id="customerName" name="customerName"
                                             @if (Auth::guard('customer')->check()) value="{{ Auth::guard('customer')->user()->name }}" @else @endif
                                             placeholder="আপনার নাম লিখুন" required class="form-control"
@@ -92,14 +104,14 @@
                                     @endif
                                     <input type="hidden" name="payment_method" value="Cash On Delivery" id="paymentType">
                                     <div class="form-group col-12">
-                                        <label>আপনার ঠিকানা </label>
+                                        <label>আপনার গ্রাম, থানা, জেলার নাম সঠিকভাবে লিখুন<span class="required-star">*</span></label>
                                         <input type="text" id="customerAddress" name="customerAddress"
-                                            placeholder="আপনার গ্রাম, থানা,জেলার নাম সঠিকভাবে লিখুন" required
+                                            placeholder="আপনার ঠিকানা" required
                                             class="form-control"
                                             style=" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
                                     </div>
                                     <div class="form-group col-12">
-                                        <label>আপনার মোবাইল </label>
+                                        <label>আপনার মোবাইল<span class="required-star">*</span></label>
                                         <input type="text" minlength="11" maxlength="11"
                                             pattern="[0-1]{2}[0-9]{6}[0-9]{3}" id="customerPhone"
                                             @if (Auth::guard('customer')->check()) value="{{ Auth::guard('customer')->user()->phone }}" @else @endif
@@ -136,7 +148,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12">
-                                        <label>আপনার নির্দেশনা :</label>
+                                        <label>আপনার নির্দেশনা : </label>
                                         <textarea class="form-control" id="customerNote" name="customerNote" rows="2"></textarea>
                                     </div>
 
@@ -184,7 +196,7 @@
                                                     </div>
                                                     <button type="submit" id="orderConfirmCoin"
                                                         class="btn btn-lg btn-styled from-prevent-multiple-submits btn-base-1 btn-block btn-icon-left strong-500 hov-bounce hov-shaddow buy-now"
-                                                        style="background:green;color:white;font-size:28px !important;width:100%">
+                                                        style="background:#0071bd;color:white;font-size:28px !important;width:100%">
                                                         <i class="spinner fa fa-spinner fa-spin"></i> অর্ডার কনফার্ম করুন
                                                     </button>
                                                 @else
@@ -193,7 +205,7 @@
                                                 </div>
                                                 <button type="submit" id="orderConfirmCoin" disabled
                                                     class="btn btn-lg btn-styled from-prevent-multiple-submits btn-base-1 btn-block btn-icon-left strong-500 hov-bounce hov-shaddow buy-now"
-                                                    style="background:green;color:white;font-size:28px !important;width:100%">
+                                                    style="background:#0071bd;color:white;font-size:28px !important;width:100%">
                                                     <i class="spinner fa fa-spinner fa-spin"></i> অর্ডার কনফার্ম করুন
                                                 </button>
                                                 @endif
@@ -206,7 +218,7 @@
                                             aria-labelledby="credit-card-tab">
                                             <button type="submit" id="orderConfirm"
                                                 class="btn btn-lg btn-styled from-prevent-multiple-submits btn-base-1 btn-block btn-icon-left strong-500 hov-bounce hov-shaddow buy-now"
-                                                style="background:green;color:white;font-size:28px !important;width:100%">
+                                                style="background:#0071bd;color:white;font-size:28px !important;width:100%">
                                                 <i class="spinner fa fa-spinner fa-spin"></i> অর্ডার কনফার্ম করুন
                                             </button>
                                         </div><!-- end tab-pane-->
@@ -218,7 +230,7 @@
 
                                                     <div class="col-lg-12">
                                                         <div class="btn-box text-center">
-                                                            <button id="sslczPayBtn" style="background: green; color: white; width: 100%; font-size: 28px !important; display: inline;"
+                                                            <button id="sslczPayBtn" style="background: #0071bd; color: white; width: 100%; font-size: 28px !important; display: inline;"
                                                                 token="if you have any token validation"
                                                                 postdata="your javascript arrays or objects which requires in backend"
                                                                 order="If you already have the transaction generated for current order"
@@ -501,6 +513,60 @@
     }
 </style>
 
+
+<script type = "text/javascript">
+    // Clear the previous ecommerce object.
+    dataLayer.push({ ecommerce: null });
+
+    // Push the begin_checkout event to dataLayer.
+    dataLayer.push({
+        event: "view_cart",
+        ecommerce: {
+            currency: "BDT",
+            value: Number($('#subtotalprice').html()),
+            items: [@foreach ($cartProducts as $cartInfo)
+                {
+                    item_name: "{{$cartInfo->name}}",
+                    item_id: Number("<?php echo $cartInfo->id?>"),
+                    price: Number("<?php echo $cartInfo->price?>"),
+                    item_brand: "{{$cartInfo->options->brands}}",
+                    item_category: "{{$cartInfo->options->category}}",
+                    item_size: "{{$cartInfo->options->size}}",
+                    item_color: "{{$cartInfo->options->color}}",
+                    currency: "BDT",
+                    quantity: {{$cartInfo->qty ?? 0}}
+                },
+            @endforeach]
+        }
+    });
+</script>
+<script type="text/javascript">
+    // Clear the previous ecommerce object.
+    dataLayer.push({ ecommerce: null });
+
+    // Push the begin_checkout event to dataLayer.
+    dataLayer.push({
+        event: "begin_checkout",
+        ecommerce: {
+            currency: "BDT",
+            value: Number($('#subtotalprice').html()),
+            items: [@foreach ($cartProducts as $cartInfo)
+                {
+                    item_name: "{{$cartInfo->name}}",
+                    item_id: Number("<?php echo $cartInfo->id?>"),
+                    price: Number("<?php echo $cartInfo->price?>"),
+                    item_brand: "{{$cartInfo->options->brands}}",
+                    item_category: "{{$cartInfo->options->category}}",
+                    item_size: "{{$cartInfo->options->size}}",
+                    item_color: "{{$cartInfo->options->color}}",
+                    currency: "BDT",
+                    quantity: {{$cartInfo->qty ?? 0}}
+                },
+            @endforeach]
+        }
+    });
+</script>
+
 <script>
     function showbtn(idname){
         if(idname=='sslczPayBtn'){
@@ -558,6 +624,7 @@
             obj.country = $('#country').val();
             $('#sslczPayBtn').prop('postdata', obj);
         });
+        setdeliverychargr();
     });
 
     (function(window, document) {
@@ -699,7 +766,7 @@
                 success: function(data) {
                     $('#QuantityPeo' + id).val(data.qty);
                     updateQuantity(id);
-
+                    setdeliverychargr();
                 },
                 error: function(error) {
                     console.log('error');
@@ -811,6 +878,7 @@
 
             success: function(data) {
                 $('#productcart' + rowId).css('display', 'none');
+                setdeliverychargr();
                 if (data == 'empty') {
                     location.reload();
                 }

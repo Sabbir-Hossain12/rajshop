@@ -36,56 +36,48 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
-//        $olduseremail =User::where('email',$request->email)->first();
-//        if(isset($olduseremail)){
-//            return redirect()->back()->with('error','Email already exist !');
-//        }else{
-//            $oldphone =User::where('phone',$request->phone)->first();
-//            if(isset($oldphone)){
-//                return redirect()->back()->with('error','Phone number already exist !');
-//            }else{
-//                $user = new User();
-//                $user->name=$request->name;
-//                $user->email=$request->email;
-//                $user->phone=$request->phone;
-//                $otp = random_int(100000, 999999);
-//                $user->otp = $otp;
-//                $otppass=$otp;
-//                $user->active_status = 0;
-//                $user->password=Hash::make($request->password);
-//                $success=$user->save();
-//            }
-//        }
-//
-//        event(new Registered($user));
-//
-//        Auth::login($user);
-//
-//        return redirect(RouteServiceProvider::HOME);
-//    }
-
+        // Validate the request data
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|unique:customers',
-            'phone' => 'required|unique:customers',
-            'password' => 'required|min:6'
+            'email' => 'required|email',
+            'phone' => 'required',
+            'password' => 'required|min:6',
         ]);
+    
+        $existingCustomer = Customer::where('email', $request->email)->first();
+    
+        if ($existingCustomer) {
+            $existingCustomer->password = bcrypt($request->password);
+            $existingCustomer->save();
+                
+            Toastr::success('Success', 'Account created successfully');
+            return redirect()->route('loginview');
+        }
 
-//        dd($request->all());
+        $existingPhone = Customer::where('phone', $request->phone)->first();
+    
+        if ($existingPhone) {
+            $existingPhone->password = bcrypt($request->password);
+            $existingPhone->save();
+                
+            Toastr::success('Success', 'Account created successfully');
+            return redirect()->route('loginview');
+        }
+    
         $last_id = Customer::orderBy('id', 'desc')->first();
         $last_id = $last_id ? $last_id->id + 1 : 1;
+    
         $store = new Customer();
         $store->name = $request->name;
-        $store->slug = strtolower(Str::slug($request->name.'-'.$last_id));
+        $store->slug = strtolower(Str::slug($request->name . '-' . $last_id));
         $store->phone = $request->phone;
         $store->email = $request->email;
         $store->password = bcrypt($request->password);
         $store->verify = 1;
         $store->status = 'active';
         $store->save();
-
-        Toastr::success('Success', 'Account Create Successfully');
+    
+        Toastr::success('Success', 'Account created successfully');
         return redirect()->route('loginview');
     }
 }

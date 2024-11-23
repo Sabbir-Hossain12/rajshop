@@ -25,22 +25,22 @@
                             <input type="text" name="email" class="form-control unicase-form-control text-input"
                                 id="exampleInputEmail1">
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="info-title" for="exampleInputPassword1">Password <span>*</span></label>
                             <input type="password" name="password" class="form-control unicase-form-control text-input"
                                 id="exampleInputPassword1">
                         </div>
-                        
+
                         <div class="radio outer-xs">
                             <label>
                                 <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Remember
                                 me!
                             </label>
                         </div>
-                        
+
                         <button type="submit" id="submit-button"
-                            style="background:#058024;border:1px #058024;color: white;width:100%"
+                            style="background:#0071bd;border:1px #0071bd;color: white;width:100%"
                             class="btn-block btn-upper btn btn-dark checkout-page-button">Login</button>
                         <div class="radio outer-xs text-center">
                             <a href="{{ url('forgot-password') }}" class="forgot-password pull-right"
@@ -48,7 +48,7 @@
                                 Password?
                             </a>
                         </div>
-                        
+
                     </form>
                     <h4 class="text-center" style="margin-top: 20px;margin-bottom:20px;">
                         Need an account? <a href="{{ url('register') }}" style="color: #000">Register Now</a>
