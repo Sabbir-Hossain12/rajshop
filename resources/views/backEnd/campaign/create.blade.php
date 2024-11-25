@@ -31,21 +31,21 @@
 
                             <div class="col-sm-12">
                                 <div class="form-group mb-3">
-                                    <label for="name" class="form-label">Landing Page Title *</label>
+                                    <label for="name" class="form-label">Landing Page Name *</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"  id="name" required="">
                                     @error('name')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
-                                </span>
+                                    </span>
                                     @enderror
                                 </div>
                             </div>
 
                             <div class="col-sm-12">
                                 <div class="form-group mb-3">
-                                    <label for="banner_title" class="form-label">Banner Title *</label>
-                                    <input type="text" class="form-control" name="banner_title" value="{{ old('banner_title') }}"  >
-                                    @error('banner_title')
+                                    <label for="banner_title" class="form-label">Header Title *</label>
+                                    <input type="text" class="form-control" name="header_title" value="{{ old('header_title') }}"  >
+                                    @error('header_title')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                     </span>
@@ -54,11 +54,35 @@
                             </div>
 {{--                            <!-- col-end -->--}}
 
+                            <div class="col-sm-12">
+                                <div class="form-group mb-3">
+                                    <label for="video" class="form-label">Video (Youtube)</label>
+                                    <input type="text" class="form-control @error('video') is-invalid @enderror" name="video" value="{{ old('video') }}"  id="video">
+                                    @error('video')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
-                                    <label for="banner" class="form-label">Banner Image *</label>
-                                    <input type="file" class="form-control @error('banner') is-invalid @enderror " name="banner"  value="{{ old('banner') }}"  id="banner" required="">
-                                    @error('banner')
+                                    <label for="banner" class="form-label">Banner Image </label>
+                                    <input type="file" class="form-control @error('banner_img') is-invalid @enderror " name="banner_img"  value="{{ old('banner_img') }}"  id="banner" required="">
+                                    @error('banner_img')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label for="banner" class="form-label">Variant 1 Image </label>
+                                    <input type="file" class="form-control @error('banner_img') is-invalid @enderror " name="variant_1_img"  value="{{ old('variant_1_img') }}"  id="variant_1_img" required="">
+                                    @error('variant_1_img')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                     </span>
@@ -68,15 +92,82 @@
 
                             <div class="col-sm-12">
                                 <div class="form-group mb-3">
-                                    <label for="video" class="form-label">Video</label>
-                                    <input type="text" class="form-control @error('video') is-invalid @enderror" name="video" value="{{ old('video') }}"  id="video">
-                                    @error('video')
+                                    <label for="banner_title" class="form-label">Variant 1 Title</label>
+                                    <input type="text" class="form-control" name="variant_1_title" value="{{ old('variant_1_title') }}"  >
+                                    @error('variant_1_title')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
-                                </span>
+                                    </span>
                                     @enderror
                                 </div>
                             </div>
+
+
+
+                            <div class="col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label for="banner" class="form-label">Variant 2 Image </label>
+                                    <input type="file" class="form-control @error('banner_img') is-invalid @enderror " name="variant_2_img"  value="{{ old('variant_2_img') }}"  id="variant_1_img" required="">
+                                    @error('variant_2_img')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group mb-3">
+                                    <label for="banner_title" class="form-label">Variant 2 Title</label>
+                                    <input type="text" class="form-control" name="variant_2_title" value="{{ old('variant_2_title') }}"  >
+                                    @error('variant_2_title')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12 mb-3">
+                                <div class="form-group">
+                                    <label for="banner" class="form-label">Variant 3 Image </label>
+                                    <input type="file" class="form-control @error('variant_3_img') is-invalid @enderror " name="variant_3_img"  value="{{ old('variant_3_img') }}"  id="variant_1_img" required="">
+                                    @error('variant_3_img')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group mb-3">
+                                    <label for="banner_title" class="form-label">Variant 3 Title</label>
+                                    <input type="text" class="form-control" name="variant_3_title" value="{{ old('variant_3_title') }}"  >
+                                    @error('variant_3_title')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-12">
+                                <div class="form-group mb-3">
+                                    <label for="warranty_text" class="form-label">Warranty Text</label>
+                                    <textarea class="form-control" id="warranty_text" name="warranty_text" >{{old('warranty_text')}}</textarea>
+                                    @error('warranty_text')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+               
                             <!-- col-end -->
 
 
@@ -140,46 +231,23 @@
                                 </div>
                             </div>
                             <!-- col end -->
-                            <!--<div class="col-sm-6">-->
-                            <!--    <div class="form-group mb-3">-->
-                            <!--        <label for="review" class="form-label">Review Images *</label>-->
-                            <!--        <input type="text" class="form-control @error('review') is-invalid @enderror" name="review" value="{{ old('review') }}"  id="review" required="">-->
-                            <!--        @error('review')-->
-                            <!--            <span class="invalid-feedback" role="alert">-->
-                            <!--                <strong>{{ $message }}</strong>-->
-                            <!--            </span>-->
-                            <!--        @enderror-->
-                            <!--    </div>-->
-                            <!--</div>-->
-                            <!--<div class="col-sm-6 mb-3">-->
-                            <!--    <label for="image">Review Image *</label>-->
-                            <!--    <div class="clone hide" style="display: none;">-->
-                            <!--        <div class="control-group input-group">-->
-                            <!--            <input type="file" name="image" class="form-control" />-->
-                            <!--            <div class="input-group-btn">-->
-                            <!--                <button class="btn btn-danger" type="button"><i class="fa fa-trash"></i></button>-->
-                            <!--            </div>-->
-                            <!--        </div>-->
-                            <!--    </div>-->
-                            <!--    <div class="input-group control-group increment">-->
-                            <!--        <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" />-->
-                            <!--<div class="input-group-btn">-->
-                            <!--    <button class="btn btn-success btn-increment" type="button"><i class="fa fa-plus"></i></button>-->
-                            <!--</div>-->
-                            <!--        @error('image')-->
-                            <!--        <span class="invalid-feedback" role="alert">-->
-                            <!--            <strong>{{ $message }}</strong>-->
-                            <!--        </span>-->
-                            <!--        @enderror-->
-                            <!--    </div>-->
-                            <!--</div>-->
-                            <!-- col end -->
-                            <!-- col-end -->
+                            <div class="col-sm-6">
+                           <div class="form-group mb-3">
+                           <label for="review_img" class="form-label">Review Images *</label>
+                            <input type="file" class="form-control @error('review') is-invalid @enderror" name="review_img[]" value="{{ old('review_img') }}"  id="review_img" multiple>
+                            @error('review_img')
+                            <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                           </div>
+                            </div>
+                           
                             <div class="col-sm-12 my-3">
                                 <div class="form-group">
-                                    <label for="short_description" class="form-label">Short Description</label>
-                                    <textarea name="short_description"  rows="6" class="summernote form-control @error('short_description') is-invalid @enderror" ></textarea>
-                                    @error('short_description')
+                                    <label for="feature_desc_1" class="form-label">Feature Description 1</label>
+                                    <textarea name="feature_desc_1" id="feature_desc_1"  rows="6" class="summernote form-control @error('short_description') is-invalid @enderror" ></textarea>
+                                    @error('feature_desc_1')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -189,16 +257,16 @@
                             <!-- clone_price end -->
                             <div class="col-sm-12 my-3">
                                 <div class="form-group">
-                                    <label for="description" class="form-label">Description</label>
-                                    <textarea name="description"  rows="6" class="summernote form-control @error('description') is-invalid @enderror" ></textarea>
-                                    @error('description')
+                                    <label for="feature_desc_2" class="form-label">Feature Description 2</label>
+                                    <textarea name="feature_desc_2" id="feature_desc_2"  rows="6" class="summernote form-control @error('feature_desc_2') is-invalid @enderror" ></textarea>
+                                    @error('feature_desc_2')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                     @enderror
                                 </div>
                             </div>
-                            <!-- clone_price end -->
+{{--                            <!-- clone_price end -->--}}
 
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
@@ -222,7 +290,8 @@
                         </form>
 
                     </div> <!-- end card-body-->
-                </div> <!-- end card-->
+                </div> 
+                <!-- end card-->
             </div> <!-- end col-->
         </div>
     </div>

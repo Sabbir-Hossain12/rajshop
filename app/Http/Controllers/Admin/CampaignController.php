@@ -26,8 +26,9 @@ class CampaignController extends Controller
     }
     public function store(Request $request)
     {
+//        dd($request->all());
         $this->validate($request, [
-            'banner_title' => 'required',
+            'header_title' => 'string',
             'short_description' => 'required',
             'description' => 'required',
             'name' => 'required',

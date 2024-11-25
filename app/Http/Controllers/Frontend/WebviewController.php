@@ -160,37 +160,39 @@ class WebviewController extends Controller
 
     public function campaign($slug)
     {
-        $campaign_data = Campaign::where('slug', $slug)->with('images')->first();
-        $product = Product::where('id', $campaign_data->product_id)
-            ->where('status', 1)
-            ->with('image')
-            ->first();
-        Cart::instance('shopping')->destroy();
-        $cart_count = Cart::instance('shopping')->count();
-        if ($cart_count == 0)
-
-        {
-            Cart::instance('shopping')->add([
-                'id' => $product->id,
-                'name' => $product->name,
-                'qty' => 1,
-                'price' => $product->new_price,
-                'options' =>
-                    [
-                    'slug' => $product->slug,
-                    'image' => $product->image->image,
-                    'old_price' => $product->old_price,
-                    'purchase_price' => $product->purchase_price,
-                    ],
-            ]);
-        }
-
-        //dd(Cart::instance('shopping')->content());
-
-        $shippingcharge = ShippingCharge::where('status', 1)->get();
-        $select_charge = ShippingCharge::where('status', 1)->first();
-        Session::put('shipping', $select_charge->amount);
-        return view('webview.content.landing-page.campaign', compact('campaign_data', 'product', 'shippingcharge'));
+//        $campaign_data = Campaign::where('slug', $slug)->with('images')->first();
+//        $product = Product::where('id', $campaign_data->product_id)
+//            ->where('status', 1)
+//            ->with('image')
+//            ->first();
+//        Cart::instance('shopping')->destroy();
+//        $cart_count = Cart::instance('shopping')->count();
+//        if ($cart_count == 0)
+//
+//        {
+//            Cart::instance('shopping')->add([
+//                'id' => $product->id,
+//                'name' => $product->name,
+//                'qty' => 1,
+//                'price' => $product->new_price,
+//                'options' =>
+//                    [
+//                    'slug' => $product->slug,
+//                    'image' => $product->image->image,
+//                    'old_price' => $product->old_price,
+//                    'purchase_price' => $product->purchase_price,
+//                    ],
+//            ]);
+//        }
+//
+//        //dd(Cart::instance('shopping')->content());
+//
+//        $shippingcharge = ShippingCharge::where('status', 1)->get();
+//        $select_charge = ShippingCharge::where('status', 1)->first();
+//        Session::put('shipping', $select_charge->amount);
+        return view('webview.content.landing-page.campaign',);
+            
+//            compact('campaign_data', 'product', 'shippingcharge'));
 
     }
 

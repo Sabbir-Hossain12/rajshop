@@ -203,7 +203,7 @@
             width: 100%;
             display: block;
             position: relative;
-            padding: 23px 23px 23px 45px;
+            padding: 23px 23px 23px 23px;
             margin-bottom: 12px;
             cursor: pointer;
             font-size: 22px;
@@ -217,6 +217,7 @@
 
         .order2_containerVarient_Flex__o1Dip {
             display: flex;
+            column-gap: 10px;
         }
 
         .order2_containerVarientLeft__qYnnu {
@@ -272,32 +273,34 @@
             margin-top: 50px;
         }
 
-         .order2_Payment__bDHrD h3 {
+        .order2_Payment__bDHrD h3 {
             padding: 30px 30px 0;
         }
+
         .Landing__31 h3 {
             font-size: 28px;
             font-weight: 600;
             line-height: 40px;
         }
+
         }
         .order2_d_flex__8l_ty {
-            display: flex
-        ;
+            display: flex;
             align-items: center;
         }
 
-       .order2_CustomeInput__A7vEa input {
+        .order2_CustomeInput__A7vEa input {
             border: 1px solid #d1d5db;
             padding: 12px 20px;
             border-radius: 10px;
         }
 
-        .order2_OrderConfirmLeft__806dO .order2_Payment__bDHrD .order2_CustomeInput__A7vEa input+label {
+        .order2_OrderConfirmLeft__806dO .order2_Payment__bDHrD .order2_CustomeInput__A7vEa input + label {
             position: relative;
             cursor: pointer;
             padding: 0;
         }
+
         .order2_OrderConfirmLeft__806dO .order2_Payment__bDHrD .order2_CustomeInput__A7vEa label {
             margin-bottom: 0;
             font-weight: 500;
@@ -305,6 +308,7 @@
             line-height: 35px;
             font-style: italic;
         }
+
         label {
             display: inline-block;
         }
@@ -323,11 +327,12 @@
         .order2_CustomeInput__A7vEa {
             margin-top: 20px;
         }
+
         .order2_d_flex__8l_ty {
-            display: flex
-        ;
+            display: flex;
             align-items: center;
         }
+
         .order2_CustomeInput__A7vEa input {
             width: 18px;
             height: 18px;
@@ -345,7 +350,7 @@
             font-style: italic;
         }
 
-         .order2_ArrowBg__6ggAY {
+        .order2_ArrowBg__6ggAY {
             background: #fceef1;
             position: relative;
             border-radius: 0 0 15px 15px;
@@ -359,6 +364,233 @@
             background: #fff;
         }
 
+        #confirm_btn {
+            padding: 12px;
+            margin-top: 20px;
+        }
+
+        #confirm_btn {
+            width: 100%;
+            background: #ff466d;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 18px;
+            line-height: 30px;
+            color: #fff;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        #confirm_btn svg {
+            font-size: 25px;
+            margin-right: 10px;
+        }
+
+
+        .shipping-margin {
+            margin-top: 40px;
+        }
+
+        .footer4_Footer4__zVuJC .footer4_Footer4Sec__kamTR {
+            font-family: Poppins, sans-serif;
+            background-color: #f6f6f6;
+            padding: 30px 0;
+        }
+
+        .footer4_Footer4__zVuJC .footer4_FooterMainDiv__2E7dD {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer4_Footer4__zVuJC .footer4_FooterMainDiv1__YHTgR {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer4_Footer4__zVuJC .footer4_FooterMainDiv__2E7dD h4 {
+            font-size: 16px;
+            color: #464646;
+        }
+
+        .footer4_Footer4__zVuJC .footer4_FooterMainDiv1__YHTgR svg {
+            font-size: 30px;
+            margin-right: 10px;
+        }
+
+        .footer4_Footer4__zVuJC .footer4_FooterMainDiv2__TUXzo {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer4_Footer4__zVuJC .footer4_tinyFooter2__kOkiy {
+            margin-top: 30px;
+        }
+
+        .footer4_Footer4__zVuJC .footer4_Hr__XfwNf {
+            border-bottom: 1px solid hsla(0, 0%, 50%, .5);
+            margin-bottom: 10px;
+        }
+
+        .footer4_tinyFooter2__kOkiy p {
+            line-height: 40px;
+            font-size: 16px;
+            text-align: center;
+            color: #464646;
+        }
+
+        .footer4_Footer4__zVuJC .footer4_tinyFooter2__kOkiy p a {
+            display: inline;
+            font-size: 16px;
+            font-weight: 600;
+            color: #001320;
+            padding: 0 5px;
+        }
+
+
+        /*Responsive*/
+        @media (max-width: 1024px) {
+            .order2_VarientMainDiv__kMbEk {
+                display: grid;
+                grid-template-columns: auto;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 1339px) {
+            .order2_VarientMainDiv__kMbEk {
+                display: grid;
+                grid-template-columns: auto auto;
+                gap: 30px;
+            }
+        }
+
+        @media (min-width: 320px) and (max-width: 600px) {
+            .order2_VarientMainDiv__kMbEk {
+                display: grid;
+                grid-template-columns: auto;
+                gap: 30px;
+            }
+
+            .shipping-margin-sm {
+                margin-top: 20px;
+            }
+
+            .footer4_Footer4__zVuJC .footer4_FooterMainDiv__2E7dD {
+                display: block;
+                text-align: center;
+            }
+
+            .footer4_Footer4__zVuJC .footer4_FooterMainDiv1__YHTgR {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 15px;
+            }
+
+            .footer4_Footer4__zVuJC .footer4_FooterMainDiv2__TUXzo {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .footer4_Footer4__zVuJC .footer4_tinyFooter2__kOkiy p, .footer4_Footer4__zVuJC .footer4_tinyFooter2__kOkiy p a {
+                font-size: 16px;
+                line-height: 34px;
+            }
+
+            .Landing__31 h1 {
+                font-size: 32px;
+                line-height: 45px;
+            }
+
+            .Landing__31__PriceWithOffer__bg h1 del {
+                font-size: 35px;
+                line-height: 45px;
+            }
+
+            .Landing__31__PriceWithOffer__bg h3 {
+                font-size: 32px;
+                line-height: 45px;
+            }
+
+            .order-btn-landing {
+                font-size: 22px;
+                line-height: 35px;
+                padding: 8px 35px;
+            }
+
+            .Landing__31 h2 {
+                font-size: 25px;
+                line-height: 40px;
+                padding: 12px 10px;
+            }
+
+            .Landing__31__WhyBuy__Box {
+                padding: 5px 20px;
+                text-align: center;
+                border-radius: 20px;
+                box-shadow: 0px 20px 20px 0px rgba(0, 0, 0, 0.1);
+                border: 3px solid #0d9c2b;
+            }
+
+            .Landing__31__WhyBuy__Box ul li h3 {
+                font-size: 20px;
+                line-height: 30px;
+            }
+
+            .Landing__31__WhyBuy__Box li img {
+                height: 25px;
+                width: 25px;
+            }
+
+            .Landing__31 h3 {
+                font-size: 20px;
+                line-height: 30px;
+            }
+
+            .Landing__31__Contact__Box .Landing__31__Call {
+                font-size: 25px;
+                line-height: 35px;
+            }
+
+            .CustomerReviewContent h2 {
+                font-size: 25px;
+                line-height: 40px;
+                padding: 12px 10px;
+            }
+
+            .order2_containerVarientRight__J_LZz h4 {
+                font-size: 18px;
+                font-weight: 500;
+                padding-bottom: 5px;
+            }
+
+            .order2_containerVarientRight__J_LZz h5 {
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+            .form_sec h2 {
+                font-size: 25px;
+                line-height: 40px;
+                padding: 12px 10px;
+            }
+
+            .form_sec h3 {
+                font-size: 20px;
+                line-height: 30px;
+            }
+
+        }
+
+        /*.order2_VarientMainDiv__kMbEk {*/
+        /*    display: grid*/
+        /*;*/
+        /*    grid-template-columns: auto auto auto;*/
+        /*    gap: 30px;*/
+        /*    margin-bottom: 40px;*/
+        /*}*/
 
 
     </style>
@@ -393,27 +625,27 @@
         <!-- End Facebook Pixel Code -->
     @endforeach
 
-    <meta name="app-url" content="{{route('campaign',$campaign_data->slug)}}"/>
-    <meta name="robots" content="index, follow"/>
-    <meta name="description" content="{{$campaign_data->description}}"/>
-    <meta name="keywords" content="{{ $campaign_data->slug }}"/>
+{{--    <meta name="app-url" content="{{route('campaign',$campaign_data->slug)}}"/>--}}
+{{--    <meta name="robots" content="index, follow"/>--}}
+{{--    <meta name="description" content="{{$campaign_data->description}}"/>--}}
+{{--    <meta name="keywords" content="{{ $campaign_data->slug }}"/>--}}
 
-    <!-- Twitter Card data -->
-    <meta name="twitter:card" content="product"/>
-    <meta name="twitter:site" content="{{$campaign_data->name}}"/>
-    <meta name="twitter:title" content="{{$campaign_data->name}}"/>
-    <meta name="twitter:description" content="{{ $campaign_data->description}}"/>
-    <meta name="twitter:creator" content="hellodinajpur.com"/>
-    <meta property="og:url" content="{{route('campaign',$campaign_data->slug)}}"/>
-    <meta name="twitter:image" content="{{asset($campaign_data->image_one)}}"/>
+{{--    <!-- Twitter Card data -->--}}
+{{--    <meta name="twitter:card" content="product"/>--}}
+{{--    <meta name="twitter:site" content="{{$campaign_data->name}}"/>--}}
+{{--    <meta name="twitter:title" content="{{$campaign_data->name}}"/>--}}
+{{--    <meta name="twitter:description" content="{{ $campaign_data->description}}"/>--}}
+{{--    <meta name="twitter:creator" content="hellodinajpur.com"/>--}}
+{{--    <meta property="og:url" content="{{route('campaign',$campaign_data->slug)}}"/>--}}
+{{--    <meta name="twitter:image" content="{{asset($campaign_data->image_one)}}"/>--}}
 
-    <!-- Open Graph data -->
-    <meta property="og:title" content="{{$campaign_data->name}}"/>
-    <meta property="og:type" content="product"/>
-    <meta property="og:url" content="{{route('campaign',$campaign_data->slug)}}"/>
-    <meta property="og:image" content="{{asset($campaign_data->image_one)}}"/>
-    <meta property="og:description" content="{{ $campaign_data->description}}"/>
-    <meta property="og:site_name" content="{{$campaign_data->name}}"/>
+{{--    <!-- Open Graph data -->--}}
+{{--    <meta property="og:title" content="{{$campaign_data->name}}"/>--}}
+{{--    <meta property="og:type" content="product"/>--}}
+{{--    <meta property="og:url" content="{{route('campaign',$campaign_data->slug)}}"/>--}}
+{{--    <meta property="og:image" content="{{asset($campaign_data->image_one)}}"/>--}}
+{{--    <meta property="og:description" content="{{ $campaign_data->description}}"/>--}}
+{{--    <meta property="og:site_name" content="{{$campaign_data->name}}"/>--}}
 </head>
 
 <body>
@@ -438,7 +670,7 @@
 </section>
 
 {{--Header Title Starts--}}
-<section class="header-text landing-section">
+<section class="header-text landing-section container">
     <div class="container">
         <p id="mce_0"
            style="position: relative; line-height: 1.5; text-align: left; margin: 0px; background-color: rgb(255, 255, 0); color: rgb(17, 20, 61); font-weight: 400; font-style: normal; text-decoration: none solid rgb(17, 20, 61);"
@@ -454,7 +686,7 @@
 {{--Header Title Ends--}}
 
 {{--Video Section Starts--}}
-<section class="landing-section">
+<section class="landing-section container">
 
     <div class="container">
         <div class="video-container" f-role="placeholder" id="kkB0b">
@@ -471,8 +703,20 @@
 </section>
 {{--Video Section Ends--}}
 
+{{--Banner Section Starts--}}
+<section class="landing-section container">
+
+    <div class="container" style="padding: 0px; margin: 0px;">
+        <img id="HrM7n" class="image-after-change"
+             src="https://cdn-b.funnelliner.com/861609_-_WhatsApp_Image_2024-03-23_at_05.30.19_d8f9dc0d.jpg"
+             style="width: 100%; border-radius: 10px;border: solid 3px #36472b;"/>
+    </div>
+
+</section>
+{{--Banner Section Ends--}}
+
 {{--Cash on Delivery Text Start--}}
-<section class="landing-section">
+<section class="landing-section container">
     <div class="container">
         <p id="mce_4" style="position: relative;" spellcheck="false" class=""><span style="font-size: 12pt;"><strong
                         style="display: block; text-align: center;">🚛সারা বাংলা দেশে ক্যাসঅন ডেলিভারি🚛</strong></span>
@@ -481,17 +725,20 @@
 {{--Cash on Delivery Text Ends--}}
 
 {{--Price Section Starts--}}
-<section class="landing-section">
+<section class="landing-section container">
     <div class="container">
         <p id="mce_5"
            style="position: relative; background-color: rgb(255, 255, 0); color: rgb(33, 37, 41); margin: 0px;"
-           spellcheck="false"><span style="font-size: 14pt;"><strong><span style="display: block; text-align: center;">রেগুলার প্রাইজ: 1450টাকা<br>অফার মুল্য: 990 টাকা</span></strong></span>
-        </p></div>
+           spellcheck="false">
+            <span style="font-size: 14pt;"><strong>
+                    <span style="display: block; text-align: center;">অফার প্রাইজ: <del>1650টাকা</del> 1450টাকা<br></span></strong></span>
+        </p>
+    </div>
 </section>
 {{--Price Section Ends--}}
 
-{{--Product Images Section--}}
-<section class="Landing__31__Banner">
+{{--Product Images Section Start--}}
+<section class="Landing__31__Banner container">
     <div class="container">
         <div class="row justify-content-md-center">
 
@@ -582,143 +829,146 @@
         </div>
     </div>
 </section>
+{{--Product Images Section End--}}
 
 {{--Product Short Desc Start--}}
-<div class="container Landing__31" style="opacity: 1;">
-    <div class="row">
-        <div class="col-lg-12" style="margin-top: 20px;">
-            <h2 class="" style="background-color: rgb(240, 181, 5);">100% Orginal Product
-                <br>
-                <span style="font-size: 14pt;">7 days offial&nbsp; Warentty</span></h2>
+<section class="container">
+    <div class="container Landing__31" style="opacity: 1;">
+        <div class="row">
+            <div class="col-lg-12" style="margin-top: 20px;">
+                <h2 class="" style="background-color: rgb(240, 181, 5);">100% Orginal Product
+                    <br>
+                    <span style="font-size: 14pt;">7 days offial&nbsp; Warentty</span></h2>
+            </div>
         </div>
-    </div>
-    <div class="Landing__31__Content">
-        <div class="d_flex" style="display: flex;
+        <div class="Landing__31__Content">
+            <div class="d_flex" style="display: flex;
           align-items: center;
           flex-direction: column;">
-            <div class="col-12 col-lg-6">
-                <div class="Landing__31__WhyBuy__Box">
-                    <ul>
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="" class="">
-                            <h3 class="">100% Orginal Product</h3>
+                <div class="col-12 col-lg-6">
+                    <div class="Landing__31__WhyBuy__Box">
+                        <ul>
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="" class="">
+                                <h3 class="">100% Orginal Product</h3>
 
-                        </li>
+                            </li>
 
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="">
-                            <h3 class="">Tyep c charging port</h3>
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="">
+                                <h3 class="">Tyep c charging port</h3>
 
-                        </li>
+                            </li>
 
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="">
-                            <h3 class="">30 hours play time</h3>
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="">
+                                <h3 class="">30 hours play time</h3>
 
-                        </li>
+                            </li>
 
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="">
-                            <h3 class="">fast charging support</h3>
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="">
+                                <h3 class="">fast charging support</h3>
 
-                        </li>
+                            </li>
 
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="">
-                            <h3 class="">calling system</h3>
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="">
+                                <h3 class="">calling system</h3>
 
-                        </li>
+                            </li>
 
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="" class="" style="width: auto; height: auto;">
-                            <h3 class="">high quality product</h3>
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="" class="" style="width: auto; height: auto;">
+                                <h3 class="">high quality product</h3>
 
-                        </li>
-                    </ul>
-                </div>
-                <div class="Landing__31__WhyBuy__Box" style="margin-top: 20px;">
-                    <ul>
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="" class="">
-                            <h3 class="">220 mah battary</h3>
-
-                        </li>
-
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="">
-                            <h3 class="">Bass Port Superior Sound</h3>
-
-                        </li>
-
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="">
-                            <h3 class="">Hand Free Call</h3>
-
-                        </li>
-
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="">
-                            <h3 class="">Use For Sport</h3>
-
-                        </li>
-
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="">
-                            <h3 class="">Distance 15 mitter</h3>
-
-                        </li>
-
-                        <li>
-                            <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                 alt="" class="" style="width: auto; height: auto;">
-                            <h3 class="">Comfortable To Wear</h3>
-
-                        </li>
-                    </ul>
-                </div>
-                <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
-                    <div class="container">
-                        <p class="" style="color: rgb(255, 0, 0);"><strong
-                                    style="display: block; text-align: center;"><span style="font-size: 18pt;">Cash On Delivary All Bangladesh</span></strong>
-                        </p></div>
-                </div>
-                <div class="Landing__31__Contact__Box text-center" style="opacity: 1;">
-                    <div class="Order" style="">
-                        <a href="#placeAnOrder" class="order-btn-landing" style="">
-                            অর্ডার করতে ক্লিক করুন
-                            <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
-                        </a>
+                            </li>
+                        </ul>
                     </div>
-                    <h3 class="">যে কোন তথ্যের জন্য যোগাযোগ করুন</h3>
-                    <a href="tel:01725348687" class="Landing__31__Call">মোবাইলঃ 01725348687</a>
-                </div>
-                <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
-                    <div class="container">
+                    <div class="Landing__31__WhyBuy__Box" style="margin-top: 20px;">
+                        <ul>
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="" class="">
+                                <h3 class="">220 mah battary</h3>
+
+                            </li>
+
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="">
+                                <h3 class="">Bass Port Superior Sound</h3>
+
+                            </li>
+
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="">
+                                <h3 class="">Hand Free Call</h3>
+
+                            </li>
+
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="">
+                                <h3 class="">Use For Sport</h3>
+
+                            </li>
+
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="">
+                                <h3 class="">Distance 15 mitter</h3>
+
+                            </li>
+
+                            <li>
+                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
+                                     alt="" class="" style="width: auto; height: auto;">
+                                <h3 class="">Comfortable To Wear</h3>
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
+                        <div class="container">
+                            <p class="" style="color: rgb(255, 0, 0);"><strong
+                                        style="display: block; text-align: center;"><span style="font-size: 18pt;">Cash On Delivary All Bangladesh</span></strong>
+                            </p></div>
+                    </div>
+                    <div class="Landing__31__Contact__Box text-center" style="opacity: 1;">
+                        <div class="Order" style="">
+                            <a href="#placeAnOrder" class="order-btn-landing" style="">
+                                অর্ডার করতে ক্লিক করুন
+                                <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <h3 class="">যে কোন তথ্যের জন্য যোগাযোগ করুন</h3>
+                        <a href="tel:01725348687" class="Landing__31__Call">মোবাইলঃ 01725348687</a>
+                    </div>
+                    <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
+                        <div class="container">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-12 col-lg-6">
+                <div class="col-12 col-lg-6">
 
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {{--Product Short Desc End--}}
 
 {{--Customer Review Section Start--}}
-<section class="CustomerReviewContent">
+<section class="container CustomerReviewContent">
 
     <div class="container">
 
@@ -772,11 +1022,14 @@
 {{--Customer Review Section End--}}
 
 
+{{--Form Section Start--}}
 <section class="form_sec">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="order2_VarientMainDiv__kMbEk"><label class="order2_containerVarient__mVobl" style="">
+                <div class="order2_VarientMainDiv__kMbEk">
+                    <label class="order2_containerVarient__mVobl product-variant-1" onclick="productVariantSelect('1')"
+                           style="border: 1px solid red;">
                         <div class="order2_containerVarient_Flex__o1Dip">
                             <div class="order2_containerVarientLeft__qYnnu">
                                 <div><input type="checkbox" name="radio"><span class="order2_checkmark__UoVcR"></span>
@@ -787,13 +1040,22 @@
                             </div>
                             <div class="order2_containerVarientRight__J_LZz">
                                 <div><h4>Recrsi NeackBand(Brown)</h4></div>
-                                <div class="order2_containerVarientRight__dflex__9rlHE"><h5> ৳ 990</h5></div>
+                                <div class="order2_containerVarientRight__dflex__9rlHE">
+                                    <h5>
+                                        <del>৳ 1500</del>
+                                        ৳ 990
+                                    </h5>
+                                </div>
                             </div>
                         </div>
-                    </label><label class="order2_containerVarient__mVobl" style="border: 1px solid red;">
+                    </label>
+                    <label class="order2_containerVarient__mVobl product-variant-2" onclick="productVariantSelect('2')"
+                           style="">
                         <div class="order2_containerVarient_Flex__o1Dip">
                             <div class="order2_containerVarientLeft__qYnnu">
-                                <div><input type="checkbox" name="radio"><span class="order2_checkmark__UoVcR"></span>
+                                <div>
+                                    <input type="checkbox" name="radio">
+                                    <span class="order2_checkmark__UoVcR"></span>
                                 </div>
                                 <div class="order2_containerVarientLeftImg__0vGz7"><img
                                             src="https://cdn-s3.funnelliner.com/media/product-variation-image/1242/dhMKhx1AzgXemgcHSNmtuoLkxbINTHjvd2Bx0dKu.jpg?v=1729774692"
@@ -801,10 +1063,16 @@
                             </div>
                             <div class="order2_containerVarientRight__J_LZz">
                                 <div><h4>Recrsi NeackBand(Black)</h4></div>
-                                <div class="order2_containerVarientRight__dflex__9rlHE"><h5> ৳ 990</h5></div>
+                                <div class="order2_containerVarientRight__dflex__9rlHE">
+                                    <h5>
+                                        <del>৳ 1500</del>
+                                        ৳ 990
+                                    </h5>
+                                </div>
                             </div>
                         </div>
-                    </label></div>
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -880,6 +1148,35 @@
                                                             @enderror
                                                         </div>
                                                     </div>
+
+                                                    {{-- Shipping--}}
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group mb-3 shipping-sec">
+                                                            <div class="row shipping-margin">
+                                                                <div class="col-sm-6">
+                                                                    <h5>Shipping Charge</h5>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="d-flex justify-content-center align-items-start flex-column gap-2 shipping-margin-sm">
+                                                                        <div class="d-flex gap-1">
+                                                                            <input type="radio" id="insideDhaka"
+                                                                                   name="area"
+                                                                                   value="80">Inside Dhaka ৳<span
+                                                                                    style="font-weight: bold; padding: 0px 5px;">80</span>
+                                                                        </div>
+
+                                                                        <div class="d-flex gap-1">
+                                                                            <input type="radio" id="outSideDhaka"
+                                                                                   name="area"
+                                                                                   value="120" checked="">Outside Dhaka
+                                                                            ৳<span style="font-weight: bold;">120</span>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     {{--                                                    <div class="col-sm-12">--}}
                                                     {{--                                                        <div class="form-group mb-3">--}}
                                                     {{--                                                            <label for="area">আপনার এরিয়া সিলেক্ট করুন *</label>--}}
@@ -907,7 +1204,8 @@
                                                     {{--                                                    </div>--}}
 
 
-                                                    <div id="Payment" class="order2_Payment__bDHrD px-0"><h3>Payment</h3>
+                                                    <div id="Payment" class="order2_Payment__bDHrD px-0"><h3>
+                                                            Payment</h3>
                                                         <div id="CustomeInput"
                                                              class="order2_CustomeInput__A7vEa order2_d_flex__8l_ty">
                                                             <input type="checkbox" name="" id="CashOn" checked=""><label
@@ -923,7 +1221,7 @@
                                 </div>
                             </div>
                             <!-- col end -->
-                            <div class="col-sm-6 cust-order-1">
+                            <div class="col-sm-6 cust-order-1 mt-4">
                                 <div class="cart_details">
                                     <div class="card">
                                         <div class="card-header">
@@ -1001,14 +1299,63 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <button id="confirm_btn">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                         height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.00436 6.41662L0.761719 3.17398L2.17593 1.75977L5.41857 5.00241H20.6603C21.2126 5.00241 21.6603 5.45012 21.6603 6.00241C21.6603 6.09973 21.6461 6.19653 21.6182 6.28975L19.2182 14.2898C19.0913 14.7127 18.7019 15.0024 18.2603 15.0024H6.00436V17.0024H17.0044V19.0024H5.00436C4.45207 19.0024 4.00436 18.5547 4.00436 18.0024V6.41662ZM6.00436 7.00241V13.0024H17.5163L19.3163 7.00241H6.00436ZM5.50436 23.0024C4.67593 23.0024 4.00436 22.3308 4.00436 21.5024C4.00436 20.674 4.67593 20.0024 5.50436 20.0024C6.33279 20.0024 7.00436 20.674 7.00436 21.5024C7.00436 22.3308 6.33279 23.0024 5.50436 23.0024ZM17.5044 23.0024C16.6759 23.0024 16.0044 22.3308 16.0044 21.5024C16.0044 20.674 16.6759 20.0024 17.5044 20.0024C18.3328 20.0024 19.0044 20.674 19.0044 21.5024C19.0044 22.3308 18.3328 23.0024 17.5044 23.0024Z"></path>
+                                    </svg>
+                                    Place Order BDT 1110
+                                </button>
                             </div>
                             <!-- col end -->
+
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
+    </div>
+</section>
+{{--Form Section End--}}
+
+{{--Footer Section--}}
+<section>
+
+    <div class="footer4_Footer4__zVuJC">
+        <section class="footer4_Footer4Sec__kamTR">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="footer4_FooterMainDiv__2E7dD">
+                            <div class="footer4_FooterMainDiv1__YHTgR"><a href="/p/recrsi-neckband#">
+                                    <h4>
+                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                             viewBox="0 0 24 24" height="1em" width="1em"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="none" d="M0 0h24v24H0z"></path>
+                                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"></path>
+                                        </svg>
+                                        {{$contact->address}}
+                                    </h4>
+                                </a></div>
+                            <div class="footer4_FooterMainDiv2__TUXzo">
+                                <a href="{{url('/venture/privacy-policy')}}"><h4> Privacy Policy</h4></a>
+                                <a href="{{url('/venture/terms-&-conditions')}}"><h4> Terms &amp; Conditions</h4></a>
+                                <a href="https://rajshop.com.bd/"><h4> View More Products</h4></a>
+                                
+                            </div>
+                        </div>
+                        <div id="tinyFooter2" class="footer4_tinyFooter2__kOkiy">
+                            <div class="footer4_Hr__XfwNf"></div>
+                            <div><p>© 2024 All Rights Reserved Designed by <a
+                                            href="https://rajshop.com.bd/">{{$generalsetting->name}}</a></p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </section>
 
@@ -1169,6 +1516,13 @@
             },
         }
     });
+</script>
+
+<script>
+    function productVariantSelect(id) {
+        $('.order2_containerVarient__mVobl').css('border', '0px');
+        $('.product-variant-' + id).css('border', '1px solid red');
+    }
 </script>
 </body>
 </html>

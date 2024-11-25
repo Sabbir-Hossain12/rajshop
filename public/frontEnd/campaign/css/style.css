@@ -188,8 +188,12 @@ button.order_place {
     width: 45px;
     border-right: 1px solid #ddd;
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
     cursor: pointer;
+    background: #ff466d;
+    color: #fff;
+    border-radius: 4px;
+    /*font-weight: 600;*/
 }
 .quantity input {
     position: relative;
@@ -200,6 +204,7 @@ button.order_place {
     pointer-events: none;
     font-weight: 500;
     border: 0;
+   
 }
 .quantity .plus {
     position: absolute;
@@ -211,8 +216,12 @@ button.order_place {
     width: 45px;
     border-left: 1px solid #ddd;
     text-align: center;
-    font-size: 26px;
+    font-size: 30px;
     cursor: pointer;
+    background: #ff466d;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 600;
 }
 .cam_description li,.cam_description p {
     font-family: none !important;
