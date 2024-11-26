@@ -735,8 +735,20 @@
         <p id="mce_5"
            style="position: relative; background-color: rgb(255, 255, 0); color: rgb(33, 37, 41); margin: 0px;"
            spellcheck="false">
-            <span style="font-size: 14pt;"><strong>
-                    <span style="display: block; text-align: center;">অফার প্রাইজ: <del>1650টাকা</del> 1450টাকা<br></span></strong></span>
+            <span style="font-size: 14pt;">
+                <strong>
+                    @if($product->type== 0) 
+                    <span style="display: block; text-align: center;">অফার প্রাইজ: <del>{{$product->old_price}} টাকা</del> {{$product->new_price}} টাকা<br></span>
+                    @else
+                        @if(count($product->prosizes)>0) 
+                            <span style="display: block; text-align: center;">অফার প্রাইজ: <del>{{$product->prosizes[0]->RegularPrice}} টাকা</del> {{$product->prosizes[0]->SalePrice}} টাকা<br></span>
+                        @elseif(count($product->procolors)>0)
+                            <span style="display: block; text-align: center;">অফার প্রাইজ: <del>{{$product->procolors[0]->vPrice}} টাকা</del> {{$product->procolors[0]->vPrice}} টাকা<br></span>
+                        @endif
+                     @endif
+                    
+                </strong>
+            </span>
         </p>
     </div>
 </section>
@@ -748,83 +760,135 @@
         <div class="row justify-content-md-center">
 
             <div class="Order text-center">
-                <a href="" class="order-btn-landing py-2">
+                <a href="#orderForm" class="order-btn-landing py-2">
                     অর্ডার করতে ক্লিক করুন
                     <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                 </a>
-            </div>
-            <div class="col-lg-12">
-                <h1 class=""></h1>
-
-                <h6 class="" style="color: rgb(159, 126, 4);"></h6>
             </div>
             <div class="col-lg-10">
 
 
                 <div class="col-lg-12" style="opacity: 1;">
+                    @if(isset($campaign_data->variant_1_img)) 
                     <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
                         <div class="container" style="padding: 0px; margin: 0px;">
                             <img id="sjA69" class="image-after-change"
-                                 src="https://cdn-b.funnelliner.com/861609_-_WhatsApp_Image_2024-03-23_at_05.30.20_8f9d41a2.jpg"
-                                 style="width: 100%; border-radius: 10px;border: solid 3px #36472b;"></div>
+                                 src="{{asset($campaign_data->variant_1_img)}}"
+                                 style="width: 100%; border-radius: 10px;border: solid 3px #36472b;">
+                        </div>
                     </div>
+                    @endif
+                    
+                    @if(isset($campaign_data->variant_1_title)) 
                     <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
                         <div class="container text-center" style="padding: 0px; margin: 0px;">
                             <p id="mce_7" style="position: relative;" spellcheck="false">
                             <span style="font-size: 14pt;">
-                                <strong>Color: Brown</strong>
+                                <strong>{{$campaign_data->variant_1_title}}</strong>
                             </span>
                             </p>
                         </div>
                     </div>
-                    <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
+                     @endif
+                        
+                     @if(isset($campaign_data->variant_2_img))
+                        <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
                         <div class="container" style="padding: 0px; margin: 0px;">
                             <img id="pkmdw" class="image-after-change"
-                                 src="https://cdn-b.funnelliner.com/861609_-_WhatsApp_Image_2024-03-23_at_05.30.21_850dfed6.jpg"
+                                 src="{{asset($campaign_data->variant_2_img)}}"
                                  style="width: 100%; border-radius: 10px;border: solid 3px #36472b;"></div>
                     </div>
+                      @endif
+                        
+                        @if(isset($campaign_data->variant_2_title)) 
                     <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
                         <div class="container text-center" style="padding: 0px; margin: 0px;">
                             <p id="mce_8" style="position: relative;" spellcheck="false" class="">
-                            <span style="font-size: 14pt;"><strong>Color: Black</strong>
+                            <span style="font-size: 14pt;"><strong>{{$campaign_data->variant_2_title}}</strong>
                             </span></p>
                         </div>
                     </div>
-                    <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
+                        @endif
+
+                        @if(isset($campaign_data->variant_3_img))
+                            <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
+                                <div class="container" style="padding: 0px; margin: 0px;">
+                                    <img id="pkmdw" class="image-after-change"
+                                         src="{{asset($campaign_data->variant_3_img)}}"
+                                         style="width: 100%; border-radius: 10px;border: solid 3px #36472b;"></div>
+                            </div>
+                        @endif
+
+                        @if(isset($campaign_data->variant_3_title))
+                            <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
+                                <div class="container text-center" style="padding: 0px; margin: 0px;">
+                                    <p id="mce_8" style="position: relative;" spellcheck="false" class="">
+                            <span style="font-size: 14pt;"><strong>{{$campaign_data->variant_3_title}}</strong>
+                            </span>
+                                    </p>
+                                </div>
+                            </div>
+                        @endif
+                        
+                        @if(isset($campaign_data->image_one)) 
+                        <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
                         <div class="container" style="padding: 0px; margin: 0px;">
                             <img id="f9229" class="image-after-change"
-                                 src="https://cdn-b.funnelliner.com/861609_-_WhatsApp_Image_2024-03-23_at_05.30.21_fd8bc8b9.jpg"
+                                 src="{{asset($campaign_data->image_one)}}"
                                  style="width: 100%; border-radius: 10px;border: solid 3px #36472b;"></div>
                     </div>
+                        @endif
+                        
                     <div class="Landing__31__PriceWithOffer__bg">
-                        <h1 class="">
-                            <del>মূল্যঃ1450 টাকা</del>
-                        </h1>
-                        <h3 class="">অফার মূল্যঃ 990 টাকা</h3>
+                       
+
+                        @if($product->type== 0)
+                            <h1 class="">
+                                <del>মূল্যঃ {{$product->old_price}}টাকা</del>
+                            </h1>
+                            <h3 class="">অফার মূল্যঃ {{$product->new_price}} টাকা</h3>
+                        @else
+                            @if(count($product->prosizes)>0)
+                                <h1 class="">
+                                    <del>মূল্যঃ {{$product->prosizes[0]->RegularPrice}}টাকা</del>
+                                </h1>
+                                <h3 class="">অফার মূল্যঃ {{$product->prosizes[0]->SalePrice}} টাকা</h3>
+                            @elseif(count($product->procolors)>0)
+                                <h1 class="">
+                                    <del>মূল্যঃ {{$product->procolors[0]->vPrice}} টাকা</del>
+                                </h1>
+                                <h3 class="">অফার মূল্যঃ {{$product->procolors[0]->vPrice}} টাকা</h3>
+                            @endif
+                        @endif
                         <div class="Order text-center">
-                            <a href="" class="order-btn-landing ">
+                            <a href="#orderForm" class="order-btn-landing ">
                                 অর্ডার করতে ক্লিক করুন
                                 <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
 
+                        @if($campaign_data->image_two) 
                     <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
                         <div class="container" style="padding: 0px; margin: 0px;">
                             <img id="ysPkK" class="image-after-change"
-                                 src="https://cdn-b.funnelliner.com/861609_-_WhatsApp_Image_2024-03-23_at_05.30.20_e7facb2e.jpg"
-                                 style="width: 100%; border-radius: 10px;border: solid 3px #36472b;"></div>
+                                 src="{{asset($campaign_data->image_two)}}"
+                                 style="width: 100%; border-radius: 10px;border: solid 3px #36472b;">
+                        </div>
                     </div>
+                        @endif
 
+                        @if($campaign_data->image_three) 
                     <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
                         <div class="container" style="padding: 0px; margin: 0px;">
                             <img id="HrM7n" class="image-after-change"
-                                 src="https://cdn-b.funnelliner.com/861609_-_WhatsApp_Image_2024-03-23_at_05.30.19_d8f9dc0d.jpg"
+                                 src="{{asset($campaign_data->image_three)}}"
                                  style="width: 100%; border-radius: 10px;border: solid 3px #36472b;"></div>
                     </div>
-
+                        @endif
+                        
                     <div class="Order text-center" style="opacity: 1;">
-                        <a href="#placeAnOrder" class="order-btn-landing ">
+                        <a href="#orderForm" class="order-btn-landing ">
                             অর্ডার করতে ক্লিক করুন
                             <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                         </a>
@@ -843,104 +907,33 @@
             <div class="col-lg-12" style="margin-top: 20px;">
                 <h2 class="" style="background-color: rgb(240, 181, 5);">100% Orginal Product
                     <br>
-                    <span style="font-size: 14pt;">7 days offial&nbsp; Warentty</span></h2>
+                    @if(isset($campaign_data->warranty_text)) 
+                    <span style="font-size: 14pt;">{{$campaign_data->warranty_text}}</span>
+                    @endif
+                </h2>
             </div>
         </div>
+        
+{{--     Feature Description 1   --}}
         <div class="Landing__31__Content">
             <div class="d_flex" style="display: flex;
           align-items: center;
           flex-direction: column;">
                 <div class="col-12 col-lg-6">
+                    
+                    @if(isset($campaign_data->feature_desc_1)) 
                     <div class="Landing__31__WhyBuy__Box">
-                        <ul>
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="" class="">
-                                <h3 class="">100% Orginal Product</h3>
+                        
+                        {!! $campaign_data->feature_desc_1 !!}
 
-                            </li>
-
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="">
-                                <h3 class="">Tyep c charging port</h3>
-
-                            </li>
-
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="">
-                                <h3 class="">30 hours play time</h3>
-
-                            </li>
-
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="">
-                                <h3 class="">fast charging support</h3>
-
-                            </li>
-
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="">
-                                <h3 class="">calling system</h3>
-
-                            </li>
-
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="" class="" style="width: auto; height: auto;">
-                                <h3 class="">high quality product</h3>
-
-                            </li>
-                        </ul>
                     </div>
-                    <div class="Landing__31__WhyBuy__Box" style="margin-top: 20px;">
-                        <ul>
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="" class="">
-                                <h3 class="">220 mah battary</h3>
+                    @endif
 
-                            </li>
-
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="">
-                                <h3 class="">Bass Port Superior Sound</h3>
-
-                            </li>
-
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="">
-                                <h3 class="">Hand Free Call</h3>
-
-                            </li>
-
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="">
-                                <h3 class="">Use For Sport</h3>
-
-                            </li>
-
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="">
-                                <h3 class="">Distance 15 mitter</h3>
-
-                            </li>
-
-                            <li>
-                                <img src="https://landing-page-images-1.s3.ap-south-1.amazonaws.com/landing-31/turn-right+1.png"
-                                     alt="" class="" style="width: auto; height: auto;">
-                                <h3 class="">Comfortable To Wear</h3>
-
-                            </li>
-                        </ul>
-                    </div>
+                        @if(isset($campaign_data->feature_desc_2))
+                        <div class="Landing__31__WhyBuy__Box" style="margin-top: 20px;">
+                        {!! $campaign_data->feature_desc_2 !!}
+                        </div>
+                        @endif
                     <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
                         <div class="container">
                             <p class="" style="color: rgb(255, 0, 0);"><strong
@@ -949,13 +942,13 @@
                     </div>
                     <div class="Landing__31__Contact__Box text-center" style="opacity: 1;">
                         <div class="Order" style="">
-                            <a href="#placeAnOrder" class="order-btn-landing" style="">
+                            <a href="#orderForm" class="order-btn-landing" style="">
                                 অর্ডার করতে ক্লিক করুন
                                 <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                             </a>
                         </div>
                         <h3 class="">যে কোন তথ্যের জন্য যোগাযোগ করুন</h3>
-                        <a href="tel:01725348687" class="Landing__31__Call">মোবাইলঃ 01725348687</a>
+                        <a href="tel:01725348687" class="Landing__31__Call">মোবাইলঃ {{$contact->phone}}</a>
                     </div>
                     <div style="padding-top: 15px; padding-bottom: 15px; opacity: 1;" class="">
                         <div class="container">
@@ -973,6 +966,7 @@
 {{--Product Short Desc End--}}
 
 {{--Customer Review Section Start--}}
+@if(count($campaign_data->images)>0) 
 <section class="container CustomerReviewContent">
 
     <div class="container">
@@ -983,78 +977,61 @@
                 <h2 builder-element="" class="" style="">আমাদের কাস্টমার রিভিউ</h2>
             </div>
 
+            @forelse($campaign_data->images as $image) 
             <div class="col-lg-6">
                 <div class="CustomerReviewImg">
                     <img builder-element="ImgElement"
-                         src="https://editor.funnelliner.com/uploads/861609_-_WhatsApp_Image_2023-11-09_at_00.27.11_4b8947d0.jpg"
+                         src="{{asset($image->review_img)}}"
                          alt="" class="image-after-change"
                          style="width: 100%; height: auto; border-radius: 10px;border: solid 3px #36472b;">
                 </div>
             </div>
-
-            <div class="col-lg-6">
-                <div class="CustomerReviewImg">
-                    <img builder-element="ImgElement"
-                         src="https://editor.funnelliner.com/uploads/861609_-_WhatsApp_Image_2023-11-09_at_00.27.09_367a04c9.jpg"
-                         alt="" class="image-after-change"
-                         style="width: 100%; height: auto; border-radius: 10px;border: solid 3px #36472b;">
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="CustomerReviewImg">
-                    <img builder-element="ImgElement"
-                         src="https://editor.funnelliner.com/uploads/861609_-_WhatsApp_Image_2023-11-09_at_00.27.10_142f2cd1.jpg"
-                         alt="" class="image-after-change"
-                         style="width: 100%; height: auto; border-radius: 10px;border: solid 3px #36472b;">
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="CustomerReviewImg">
-                    <img builder-element="ImgElement"
-                         src="https://editor.funnelliner.com/uploads/861609_-_WhatsApp_Image_2023-11-09_at_00.27.10_5bfcac10.jpg"
-                         alt="" class="image-after-change"
-                         style="width: 100%; height: auto; border-radius: 10px;border: solid 3px #36472b;">
-                </div>
-            </div>
-
+                
+            @empty
+                
+            @endforelse
+            
         </div>
 
     </div>
 
 </section>
+@endif
 {{--Customer Review Section End--}}
 
 
 {{--Form Section Start--}}
-<section class="form_sec">
+<section class="form_sec" id="orderForm">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="order2_VarientMainDiv__kMbEk">
-                    <label class="order2_containerVarient__mVobl product-variant-1" onclick="productVariantSelect('1')"
+                    @if($product->type== 0)
+                    <label class="order2_containerVarient__mVobl product-variant-1"
                            style="border: 1px solid red;">
                         <div class="order2_containerVarient_Flex__o1Dip">
                             <div class="order2_containerVarientLeft__qYnnu">
                                 <div><input type="checkbox" name="radio"><span class="order2_checkmark__UoVcR"></span>
                                 </div>
                                 <div class="order2_containerVarientLeftImg__0vGz7"><img
-                                            src="https://cdn-s3.funnelliner.com/media/product-variation-image/1242/ahqlwaRvM260x0jIYhMC81kK67IsxehYadhYKDeS.jpg?v=1729774691"
+                                            src="{{asset($product->image->image)}}"
                                             alt=""></div>
                             </div>
                             <div class="order2_containerVarientRight__J_LZz">
-                                <div><h4>Recrsi NeackBand(Brown)</h4></div>
+                                <div><h4>{{$product->name}}</h4></div>
                                 <div class="order2_containerVarientRight__dflex__9rlHE">
                                     <h5>
-                                        <del>৳ 1500</del>
-                                        ৳ 990
+                                        <del>৳ {{$product->old_price}}</del>
+                                        ৳ {{$product->new_price}}
                                     </h5>
                                 </div>
                             </div>
                         </div>
                     </label>
-                    <label class="order2_containerVarient__mVobl product-variant-2" onclick="productVariantSelect('2')"
+                    @else
+                        @if(count($product->prosizes)>0)
+                            @forelse($product->prosizes as $size) 
+                        <label class="order2_containerVarient__mVobl product-variant{{$size->id}}"  onclick="productVariantSelect({{$size->id}})"
                            style="">
                         <div class="order2_containerVarient_Flex__o1Dip">
                             <div class="order2_containerVarientLeft__qYnnu">
@@ -1063,20 +1040,53 @@
                                     <span class="order2_checkmark__UoVcR"></span>
                                 </div>
                                 <div class="order2_containerVarientLeftImg__0vGz7"><img
-                                            src="https://cdn-s3.funnelliner.com/media/product-variation-image/1242/dhMKhx1AzgXemgcHSNmtuoLkxbINTHjvd2Bx0dKu.jpg?v=1729774692"
+                                            src="{{asset($product->image->image)}}"
                                             alt=""></div>
                             </div>
                             <div class="order2_containerVarientRight__J_LZz">
-                                <div><h4>Recrsi NeackBand(Black)</h4></div>
+                                <div><h4>{{$product->name}}({{$size->size}})</h4></div>
                                 <div class="order2_containerVarientRight__dflex__9rlHE">
                                     <h5>
-                                        <del>৳ 1500</del>
-                                        ৳ 990
+                                        <del>৳ {{$size->RegularPrice}}</del>
+                                        ৳ {{$size->SalePrice}}
                                     </h5>
                                 </div>
                             </div>
                         </div>
                     </label>
+                            @empty
+                            @endforelse
+                            
+                        @elseif(count($product->procolors)>0)
+                                    @forelse($product->procolors as $color)
+                                        <label class="order2_containerVarient__mVobl product-variant{{$color->id}}" onclick="productVariantSelect({{$color->id}})" style="">
+                                            <div class="order2_containerVarient_Flex__o1Dip">
+                                                <div class="order2_containerVarientLeft__qYnnu">
+                                                    <div>
+                                                        <input type="checkbox" name="radio">
+                                                        <span class="order2_checkmark__UoVcR"></span>
+                                                    </div>
+                                                    <div class="order2_containerVarientLeftImg__0vGz7"><img
+                                                                src="{{asset($product->image->image)}}"
+                                                                alt=""></div>
+                                                </div>
+                                                <div class="order2_containerVarientRight__J_LZz">
+                                                    <div><h4>{{$product->name}}({{$color->color}})</h4></div>
+                                                    <div class="order2_containerVarientRight__dflex__9rlHE">
+                                                        <h5>
+                                                            <del>৳ {{$color->vPrice}}</del>
+                                                            ৳ {{$color->vPrice}}
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    @empty
+                                    @endforelse
+                                @endif
+                                
+                                
+                    @endif
                 </div>
             </div>
         </div>
@@ -1526,7 +1536,7 @@
 <script>
     function productVariantSelect(id) {
         $('.order2_containerVarient__mVobl').css('border', '0px');
-        $('.product-variant-' + id).css('border', '1px solid red');
+        $('.product-variant' + id).css('border', '1px solid red');
     }
 </script>
 </body>

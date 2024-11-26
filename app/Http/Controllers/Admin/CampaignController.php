@@ -28,18 +28,17 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
 //        dd($request->all());
-        $this->validate($request, [
-            'name' => 'string',
-            'header_title' => 'string',
-            'video' => 'string',
-            'status' => 'required',
-            'variant_1_title' => 'string',
-            'variant_2_title' => 'string',
-            'variant_3_title' => 'string',
-            'warranty_text' => 'string',
-            'feature_desc_1'=>'string',
-            'feature_desc_2'=>'string',
-        ]);
+//        $this->validate($request, [
+//            'name' => 'string',
+//            'header_title' => 'string',
+//            'video' => 'string',
+//            'status' => 'required',
+//            'variant_1_title' => 'string',
+//            'variant_2_title' => 'string',
+//            'variant_3_title' => 'string',
+//            'warranty_text' => 'string',
+//           
+//        ]);
 
         $input = $request->except(['review_img','banner_img','variant_1_img','variant_2_img','variant_3_img','image_one','image_two','image_three']);
         
@@ -166,18 +165,17 @@ class CampaignController extends Controller
     {
 //        dd($request->all());
         
-        $this->validate($request, [
-            'name' => 'string',
-            'header_title' => 'string',
-            'video' => 'string',
-            'status' => 'required',
-            'variant_1_title' => 'string',
-            'variant_2_title' => 'string',
-            'variant_3_title' => 'string',
-            'warranty_text' => 'string',
-            'feature_desc_1' => 'string',
-            'feature_desc_2' => 'string',
-        ]);
+//        $this->validate($request, [
+//            'name' => 'string',
+//            'header_title' => 'string',
+//            'video' => 'string',
+//            'status' => 'required',
+//            'variant_1_title' => 'string',
+//            'variant_2_title' => 'string',
+//            'variant_3_title' => 'string',
+//            'warranty_text' => 'string',
+//           
+//        ]);
 
         $campaign = Campaign::findOrFail($request->hidden_id); // Find the campaign by ID
         $input = $request->except(['hidden_id','review_img', 'banner_img', 'variant_1_img', 'variant_2_img', 'variant_3_img', 'image_one', 'image_two', 'image_three']);

@@ -163,8 +163,9 @@ class WebviewController extends Controller
         $campaign_data = Campaign::where('slug', $slug)->with('images')->first();
         $product = Product::where('id', $campaign_data->product_id)
             ->where('status', 1)
-            ->with('image','')
+            ->with(['image','prosizes','procolors'])
             ->first();
+//        dd(count($product->prosizes), count($product->procolors));
         Cart::instance('shopping')->destroy();
         $cart_count = Cart::instance('shopping')->count();
         if ($cart_count == 0)
