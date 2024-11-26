@@ -170,7 +170,7 @@ class WebviewController extends Controller
         $cart_count = Cart::instance('shopping')->count();
         if ($cart_count == 0)
         {
-            if ($product->type == 1)
+            if ($product->type == 0)
             {
                 Cart::instance('shopping')->add([
                     'id' => $product->id,
@@ -187,21 +187,39 @@ class WebviewController extends Controller
                 ]);
             }
             
-            else
-            {
-                Cart::instance('shopping')->add([
-                    'id' => $product->id,
-                    'name' => $product->name,
-                    'qty' => 1,
-                    'price' => $product->new_price,
-                    'options' =>
-                        [
-                            'slug' => $product->slug,
-                            'image' => $product->image->image,
-                            'old_price' => $product->old_price,
-                            'purchase_price' => $product->purchase_price,
-                        ],
-                ]);
+            else {
+                if (count($product->prosizes) > 0) {
+                    Cart::instance('shopping')->add([
+                        'id' => $product->id,
+                        'name' => $product->name,
+                        'qty' => 1,
+                        'price' => $product->prosizes[0]->RegularPrice,
+                        'options' =>
+                            [
+                                'slug' => $product->slug,
+                                'image' => $product->image->image,
+                                'old_price' => $product->prosizes[0]->SalePrice,
+                                'purchase_price' => 0,
+                            ],
+                    ]);
+                }
+                elseif (count($product->procolors) > 0)
+                {
+                    Cart::instance('shopping')->add([
+                        'id' => $product->id,
+                        'name' => $product->name,
+                        'qty' => 1,
+                        'price' => $product->procolors[0]->vPrice,
+                        'options' =>
+                            [
+                                'slug' => $product->slug,
+                                'image' => $product->image->image,
+                                'old_price' => $product->procolors[0]->vPrice,
+                                'purchase_price' => 0,
+                                'color'=>$product->procolors[0]->color
+                            ],
+                    ]);
+                }
             }
             
         }
