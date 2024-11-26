@@ -31,7 +31,7 @@
                     <thead>
                         <tr>
                             <th>SL</th>
-                            <th>Landing Page Title</th>
+                            <th>Landing Page Name</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>

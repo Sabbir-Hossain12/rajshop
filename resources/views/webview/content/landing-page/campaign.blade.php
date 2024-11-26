@@ -625,27 +625,27 @@
         <!-- End Facebook Pixel Code -->
     @endforeach
 
-{{--    <meta name="app-url" content="{{route('campaign',$campaign_data->slug)}}"/>--}}
-{{--    <meta name="robots" content="index, follow"/>--}}
-{{--    <meta name="description" content="{{$campaign_data->description}}"/>--}}
-{{--    <meta name="keywords" content="{{ $campaign_data->slug }}"/>--}}
+    <meta name="app-url" content="{{route('campaign',$campaign_data->slug)}}"/>
+    <meta name="robots" content="index, follow"/>
+    <meta name="description" content="{{$campaign_data->feature_desc_1}}"/>
+    <meta name="keywords" content="{{ $campaign_data->slug }}"/>
 
-{{--    <!-- Twitter Card data -->--}}
-{{--    <meta name="twitter:card" content="product"/>--}}
-{{--    <meta name="twitter:site" content="{{$campaign_data->name}}"/>--}}
-{{--    <meta name="twitter:title" content="{{$campaign_data->name}}"/>--}}
-{{--    <meta name="twitter:description" content="{{ $campaign_data->description}}"/>--}}
-{{--    <meta name="twitter:creator" content="hellodinajpur.com"/>--}}
-{{--    <meta property="og:url" content="{{route('campaign',$campaign_data->slug)}}"/>--}}
-{{--    <meta name="twitter:image" content="{{asset($campaign_data->image_one)}}"/>--}}
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="product"/>
+    <meta name="twitter:site" content="{{$campaign_data->name}}"/>
+    <meta name="twitter:title" content="{{$campaign_data->name}}"/>
+    <meta name="twitter:description" content="{{ $campaign_data->feature_desc_1}}"/>
+    <meta name="twitter:creator" content="hellodinajpur.com"/>
+    <meta property="og:url" content="{{route('campaign',$campaign_data->slug)}}"/>
+    <meta name="twitter:image" content="{{asset($campaign_data->image_one)}}"/>
 
-{{--    <!-- Open Graph data -->--}}
-{{--    <meta property="og:title" content="{{$campaign_data->name}}"/>--}}
-{{--    <meta property="og:type" content="product"/>--}}
-{{--    <meta property="og:url" content="{{route('campaign',$campaign_data->slug)}}"/>--}}
-{{--    <meta property="og:image" content="{{asset($campaign_data->image_one)}}"/>--}}
-{{--    <meta property="og:description" content="{{ $campaign_data->description}}"/>--}}
-{{--    <meta property="og:site_name" content="{{$campaign_data->name}}"/>--}}
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{{$campaign_data->name}}"/>
+    <meta property="og:type" content="product"/>
+    <meta property="og:url" content="{{route('campaign',$campaign_data->slug)}}"/>
+    <meta property="og:image" content="{{asset($campaign_data->image_one)}}"/>
+    <meta property="og:description" content="{{ $campaign_data->feature_desc_1}}"/>
+    <meta property="og:site_name" content="{{$campaign_data->name}}"/>
 </head>
 
 <body>
@@ -670,29 +670,31 @@
 </section>
 
 {{--Header Title Starts--}}
+@if($campaign_data->header_title) 
 <section class="header-text landing-section container">
     <div class="container">
-        <p id="mce_0"
-           style="position: relative; line-height: 1.5; text-align: left; margin: 0px; background-color: rgb(255, 255, 0); color: rgb(17, 20, 61); font-weight: 400; font-style: normal; text-decoration: none solid rgb(17, 20, 61);"
-           spellcheck="false"><span style="display: block; text-align: center; font-size: 14pt;"><span
-                        style="color: #1c1e21; font-family: trebuchet ms, geneva, sans-serif;"><span
-                            style="white-space-collapse: preserve;"><b><span
-                                    style="font-size: 18pt;">এক টানা ৩২ ঘন্টা</span> চার্জিং ব্যাকআপ পাবেন, মেমোরি কার্ড ব্যাবহার করতে পারবেন, সাথে টইপ সি চার্জিং পোর্ট আছে। </b></span></span></span><span
+        <p id="mce_0" style="position: relative; line-height: 1.5; text-align: left; margin: 0px; background-color: rgb(255, 255, 0); color: rgb(17, 20, 61); font-weight: 400; font-style: normal; text-decoration: none solid rgb(17, 20, 61);" spellcheck="false">
+            <span style="display: block; text-align: center; font-size: 14pt;">
+                <span style="color: #1c1e21; font-family: trebuchet ms, geneva, sans-serif;">
+                    <b>
+                 <span style="font-size: 18pt;"></span>{{$campaign_data->header_title }}</b></span></span><span
                     style="font-family: 'trebuchet ms', geneva, sans-serif; display: block; text-align: center; font-size: 12pt;"><br></span>
         </p>
     </div>
 
 </section>
+@endif
 {{--Header Title Ends--}}
 
 {{--Video Section Starts--}}
+@if(isset($campaign_data->video)) 
 <section class="landing-section container">
 
     <div class="container">
         <div class="video-container" f-role="placeholder" id="kkB0b">
             <div data-code="vtuHe1vwR4o" class="position-relative" style="width:100%;
                     margin: -20px; padding: 20px;width: calc(100% + 40px); text-align:center;">
-                <iframe width="100%" height="315" src="https://www.youtube.com/embed/5daYKlazHfc"
+                <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{$campaign_data->video}}"
                         title="YouTube video player" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen=""></iframe>
@@ -701,18 +703,21 @@
     </div>
 
 </section>
+@endif
 {{--Video Section Ends--}}
 
 {{--Banner Section Starts--}}
-<section class="landing-section container">
+@if(isset($campaign_data->banner_img))
+    <section class="landing-section container">
 
     <div class="container" style="padding: 0px; margin: 0px;">
         <img id="HrM7n" class="image-after-change"
-             src="https://cdn-b.funnelliner.com/861609_-_WhatsApp_Image_2024-03-23_at_05.30.19_d8f9dc0d.jpg"
+             src="{{asset($campaign_data->banner_img)}}"
              style="width: 100%; border-radius: 10px;border: solid 3px #36472b;"/>
     </div>
 
 </section>
+@endif
 {{--Banner Section Ends--}}
 
 {{--Cash on Delivery Text Start--}}

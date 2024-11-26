@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CampaignReview extends Model
 {
     use HasFactory;
+
+
+    protected $fillable = ['campaign_id', 'review_img'];
 }

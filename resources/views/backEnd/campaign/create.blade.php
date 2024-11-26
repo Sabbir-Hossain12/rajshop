@@ -81,7 +81,7 @@
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
                                     <label for="banner" class="form-label">Variant 1 Image </label>
-                                    <input type="file" class="form-control @error('banner_img') is-invalid @enderror " name="variant_1_img"  value="{{ old('variant_1_img') }}"  id="variant_1_img" required="">
+                                    <input type="file" class="form-control @error('banner_img') is-invalid @enderror " name="variant_1_img"  value="{{ old('variant_1_img') }}"  id="variant_1_img">
                                     @error('variant_1_img')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -107,7 +107,7 @@
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
                                     <label for="banner" class="form-label">Variant 2 Image </label>
-                                    <input type="file" class="form-control @error('banner_img') is-invalid @enderror " name="variant_2_img"  value="{{ old('variant_2_img') }}"  id="variant_1_img" required="">
+                                    <input type="file" class="form-control @error('banner_img') is-invalid @enderror " name="variant_2_img"  value="{{ old('variant_2_img') }}"  id="variant_1_img">
                                     @error('variant_2_img')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -132,7 +132,7 @@
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">
                                     <label for="banner" class="form-label">Variant 3 Image </label>
-                                    <input type="file" class="form-control @error('variant_3_img') is-invalid @enderror " name="variant_3_img"  value="{{ old('variant_3_img') }}"  id="variant_1_img" required="">
+                                    <input type="file" class="form-control @error('variant_3_img') is-invalid @enderror " name="variant_3_img"  value="{{ old('variant_3_img') }}"  id="variant_3_img">
                                     @error('variant_3_img')
                                     <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
