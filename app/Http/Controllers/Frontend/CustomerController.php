@@ -283,6 +283,8 @@ class CustomerController extends Controller
     }
     public function order_save(Request $request)
     {
+        
+//        dd($request->all());
         $this->validate($request, [
             'name' => 'required',
             'phone' => 'required',
@@ -413,6 +415,7 @@ class CustomerController extends Controller
             $shurjopay_service = new ShurjopayController();
             return $shurjopay_service->checkout($info);
         } else {
+            Session::put('order',$order);
             return redirect('order-received');
         }
     }

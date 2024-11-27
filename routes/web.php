@@ -151,6 +151,9 @@ Route::get('/shipping-charge', [WebviewController::class, 'shipping_charge'])->n
 Route::get('cart/remove', [WebviewController::class, 'cart_remove'])->name('cart.remove');
 Route::get('cart/decrement', [WebviewController::class, 'cart_decrement'])->name('cart.decrement');
 Route::get('cart/increment', [WebviewController::class, 'cart_increment'])->name('cart.increment');
+Route::get('/color-variant-landing', [WebviewController::class, 'colorVariantLanding'])->name('color.variant.landing');
+Route::get('/size-variant-landing', [WebviewController::class, 'sizeVariantLanding'])->name('size.variant.landing');
+
 
 // web view
 Route::get('/set-value/city/{id}', [StockController::class, 'getCityByCurier']);

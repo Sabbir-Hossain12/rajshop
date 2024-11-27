@@ -582,6 +582,10 @@
                 line-height: 30px;
             }
 
+            .order2_VarientMainDiv__kMbEk .order2_containerVarient__mVobl:first-child
+            {
+            }
+
         }
 
         /*.order2_VarientMainDiv__kMbEk {*/
@@ -1007,8 +1011,7 @@
             <div class="col-lg-12">
                 <div class="order2_VarientMainDiv__kMbEk">
                     @if($product->type== 0)
-                    <label class="order2_containerVarient__mVobl product-variant-1"
-                           style="border: 1px solid red;">
+                    <label class="order2_containerVarient__mVobl product-variant-1" style="border: 1px solid red;">
                         <div class="order2_containerVarient_Flex__o1Dip">
                             <div class="order2_containerVarientLeft__qYnnu">
                                 <div><input type="checkbox" name="radio"><span class="order2_checkmark__UoVcR"></span>
@@ -1030,9 +1033,9 @@
                     </label>
                     @else
                         @if(count($product->prosizes)>0)
-                            @forelse($product->prosizes as $size) 
-                        <label class="order2_containerVarient__mVobl product-variant{{$size->id}}"  onclick="productVariantSelect({{$size->id}})"
-                           style="">
+                            @forelse($product->prosizes as $key=>$size) 
+                        <label class="order2_containerVarient__mVobl product-variant{{$size->id}}"  onclick="productVariantSize({{$size->id}},event)"
+                          @if($key==0) style="border: 1px solid red;" @endif  >
                         <div class="order2_containerVarient_Flex__o1Dip">
                             <div class="order2_containerVarientLeft__qYnnu">
                                 <div>
@@ -1056,10 +1059,11 @@
                     </label>
                             @empty
                             @endforelse
+                        @endif
                             
-                        @elseif(count($product->procolors)>0)
-                                    @forelse($product->procolors as $color)
-                                        <label class="order2_containerVarient__mVobl product-variant{{$color->id}}" onclick="productVariantSelect({{$color->id}})" style="">
+                        @if(count($product->procolors)>0)
+                                    @forelse($product->procolors as $key=>$color)
+                                        <label class="order2_containerVarient__mVobl product-variant{{$color->id}}" onclick="productVariantSelect({{$color->id}},event)"  @if($key==0) style="border: 1px solid red;" @endif >
                                             <div class="order2_containerVarient_Flex__o1Dip">
                                                 <div class="order2_containerVarientLeft__qYnnu">
                                                     <div>
@@ -1105,7 +1109,7 @@
                             <div class="col-sm-6 cus-order-2">
                                 <div class="checkout-shipping" id="order_form">
                                     <form action="{{route('customer.ordersave')}}" method="POST"
-                                          data-parsley-validate="">
+                                          id="orderFormLanding">
                                         @csrf
                                         <div class="card border-0">
                                             <div class="card-header border-0">
@@ -1173,19 +1177,20 @@
                                                                 </div>
                                                                 <div class="col-sm-6">
                                                                     <div class="d-flex justify-content-center align-items-start flex-column gap-2 shipping-margin-sm">
+                                                                        @forelse($shippingcharge as $key => $value) 
                                                                         <div class="d-flex gap-1">
+                                                                            
+                                                                           
                                                                             <input type="radio" id="insideDhaka"
                                                                                    name="area"
-                                                                                   value="80">Inside Dhaka ৳<span
-                                                                                    style="font-weight: bold; padding: 0px 5px;">80</span>
+                                                                                   id="inlineRadio{{$key}}" value="{{ $value->id }}" {{$value->id == 1 ? 'checked' : ''}}>{{$value->name}} ৳<span
+                                                                                    style="font-weight: bold; padding: 0px 5px;">{{$value->amount}}</span>
+                                                                            
                                                                         </div>
+                                                                        @empty
+                                                                        @endforelse
 
-                                                                        <div class="d-flex gap-1">
-                                                                            <input type="radio" id="outSideDhaka"
-                                                                                   name="area"
-                                                                                   value="120" checked="">Outside Dhaka
-                                                                            ৳<span style="font-weight: bold;">120</span>
-                                                                        </div>
+                                                                        
 
                                                                     </div>
                                                                 </div>
@@ -1259,8 +1264,8 @@
 
                                                         <td class="text-left">
                                                             <a style="font-size: 14px;"
-                                                               href="{{route('product',$value->options->slug)}}"><img
-                                                                        src="{{asset($value->options->image)}}"
+                                                               href="{{route('product',$value->options->slug)}}">
+                                                                <img src="{{asset($value->options->image)}}"
                                                                         height="30"
                                                                         width="30"> {{Str::limit($value->name,20)}}</a>
                                                         </td>
@@ -1315,12 +1320,12 @@
                                     </div>
                                 </div>
 
-                                <button id="confirm_btn">
+                                <button type="submit" form="orderFormLanding" id="confirm_btn">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M4.00436 6.41662L0.761719 3.17398L2.17593 1.75977L5.41857 5.00241H20.6603C21.2126 5.00241 21.6603 5.45012 21.6603 6.00241C21.6603 6.09973 21.6461 6.19653 21.6182 6.28975L19.2182 14.2898C19.0913 14.7127 18.7019 15.0024 18.2603 15.0024H6.00436V17.0024H17.0044V19.0024H5.00436C4.45207 19.0024 4.00436 18.5547 4.00436 18.0024V6.41662ZM6.00436 7.00241V13.0024H17.5163L19.3163 7.00241H6.00436ZM5.50436 23.0024C4.67593 23.0024 4.00436 22.3308 4.00436 21.5024C4.00436 20.674 4.67593 20.0024 5.50436 20.0024C6.33279 20.0024 7.00436 20.674 7.00436 21.5024C7.00436 22.3308 6.33279 23.0024 5.50436 23.0024ZM17.5044 23.0024C16.6759 23.0024 16.0044 22.3308 16.0044 21.5024C16.0044 20.674 16.6759 20.0024 17.5044 20.0024C18.3328 20.0024 19.0044 20.674 19.0044 21.5024C19.0044 22.3308 18.3328 23.0024 17.5044 23.0024Z"></path>
                                     </svg>
-                                    Place Order BDT 1110
+                                    Place Order BDT {{$subtotal+$shipping}}
                                 </button>
                             </div>
                             <!-- col end -->
@@ -1401,7 +1406,7 @@
     });
 </script>
 <script>
-    $("#area").on("change", function () {
+    $("input[type='radio'][name='area']").on("click", function () {
         var id = $(this).val();
         $.ajax({
             type: "GET",
@@ -1411,7 +1416,6 @@
             success: function (response) {
                 // console.log(response);
                 $('#shippingVal').text(response);
-
                 $('.cartlist').html(response);
             }
         });
@@ -1534,7 +1538,48 @@
 </script>
 
 <script>
-    function productVariantSelect(id) {
+    function productVariantSelect(id,event) {
+
+        event.preventDefault();
+        $.ajax({
+            type: "GET",
+            data: {id: id},
+            url: "{{route('color.variant.landing')}}",
+            success: function (data) {
+                
+                    console.log(data);
+                    $(".cartlist").html(data);
+                    $("#loading").hide();
+                    return cart_count() + mobile_cart();
+                
+                
+            },
+        });
+
+        $('.order2_containerVarient__mVobl').css('border', '0px');
+        $('.product-variant' + id).css('border', '1px solid red');
+    }
+    
+    
+    function productVariantSize(id,event)
+    {
+
+        event.preventDefault();
+        $.ajax({
+            type: "GET",
+            data: {id: id},
+            url: "{{route('size.variant.landing')}}",
+            success: function (data) {
+
+                console.log(data);
+                $(".cartlist").html(data);
+                $("#loading").hide();
+                return cart_count() + mobile_cart();
+
+
+            },
+        });
+
         $('.order2_containerVarient__mVobl').css('border', '0px');
         $('.product-variant' + id).css('border', '1px solid red');
     }

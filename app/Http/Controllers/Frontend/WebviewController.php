@@ -200,6 +200,7 @@ class WebviewController extends Controller
                                 'image' => $product->image->image,
                                 'old_price' => $product->prosizes[0]->SalePrice,
                                 'purchase_price' => 0,
+                                'product_size'=>$product->prosizes[0]->size
                             ],
                     ]);
                 }
@@ -216,7 +217,7 @@ class WebviewController extends Controller
                                 'image' => $product->image->image,
                                 'old_price' => $product->procolors[0]->vPrice,
                                 'purchase_price' => 0,
-                                'color'=>$product->procolors[0]->color
+                                'product_color'=>$product->procolors[0]->color
                             ],
                     ]);
                 }
@@ -233,6 +234,74 @@ class WebviewController extends Controller
 
     }
 
+    public function colorVariantLanding(Request $request)
+    {
+        $color_id= $request->id;
+        $product= Productcolor::where('id', $color_id)->first();
+        
+        
+        
+        $cart_content=  Cart::instance('shopping')->content()->first();
+        
+        $row_id=$cart_content->rowId;
+        
+        
+            Cart::instance('shopping')->update($row_id, [
+                
+                'price' => $product->vPrice,
+                'options' =>
+                    [
+                        'slug'=> $cart_content->options->slug,
+                        'image' => $cart_content->options->image,
+                        'old_price' => $product->vPrice,
+                        'purchase_price' => 0,
+                        'product_color'=>$product->color
+                    ],
+            ]);
+            
+        
+
+        $data = Cart::instance('shopping')->content();
+        
+//        return $data;
+        return view('frontEnd.layouts.ajax.cart', compact('data'));
+    }
+
+
+    public function sizeVariantLanding(Request $request)
+    {
+
+        $size_id= $request->id;
+        $product= Productsize::where('id', $size_id)->first();
+
+
+
+        $cart_content=  Cart::instance('shopping')->content()->first();
+
+        $row_id=$cart_content->rowId;
+
+
+        Cart::instance('shopping')->update($row_id, [
+
+            'price' => $product->SalePrice,
+            'options' =>
+                [
+                    'slug'=> $cart_content->options->slug,
+                    'image' => $cart_content->options->image,
+                    'old_price' => $product->RegularPrice,
+                    'purchase_price' => 0,
+                    'product_size'=>$product->size
+                ],
+        ]);
+
+
+
+        $data = Cart::instance('shopping')->content();
+
+//        return $data;
+        return view('frontEnd.layouts.ajax.cart', compact('data'));
+        
+    }
     public function shipping_charge(Request $request)
     {
 
