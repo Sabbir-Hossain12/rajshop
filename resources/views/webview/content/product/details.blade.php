@@ -171,7 +171,7 @@
     }
     @media (max-width: 576px) {
         #sync2 .items img {
-            height: 80px !important;
+            height: 60px !important;
             padding: 5px !important;
         }
         .qty_cart_btn {
@@ -200,7 +200,7 @@
         #sync1 {
             height: fit-content;
             & .items img {
-                height: auto !important;
+                height: 280px !important;
                 object-fit: cover !important;
             }
         }

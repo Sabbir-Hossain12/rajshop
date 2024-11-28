@@ -1,4 +1,7 @@
- @php
+
+{{--    @dd(Cart::instance('pos_shopping')->content())--}}
+
+@php
   $product_discount = 0;
 @endphp
 @foreach($cartinfo as $key=>$value)
@@ -11,12 +14,14 @@
         <!--    <option value="2">Two</option>-->
         <!--    <option value="3">Three</option>-->
         <!--</select>-->
-         <select class="form-select" aria-label="Default select example">
-          <!--<option data-id="{{$value->options->order_id ?? '' }}" value="{{$value->options->product_color ?? '' }}">{{$value->options->product_color ?? 'No Color'}}</option>-->
+         <select class="form-select product_color" aria-label="Default select example">
+{{--          <!--<option data-id="{{$value->options->order_id ?? '' }}" value="{{$value->options->product_color ?? '' }}">{{$value->options->product_color ?? 'No Color'}}</option>-->--}}
           @foreach (App\Models\Productcolor::where('product_id', $value->id)->get() as $color)
-              <option data-id="{{$value->options->order_id}}" value="{{$color->color}}">{{$color->color}}</option>
+              
+              <option data-id="{{$value->options->details_id}}" data-pro_id="{{ $value->id }}" value="{{$color->color}}" @if($color->color==$value->options->product_color) selected @endif>{{($color->color == $value->options->product_color) ? $color->color : 'No Color' }}</option>
+              
           @endforeach
-      </select>
+        </select>
     </td>
   <td>
     <div class="qty-cart vcart-qty">
@@ -41,6 +46,41 @@
 
 @endforeach
 <script>
+    $('.product_color').on('change', function() {
+
+        var selectedOption = $(this).find('option:selected'); // Get the selected option
+        var order_details_id = selectedOption.data('id'); // Retrieve the data-id from the selected option
+        var selectedColor = $(this).val(); // Get the selected color value
+        var productId = selectedOption.data('pro_id');
+
+        console.log(selectedColor);
+
+        // var orderId = $(this).data('id'); // Get the product ID from Blade
+
+        // alert(selectedColor + orderId);
+
+
+        $.ajax({
+            url: '{{ route('admin.update.product.color') }}', // Your route
+            type: 'POST',
+            data: {
+                order_details_id: order_details_id,
+                product_id: productId,
+                product_color: selectedColor,
+                _token: '{{ csrf_token() }}' // Include CSRF token for security
+            },
+            success: function(response) {
+                if (response.success) {
+                    location.reload();
+                }
+            },
+            error: function(xhr) {
+                console.log(xhr);
+            }
+        });
+    });
+    
+    
     function cart_content(){
            $.ajax({
              type:"GET",

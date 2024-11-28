@@ -11,6 +11,17 @@
     @include('webview.partials.links.header')
     @yield('subhead')
     <style>
+
+        @media only screen and (min-width:320px) and (max-width:767px) {
+            #logoimage img {
+                max-height: 50px;
+                max-width: 200px;
+            }
+        }
+      
+        
+        
+        
         .header-top-inner {
             padding: 4px;
         }
@@ -269,20 +280,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             myFunction()
         };
 
-        var header = document.getElementById("myHeader");
-        var sticky = header.offsetTop;
-
-        function myFunction()
-        {
-            if (window.pageYOffset > sticky)
-            {
-                header.classList.add("sticky");
-            }
-            else
-            {
-                header.classList.remove("sticky");
-            }
-        }
+        // var header = document.getElementById("myHeader");
+        // var sticky = header.offsetTop;
+        //
+        // function myFunction()
+        // {
+        //     if (window.pageYOffset > sticky)
+        //     {
+        //         header.classList.add("sticky");
+        //     }
+        //     else
+        //     {
+        //         header.classList.remove("sticky");
+        //     }
+        // }
 
         $(document).ready(function() {
             var idval = $('#CountSlider').val();

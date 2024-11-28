@@ -1,4 +1,6 @@
-@extends('backEnd.layouts.master') @section('title','Order Create') @section('css')
+@extends('backEnd.layouts.master') 
+@section('title','Order Create') 
+@section('css')
 <style>
  .increment_btn,
  .remove_btn {
@@ -16,7 +18,7 @@
   <div class="col-12">
    <div class="page-title-box">
     <div class="page-title-right">
-     <form method="post" action="{{route('admin.order.cart_clear')}}" class="d-inline">
+     <form method="get" action="{{route('admin.order.cart_clear')}}" class="d-inline">
       @csrf
       <button type="submit" class="btn btn-danger rounded-pill delete-confirm" title="Delete"><i class="fas fa-trash-alt"></i> Cart Clear</button>
      </form>
@@ -35,7 +37,7 @@
       <div class="col-sm-12">
        <div class="form-group mb-3">
         <label for="product_id" class="form-label">Products *</label>
-        <select id="cart_add" class="form-control select2 @error('product_id') is-invalid @enderror" value="{{ old('product_id') }}">
+        <select id="cart_add" class="form-control select2 @error('product_id') is-invalid @enderror">
          <option value="">Select..</option>
          @foreach($products as $value)
          <option value="{{$value->id}}">{{$value->name}}</option>
@@ -56,6 +58,7 @@
          <tr>
           <th style="width: 10%;">Image</th>
           <th style="width: 25%;">Name</th>
+          <th style="width: 25%;">Color</th>
           <th style="width: 15%;">Quantity</th>
           <th style="width: 15%;">Sell Price</th>
           <th style="width: 15%;">Discount</th>
@@ -253,6 +256,8 @@
    });
   }
  });
+ 
+ 
  $(".cart_decrement").click(function (e) {
   e.preventDefault();
   var id = $(this).data("id");
@@ -270,6 +275,8 @@
    });
   }
  });
+ 
+ 
  $(".cart_remove").click(function (e) {
   e.preventDefault();
   var id = $(this).data("id");

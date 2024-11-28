@@ -284,11 +284,23 @@ class OrderController extends Controller
         }
         return response()->json(['status'=>'success','message'=>'Order delete successfully']);
     }
-    public function order_print(Request $request){
+    public function order_print(Request $request)
+    {
         $orders = Order::whereIn('id', $request->input('order_ids'))->with('orderdetails','payment','shipping','customer')->get();
         $view = view('backEnd.order.print', ['orders' => $orders])->render();
         return response()->json(['status' => 'success', 'view' => $view]);
     }
+
+
+    public function posPrint(Request $request)
+    {
+//        dd($request->all());
+        $orders = Order::whereIn('id', $request->input('order_ids'))->with('orderdetails','payment','shipping','customer')->get();
+        $view = view('backEnd.order.pos_print', ['orders' => $orders])->render();
+        return response()->json(['status' => 'success', 'view' => $view]);
+        
+    }
+    
      public function bulk_courier($slug, Request $request)
     {
         $courier_info = Courierapi::where(['status' => 1, 'type' => $slug])->first();
@@ -518,6 +530,8 @@ class OrderController extends Controller
     public function cart_increment(Request $request){
         $qty = $request->qty + 1;
         $cartinfo = Cart::instance('pos_shopping')->update($request->id, $qty);
+        
+//        dd($cartinfo);
         return response()->json($cartinfo);
     }
     public function cart_decrement(Request $request){
@@ -592,6 +606,7 @@ class OrderController extends Controller
     // ProductController.php
     public function updateColor(Request $request)
     {
+//        dd($request->all());
         // $request->validate([
         //     'product_id' => 'required|integer',
         //     'product_color' => 'required|string',
@@ -599,7 +614,7 @@ class OrderController extends Controller
 
         // Assuming you have a Product model
         $price = Productcolor::where('product_id' , $request->product_id)->where('color' , $request->product_color)->first()->vPrice;
-        $product = OrderDetails::where('order_id' ,$request->order_id)->where('product_id' , $request->product_id)->first();
+        $product = OrderDetails::where('id' ,$request->order_details_id)->where('product_id' , $request->product_id)->first();
         $product->product_color = $request->product_color;
         $product->sale_price = $price ?? 0;
         $product->save();
@@ -687,6 +702,7 @@ class OrderController extends Controller
                 $order_details->product_discount =   $cart->options->product_discount;
                 $order_details->sale_price       =   $cart->price;
                 $order_details->qty              =   $cart->qty;
+//                $order_details->product_color    =   $cart->product_color;
                 $order_details->save();
             }
 
@@ -701,6 +717,8 @@ class OrderController extends Controller
                 $order_details->product_discount =   $cart->options->product_discount;
                 $order_details->sale_price       =   $cart->price;
                 $order_details->qty              =   $cart->qty;
+//              $order_details->product_color    =   $cart->product_color;
+                
                 $order_details->save();
             }
 

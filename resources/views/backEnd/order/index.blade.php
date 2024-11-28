@@ -26,7 +26,7 @@
                             <li><a data-bs-toggle="modal" data-bs-target="#changeStatus" class="btn rounded-pill btn-primary"><i class="fe-plus"></i> Change Status</a></li>
                             <li><a href="{{route('admin.order.bulk_destroy')}}" class="btn rounded-pill btn-danger order_delete"><i class="fe-plus"></i> Delete All</a></li>
                             <li><a href="{{route('admin.order.order_print')}}" class="btn rounded-pill btn-info multi_order_print"><i class="fe-printer"></i> Print</a></li>
-                            <li><a href="" class="btn rounded-pill btn-info multi_order_pos_print"><i class="fe-printer"></i> POS </a></li>
+                            <li><a href="{{route('admin.order.pos_print')}}" class="btn rounded-pill btn-primary multi_order_pos_print"><i class="fe-printer"></i> POS </a></li>
                             
                             @if($steadfast)
                             <li><a href="{{route('admin.bulk_courier', 'steadfast')}}" class="btn rounded-pill btn-warning multi_order_courier"><i class="fe-truck"></i> Courier</a></li>
@@ -415,13 +415,18 @@ $(document).ready(function(){
 
     });
 
-    // multiple print
+    // Multiple print
+
     $(document).on('click', '.multi_order_print', function(e){
         e.preventDefault();
         var url = $(this).attr('href');
+
+        // $('input.checkbox:checked'): Selects all checked checkboxes with the class checkbox
         var order = $('input.checkbox:checked').map(function(){
           return $(this).val();
         });
+
+        // Converts the jQuery object into a plain JavaScript array.
         var order_ids=order.get();
 
         if(order_ids.length ==0){
@@ -434,7 +439,7 @@ $(document).ready(function(){
            data:{order_ids},
            success:function(res){
                if(res.status=='success'){
-                   console.log(res.items, res.info);
+                   // console.log(res.items, res.info);
                    var myWindow = window.open("", "_blank");
                    myWindow.document.write(res.view);
             }else{
@@ -443,6 +448,41 @@ $(document).ready(function(){
            }
         });
     });
+    
+    //Multiple Pos Print
+
+    $(document).on('click', '.multi_order_pos_print', function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+
+        // $('input.checkbox:checked'): Selects all checked checkboxes with the class checkbox
+        var order = $('input.checkbox:checked').map(function(){
+            return $(this).val();
+        });
+
+        // Converts the jQuery object into a plain JavaScript array.
+        var order_ids=order.get();
+
+        if(order_ids.length ==0){
+            toastr.error('Please Select Atleast One Order!');
+            return ;
+        }
+        $.ajax({
+            type:'GET',
+            url,
+            data:{order_ids},
+            success:function(res){
+                if(res.status=='success'){
+                    // console.log(res.items, res.info);
+                    var myWindow = window.open("", "_blank");
+                    myWindow.document.write(res.view);
+                }else{
+                    toastr.error('Failed something wrong');
+                }
+            }
+        });
+    });
+    
     // multiple courier
     $(document).on('click', '.multi_order_courier', function(e){
         e.preventDefault();

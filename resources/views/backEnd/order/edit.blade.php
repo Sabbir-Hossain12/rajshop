@@ -12,13 +12,15 @@
 <link href="{{asset('public/backEnd')}}/assets/libs/summernote/summernote-lite.min.css" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
+    
+{{--    @dd(Cart::instance('pos_shopping')->content())--}}
 <div class="container-fluid">
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
             <div class="page-title-box">
                 <div class="page-title-right">
-                    <form method="post" action="{{route('admin.order.cart_clear')}}" class="d-inline">
+                    <form method="get" action="{{route('admin.order.cart_clear')}}" class="d-inline">
                         @csrf
                     <button type="submit" class="btn btn-danger rounded-pill delete-confirm" title="Delete"><i class="fas fa-trash-alt"></i> Cart Clear</button></form>
                 </div>
@@ -82,7 +84,7 @@
                                     <select class="form-select product_color" aria-label="Default select example">
                                         <option data-id="{{$value->options->order_id ?? '' }}" value="{{$value->options->product_color ?? '' }}">{{$value->options->product_color ?? 'No Color'}}</option>
                                         @foreach (App\Models\Productcolor::where('product_id', $value->id)->get() as $color)
-                                            <option data-id="{{$value->options->order_id}}" data-pro_id="{{ $value->id }}" value="{{$color->color}}" class="{{ $value->options->product_color == $color->color ? 'd-none' : '' }}">{{$color->color}}</option>
+                                            <option data-id="{{$value->options->details_id}}" data-pro_id="{{ $value->id }}" value="{{$color->color}}" class="{{ $value->options->product_color == $color->color ? 'd-none' : '' }}">{{$color->color}}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -234,19 +236,22 @@
         $('.product_color').on('change', function() {
 
             var selectedOption = $(this).find('option:selected'); // Get the selected option
-            var orderId = selectedOption.data('id'); // Retrieve the data-id from the selected option
+            var order_details_id = selectedOption.data('id'); // Retrieve the data-id from the selected option
             var selectedColor = $(this).val(); // Get the selected color value
-            var productId = selectedOption.data('pro_id'); 
+            var productId = selectedOption.data('pro_id');
 
-            var selectedColor = $(this).val();
+            console.log(selectedColor);
+          
             // var orderId = $(this).data('id'); // Get the product ID from Blade
 
             // alert(selectedColor + orderId);
+            
+            
             $.ajax({
                 url: '{{ route('admin.update.product.color') }}', // Your route
                 type: 'POST',
                 data: {
-                    order_id: orderId,
+                    order_details_id: order_details_id,
                     product_id: productId,
                     product_color: selectedColor,
                     _token: '{{ csrf_token() }}' // Include CSRF token for security
@@ -257,7 +262,7 @@
                     }
                 },
                 error: function(xhr) {
-                    alert('An error occurred while updating the color.');
+                    console.log(xhr);
                 }
             });
         });
@@ -313,11 +318,13 @@
                url:"{{route('admin.order.cart_increment')}}",
                dataType: "json",
             success: function(cartinfo){
-                return cart_content()+cart_details();
+                return cart_content() + cart_details();
             }
           });
         }
    });
+    
+    
     $(".cart_decrement").click(function(e){
         e.preventDefault();
         var id = $(this).data("id");
