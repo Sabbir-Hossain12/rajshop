@@ -81,6 +81,30 @@
                                     @enderror
                                 </div>
                             </div>
+                            
+                               <div class="col-sm-12 my-3">
+                                <div class="form-group">
+                                    <label for="pricing_sec_1" class="form-label">Pricing Section 1</label>
+                                    <textarea name="pricing_sec_1" id="pricing_sec_1"  rows="6" class="summernote form-control @error('pricing_sec_1') is-invalid @enderror" >{{ $edit_data->pricing_sec_1 ?? '' }}</textarea>
+                                    @error('pricing_sec_1')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                               <div class="col-sm-12 my-3">
+                                <div class="form-group">
+                                    <label for="pricing_sec_2" class="form-label">Pricing Section 2</label>
+                                    <textarea name="pricing_sec_2" id="pricing_sec_2"  rows="6" class="summernote form-control @error('pricing_sec_2') is-invalid @enderror" >{{ $edit_data->pricing_sec_2 ?? '' }}</textarea>
+                                    @error('pricing_sec_2')
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
 
                             <div class="col-sm-12 mb-3">
                                 <div class="form-group">

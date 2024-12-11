@@ -57,13 +57,24 @@
         }
 
         @media print {
-
-            .section {
+            
+            
+            .div-section
+            {
                 display: flex;
                 flex-direction: column;
-                width: 100%;
-                height: 100vh;
+                height: 33%;
+                justify-content: start;
+                
+            }
+            .page-section
+            {
+                width: 210mm; /* A4 width */
+                height: 297mm!important; /* A4 height */
+                display: flex;
+                flex-direction: column;
                 justify-content: space-between;
+                page-break-after: always; /* Ensures each .page starts on a new printed page */
             }
         }
     </style>
@@ -71,8 +82,10 @@
 
 <body>
 
-    @foreach($orders as $order)
-    <div class="div-section" style="font-size: 15px; height:500px;">
+@foreach($orders->chunk(3) as $orderChunk)
+    <div class="page-section">
+        @foreach($orderChunk as $order)
+    <div class="div-section" style="font-size: 12px;">
         <table class="table-with-info" cellspacing="0" cellpadding="0">
             <tr>
                 <td style="width: 25%;">
@@ -127,8 +140,10 @@
             </tfoot>
         </table>
     </div>
-    <hr>
 @endforeach
+    <hr>
+    </div>
+         @endforeach
 
 <script>
     window.print();

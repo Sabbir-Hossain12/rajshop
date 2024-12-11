@@ -427,12 +427,14 @@
             margin-top: 30px;
         }
 
-        .footer4_Footer4__zVuJC .footer4_Hr__XfwNf {
+        .footer4_Footer4__zVuJC .footer4_Hr__XfwNf 
+        {
             border-bottom: 1px solid hsla(0, 0%, 50%, .5);
             margin-bottom: 10px;
         }
 
-        .footer4_tinyFooter2__kOkiy p {
+        .footer4_tinyFooter2__kOkiy p 
+        {
             line-height: 40px;
             font-size: 16px;
             text-align: center;
@@ -446,6 +448,11 @@
             color: #001320;
             padding: 0 5px;
         }
+        
+          #paysection
+            {
+                margin-top: 60px;
+            }
 
 
         /*Responsive*/
@@ -584,6 +591,16 @@
 
             .order2_VarientMainDiv__kMbEk .order2_containerVarient__mVobl:first-child
             {
+            }
+            
+            .order2_Payment__bDHrD
+            {
+                display:none;
+            }
+            
+            #paysection
+            {
+                
             }
 
         }
@@ -729,30 +746,35 @@
     <div class="container">
         <p id="mce_4" style="position: relative;" spellcheck="false" class=""><span style="font-size: 12pt;"><strong
                         style="display: block; text-align: center;">🚛সারা বাংলা দেশে ক্যাসঅন ডেলিভারি🚛</strong></span>
-        </p></div>
+        </p>
+        
+        
+        </div>
 </section>
 {{--Cash on Delivery Text Ends--}}
 
 {{--Price Section Starts--}}
 <section class="landing-section container">
-    <div class="container">
+    <div class="container" style="background: yellow;">
         <p id="mce_5"
            style="position: relative; background-color: rgb(255, 255, 0); color: rgb(33, 37, 41); margin: 0px;"
            spellcheck="false">
-            <span style="font-size: 14pt;">
-                <strong>
-                    @if($product->type== 0) 
-                    <span style="display: block; text-align: center;">অফার প্রাইজ: <del>{{$product->old_price}} টাকা</del> {{$product->new_price}} টাকা<br></span>
-                    @else
-                        @if(count($product->prosizes)>0) 
-                            <span style="display: block; text-align: center;">অফার প্রাইজ: <del>{{$product->prosizes[0]->RegularPrice}} টাকা</del> {{$product->prosizes[0]->SalePrice}} টাকা<br></span>
-                        @elseif(count($product->procolors)>0)
-                            <span style="display: block; text-align: center;">অফার প্রাইজ: <del>{{$product->procolors[0]->vPrice}} টাকা</del> {{$product->procolors[0]->vPrice}} টাকা<br></span>
-                        @endif
-                     @endif
+            <!--<span style="font-size: 14pt;">-->
+            <!--    <strong>-->
+            <!--        @if($product->type== 0) -->
+            <!--        <span style="display: block; text-align: center;">অফার প্রাইজ: <del>{{$product->old_price}} টাকা</del> {{$product->new_price}} টাকা<br></span>-->
+            <!--        @else-->
+            <!--            @if(count($product->prosizes)>0) -->
+            <!--                <span style="display: block; text-align: center;">অফার প্রাইজ: <del>{{$product->prosizes[0]->RegularPrice}} টাকা</del> {{$product->prosizes[0]->SalePrice}} টাকা<br></span>-->
+            <!--            @elseif(count($product->procolors)>0)-->
+            <!--                <span style="display: block; text-align: center;">অফার প্রাইজ: <del>{{$product->procolors[0]->vPrice}} টাকা</del> {{$product->procolors[0]->vPrice}} টাকা<br></span>-->
+            <!--            @endif-->
+            <!--         @endif-->
                     
-                </strong>
-            </span>
+            <!--    </strong>-->
+            <!--</span>-->
+            
+            {!! $campaign_data->pricing_sec_1 !!}
         </p>
     </div>
 </section>
@@ -846,24 +868,27 @@
                     <div class="Landing__31__PriceWithOffer__bg">
                        
 
-                        @if($product->type== 0)
-                            <h1 class="">
-                                <del>মূল্যঃ {{$product->old_price}}টাকা</del>
-                            </h1>
-                            <h3 class="">অফার মূল্যঃ {{$product->new_price}} টাকা</h3>
-                        @else
-                            @if(count($product->prosizes)>0)
-                                <h1 class="">
-                                    <del>মূল্যঃ {{$product->prosizes[0]->RegularPrice}}টাকা</del>
-                                </h1>
-                                <h3 class="">অফার মূল্যঃ {{$product->prosizes[0]->SalePrice}} টাকা</h3>
-                            @elseif(count($product->procolors)>0)
-                                <h1 class="">
-                                    <del>মূল্যঃ {{$product->procolors[0]->vPrice}} টাকা</del>
-                                </h1>
-                                <h3 class="">অফার মূল্যঃ {{$product->procolors[0]->vPrice}} টাকা</h3>
-                            @endif
-                        @endif
+                        <!--@if($product->type== 0)-->
+                        <!--    <h1 class="">-->
+                        <!--        <del>মূল্যঃ {{$product->old_price}}টাকা</del>-->
+                        <!--    </h1>-->
+                        <!--    <h3 class="">অফার মূল্যঃ {{$product->new_price}} টাকা</h3>-->
+                        <!--@else-->
+                        <!--    @if(count($product->prosizes)>0)-->
+                        <!--        <h1 class="">-->
+                        <!--            <del>মূল্যঃ {{$product->prosizes[0]->RegularPrice}}টাকা</del>-->
+                        <!--        </h1>-->
+                        <!--        <h3 class="">অফার মূল্যঃ {{$product->prosizes[0]->SalePrice}} টাকা</h3>-->
+                        <!--    @elseif(count($product->procolors)>0)-->
+                        <!--        <h1 class="">-->
+                        <!--            <del>মূল্যঃ {{$product->procolors[0]->vPrice}} টাকা</del>-->
+                        <!--        </h1>-->
+                        <!--        <h3 class="">অফার মূল্যঃ {{$product->procolors[0]->vPrice}} টাকা</h3>-->
+                        <!--    @endif-->
+                        <!--@endif-->
+                        
+                        {!! $campaign_data->pricing_sec_2  !!}
+                        
                         <div class="Order text-center">
                             <a href="#orderForm" class="order-btn-landing ">
                                 অর্ডার করতে ক্লিক করুন
@@ -944,6 +969,7 @@
                                         style="display: block; text-align: center;"><span style="font-size: 18pt;">Cash On Delivary All Bangladesh</span></strong>
                             </p></div>
                     </div>
+                    
                     <div class="Landing__31__Contact__Box text-center" style="opacity: 1;">
                         <div class="Order" style="">
                             <a href="#orderForm" class="order-btn-landing" style="">
@@ -1050,7 +1076,7 @@
                                 <div><h4>{{$product->name}}({{$size->size}})</h4></div>
                                 <div class="order2_containerVarientRight__dflex__9rlHE">
                                     <h5>
-                                        <del>৳ {{$size->RegularPrice}}</del>
+                                        <!--<del>৳ {{$size->RegularPrice}}</del>-->
                                         ৳ {{$size->SalePrice}}
                                     </h5>
                                 </div>
@@ -1078,7 +1104,7 @@
                                                     <div><h4>{{$product->name}}({{$color->color}})</h4></div>
                                                     <div class="order2_containerVarientRight__dflex__9rlHE">
                                                         <h5>
-                                                            <del>৳ {{$color->vPrice}}</del>
+                                                            <!--<del>৳ {{$color->vPrice}}</del>-->
                                                             ৳ {{$color->vPrice}}
                                                         </h5>
                                                     </div>
@@ -1224,15 +1250,7 @@
                                                     {{--                                                    </div>--}}
 
 
-                                                    <div id="Payment" class="order2_Payment__bDHrD px-0"><h3>
-                                                            Payment</h3>
-                                                        <div id="CustomeInput"
-                                                             class="order2_CustomeInput__A7vEa order2_d_flex__8l_ty">
-                                                            <input type="checkbox" name="" id="CashOn" checked=""><label
-                                                                    for="CashOn">ক্যাশ অন ডেলিভারি</label></div>
-                                                        <div id="ArrowBg" class="order2_ArrowBg__6ggAY"><p>Pay with cash
-                                                                on delivery.</p></div>
-                                                    </div>
+                                                   
                                                 </div>
                                             </div>
                                         </div>
@@ -1325,12 +1343,37 @@
                                          height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M4.00436 6.41662L0.761719 3.17398L2.17593 1.75977L5.41857 5.00241H20.6603C21.2126 5.00241 21.6603 5.45012 21.6603 6.00241C21.6603 6.09973 21.6461 6.19653 21.6182 6.28975L19.2182 14.2898C19.0913 14.7127 18.7019 15.0024 18.2603 15.0024H6.00436V17.0024H17.0044V19.0024H5.00436C4.45207 19.0024 4.00436 18.5547 4.00436 18.0024V6.41662ZM6.00436 7.00241V13.0024H17.5163L19.3163 7.00241H6.00436ZM5.50436 23.0024C4.67593 23.0024 4.00436 22.3308 4.00436 21.5024C4.00436 20.674 4.67593 20.0024 5.50436 20.0024C6.33279 20.0024 7.00436 20.674 7.00436 21.5024C7.00436 22.3308 6.33279 23.0024 5.50436 23.0024ZM17.5044 23.0024C16.6759 23.0024 16.0044 22.3308 16.0044 21.5024C16.0044 20.674 16.6759 20.0024 17.5044 20.0024C18.3328 20.0024 19.0044 20.674 19.0044 21.5024C19.0044 22.3308 18.3328 23.0024 17.5044 23.0024Z"></path>
                                     </svg>
-                                    Place Order BDT {{$subtotal+$shipping}}
+                                    Place Order
                                 </button>
                             </div>
                             <!-- col end -->
-
+                                             
                         </div>
+                        
+                                                    <!--<div id="Payment" class="order2_Payment__bDHrD px-0"><h3>-->
+                                                    <!--    Payment</h3>-->
+                                                    <!--    <div id="CustomeInput"-->
+                                                    <!--         class="order2_CustomeInput__A7vEa order2_d_flex__8l_ty">-->
+                                                    <!--        <input type="checkbox" name="" id="CashOn" checked=""><label-->
+                                                    <!--                for="CashOn">ক্যাশ অন ডেলিভারি</label></div>-->
+                                                    <!--    <div id="ArrowBg" class="order2_ArrowBg__6ggAY"><p>Pay with cash-->
+                                                    <!--            on delivery.</p></div>-->
+                                                    <!--</div>-->
+                                                    
+                                                    
+                                                    <div class="section-tab check-mark-tab text-center pb-4" id="paysection">
+                                        <ul class="nav nav-tabs justify-content-evenly m-0" id="myTab" role="tablist">
+
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link active" id="credit-card-tab" style="padding: 8px;" data-bs-toggle="tab" href="#credit-card" role="tab" aria-controls="credit-card" aria-selected="true">
+                                                    <img src="https://rajshop.com.bd/public/cod.png" style="width: 65px;" alt="">
+                                                    <span class="d-block pt-2">Cash on Delivery</span>
+                                                </a>
+                                            </li>
+                                            
+                                         
+                                        </ul>
+                                    </div>
                     </div>
                 </div>
 

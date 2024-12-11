@@ -171,7 +171,7 @@
     }
     @media (max-width: 576px) {
         #sync2 .items img {
-            height: 60px !important;
+            height: auto !important;
             padding: 5px !important;
         }
         .qty_cart_btn {
@@ -200,7 +200,7 @@
         #sync1 {
             height: fit-content;
             & .items img {
-                height: 280px !important;
+                height: auto !important;
                 object-fit: cover !important;
             }
         }
@@ -404,6 +404,7 @@
                                 </div>
 
                                 {{-- Short Descriptiption --}}
+                                @if(isset($productdetails->short_des))
                                 <div class="stock-container info-container m-t-10"
                                      style="margin-top:10px;border-bottom: 1px solid #dfd6d6;">
                                     <div class="row" style="margin-bottom:10px;">
@@ -416,6 +417,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
 
 
                                 <div class="row mb-2 mt-2">
